@@ -19,5 +19,12 @@ Az app webes verzióban, és asztali appként is elérhető, a motor multiplatfo
 
 [Use-case diagram](https://www.figma.com/file/13BSPQLJSfDT80iGUyzOdE/ZinCity-use-cases?t=QNw82ZFgkOh9Pjjh-0) (By: Jaksy/Marci)
 
+### Tervezett extrák
 
+* Tűzoltóság
+* Erdők
+* Perzisztencia
+* Áramellátás
+* Konfliktursos bontás
+* Katasztrófa
 
