@@ -25,6 +25,6 @@ Az app webes verzióban, és asztali appként is elérhető, a motor multiplatfo
 * Erdők
 * Perzisztencia
 * Áramellátás
-* Konfliktursos bontás
+* Konfliktusos bontás
 * Katasztrófa
 
