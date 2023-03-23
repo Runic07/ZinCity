@@ -27,4 +27,5 @@ Az app webes verzióban, és asztali appként is elérhető, a motor multiplatfo
 * Áramellátás
 * Konfliktusos bontás
 * Katasztrófa
+* Metropolis
 
