@@ -7,9 +7,11 @@ A ZinCity egy városépítő játék, ahol a játékosok valós időben alakíth
 
 ## Technikai információk
 ### Környezet
-A játék Java programozási nyelven, a [libGDX](https://libgdx.com/) motor használatával készül.
+A játék Java programozási nyelven (Java 17), a [libGDX](https://libgdx.com/) motor használatával készül.
 A fejlesztés során a Gradle build eszközt, és a GitLab különböző szolgáltatásait használjuk.
 Az app webes verzióban, és asztali appként is elérhető, a motor multiplatform szerkezete segítségével.
+
+Ha szeretnéd a fejlesztést támogatni, klónozd le ezt a repo-t, majd a fejlesztői környezet felállításához kövesd az utasításokat [itt](https://libgdx.com/wiki/start/setup)
 
 ### Tervek, diagramok
 
