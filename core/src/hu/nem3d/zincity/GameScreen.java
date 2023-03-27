@@ -25,15 +25,15 @@ public class GameScreen implements Screen { //draft
     TiledMapRenderer mapRenderer;
     public GameScreen(){
         //create the tiles
-        texture = new Texture(System.getProperty("user.dir") + "\\TexturePlaceholder.png");
-        tile_grass = new StaticTiledMapTile(new TextureRegion(texture,0,0,32,32));
-        tile_water = new StaticTiledMapTile(new TextureRegion(texture,32,0,32,32)); //todo check if coordinates are measured the standard way.
+        texture = new Texture(System.getProperty("user.dir") + "\\assets\\texture.png");
+        tile_grass = new StaticTiledMapTile(new TextureRegion(texture,0,0,24,24));
+        tile_water = new StaticTiledMapTile(new TextureRegion(texture,24,0,24,24)); //todo check if coordinates are measured the standard way.
         //create the tileset
         tileSet = new TiledMapTileSet();
         tileSet.putTile(0, tile_grass);
         tileSet.putTile(1, tile_water);
         //create the layer
-        baseLayer = new TiledMapTileLayer(30,20,32,32);
+        baseLayer = new TiledMapTileLayer(30,20,24,24);
         //fill the layer with tiles
         for (int i = 0; i < 30; i++) {
             for (int j = 0; j < 10; j++) {
@@ -56,7 +56,7 @@ public class GameScreen implements Screen { //draft
         map.getLayers().add(baseLayer);
 
         //render map
-        float unitScale = 1 / 32f;
+        float unitScale = 1 / 24f;
         mapRenderer = new OrthogonalTiledMapRenderer(map, unitScale);
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 30, 20);
