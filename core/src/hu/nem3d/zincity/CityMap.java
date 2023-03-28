@@ -1,5 +1,7 @@
 package hu.nem3d.zincity;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -9,6 +11,8 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileSet;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 
 
+
+
 public class CityMap {
     TiledMap map;
     TiledMapTileLayer baseLayer; //contains Cell objects that point to TiledMapTile objects
@@ -16,7 +20,8 @@ public class CityMap {
     TiledMapTileSet tileSet; //contains TiledMapTile objects.
     Texture texture;
     public CityMap() {
-        texture = new Texture(System.getProperty("user.dir") + "\\texture.png");
+        FileHandle handle = Gdx.files.internal("texture.png");
+        texture = new Texture(handle.path());
 
         //create the tileset
         tileSet = new TiledMapTileSet();
