@@ -33,10 +33,10 @@ public class MainMenu implements Screen {
     public static Sprite backgroundSprite;
 
     public MainMenu() {
-        atlas = new TextureAtlas(System.getProperty("user.dir") + "\\assets\\PlaceHolderMenu\\uiskin.atlas");
-        skin = new Skin(Gdx.files.internal(System.getProperty("user.dir") + "\\assets\\PlaceHolderMenu\\uiskin.json"), atlas);
+        atlas = new TextureAtlas(Gdx.files.internal("PlaceHolderMenu\\uiskin.atlas"));
+        skin = new Skin(Gdx.files.internal("PlaceHolderMenu\\uiskin.json"), atlas);
 
-        backgroundTexture = new Texture(System.getProperty("user.dir") + "\\assets\\boxart3_noGrid.png");
+        backgroundTexture = new Texture(Gdx.files.internal("boxart3_noGrid.png"));
         backgroundSprite = new Sprite(backgroundTexture);
 
         batch = new SpriteBatch();
