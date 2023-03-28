@@ -13,7 +13,7 @@ public class ZinCity extends Game {
 	
 	@Override
 	public void create () {
-		this.setScreen(new GameScreen());
+		this.setScreen(new MainMenu());
 		System.out.println("Present Project Directory : "+ System.getProperty("user.dir"));
 	}
 

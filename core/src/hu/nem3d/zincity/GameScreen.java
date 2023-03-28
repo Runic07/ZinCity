@@ -33,8 +33,7 @@ public class GameScreen implements Screen { //draft
         tileSet.putTile(0, tile_grass);
         tileSet.putTile(1, tile_water);
         //create the layer
-        baseLayer = new TiledMapTileLayer(30,20,24,24);
-        //fill the layer with tiles
+        baseLayer = new TiledMapTileLayer(30,20,24,24);        //fill the layer with tiles
         for (int i = 0; i < 30; i++) {
             for (int j = 0; j < 10; j++) {
                 TiledMapTileLayer.Cell cell = new TiledMapTileLayer.Cell(); //NOT the type of cell a table has!
