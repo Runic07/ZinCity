@@ -1,5 +1,6 @@
 package hu.nem3d.zincity;
 
+
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 
@@ -11,7 +12,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 
 
 public class GameScreen implements Screen { //draft
-    ZinCity zinCity;
+    //ZinCity zinCity;
     CityMap cityMap;
     OrthographicCamera camera;
     TiledMapRenderer mapRenderer;
@@ -64,3 +65,4 @@ public class GameScreen implements Screen { //draft
 
     }
 }
+
