@@ -56,4 +56,3 @@ public class CityMap {
         return map;
     }
 }
-
