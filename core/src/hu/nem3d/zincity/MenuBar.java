@@ -26,9 +26,9 @@ public class MenuBar{
 
     private Stage stage;
 
-    public MenuBar(TextureAtlas atlas_, Skin skin_, Stage stage_){
-        atlas = atlas_;
-        skin = skin_;
+    public MenuBar(Stage stage_){
+        atlas = new TextureAtlas(Gdx.files.internal("PlaceHolderMenu\\uiskin.atlas"));
+        skin = new Skin(Gdx.files.internal("PlaceHolderMenu\\uiskin.json"), atlas);
         stage = stage_;
     }
 
@@ -39,7 +39,7 @@ public class MenuBar{
         currTable = new Table(skin);
         //Set table to fill stage
         //currTable.setFillParent(true);
-        currTable.background("window");
+        currTable.background("dialog");
         //Set alignment of contents in the table.
         currTable.top();
 

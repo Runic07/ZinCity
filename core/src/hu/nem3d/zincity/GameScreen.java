@@ -43,13 +43,12 @@ public class GameScreen implements Screen { //draft
         mapRenderer.setView(camera);
 
         //MenuBar rendering
-        atlas = new TextureAtlas(Gdx.files.internal("PlaceHolderMenu\\uiskin.atlas"));
-        skin = new Skin(Gdx.files.internal("PlaceHolderMenu\\uiskin.json"), atlas);
+
         batch = new SpriteBatch();
         viewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera);
         viewport.apply();
         stage = new Stage(viewport, batch);
-        menuBar = new MenuBar(atlas,skin,stage);
+        menuBar = new MenuBar(stage);
     }
 
 
