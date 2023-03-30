@@ -66,14 +66,12 @@ public class MenuBar {
                 buildButton.addListener(new ClickListener() {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-                        
+
                     }
                 });
                 statButton.addListener((new ClickListener() {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-                        MenuBar tmp = new MenuBar(stage);
-                        currTable = tmp.setTable(1,width,height);
                     }
                 }));
                 exitButton.addListener(new ClickListener() {
