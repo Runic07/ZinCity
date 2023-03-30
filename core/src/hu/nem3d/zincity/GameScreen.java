@@ -48,7 +48,7 @@ public class GameScreen implements Screen { //draft
 
         batch = new SpriteBatch();
         //viewport = new FitViewport(width, height, UICamera);
-        //Creating a virtual vieqówport with 1.5 times the size of the window as to scale the UI properly
+        //Creating a virtual viewport with 1.5 times the size of the window as to scale the UI properly
         viewport = new FillViewport((float) (screenWidth *1.5), (float) (screenHeight * 1.5), UICamera);
         viewport.apply();
         stage = new Stage(viewport, batch);
@@ -61,9 +61,9 @@ public class GameScreen implements Screen { //draft
         Gdx.input.setInputProcessor(stage);
         Table table = new Table();
         table = menuBar.setTable(uiId);
-        //Setting the bounds og the UI to start at 0 at 90% of the virtual ScreenHeight and with 90% of the virtual screen width
-        //and to be 20% of the normal screen height (so the size is 90% width and 20% of height at the top of screen
-        table.setBounds(0, (float) (screenHeight * 0.9 *1.5), (float) ((float) screenWidth *0.9 * 1.5), (float) (screenHeight * 0.2));
+        //Setting the bounds og the UI to start at 0 at 95% of the virtual ScreenHeight and with 100% of the virtual screen width
+        //and to be 15% of the normal screen height (so the size is 100% width and 15% of height at the top of screen
+        table.setBounds(0, (float) (screenHeight * 0.95 *1.5), (float) ((float) screenWidth *1 * 1.5), (float) (screenHeight * 0.15));
         stage.addActor(table);
 
     }
@@ -77,7 +77,6 @@ public class GameScreen implements Screen { //draft
 
     @Override
     public void resize(int width, int height) {
-
     }
 
     @Override
