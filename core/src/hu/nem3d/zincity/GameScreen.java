@@ -46,7 +46,7 @@ public class GameScreen implements Screen { //draft
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 30, 20);
         mapRenderer.setView(camera);
-        cityStage = new CityStage(cityMap);
+        cityStage = new CityStage(cityMap, uiId);
 
         //MenuBar rendering
         UICamera = new OrthographicCamera();
@@ -88,6 +88,9 @@ public class GameScreen implements Screen { //draft
 
     @Override
     public void resize(int width, int height) {
+        mapRenderer.setView(camera);
+        cityStage = new CityStage(cityMap, uiId);
+
         screenWidth = width;
         screenHeight = height;
         UICamera = new OrthographicCamera();
