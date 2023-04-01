@@ -50,5 +50,10 @@ public class CityCell extends TiledMapTileLayer.Cell {
             isElectrified = false;
         }
     }
+
+    //Result of merging Position and Tile class from UML
+    public double distance(CityCell c){
+        return Math.sqrt(Math.pow((c.getX()-this.x), 2) + Math.pow((c.getY()-this.y), 2));
+    }
 }
 
