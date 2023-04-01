@@ -29,11 +29,4 @@ public class CityCell extends TiledMapTileLayer.Cell {
         this.y = y;
     }
 
-//FOR TESTING
-    public String getName(){
-        return this.name;
-    }
-    public void setName(){
-        this.name = "viz";
-    }
 }

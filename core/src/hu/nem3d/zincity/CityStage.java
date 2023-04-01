@@ -35,7 +35,7 @@ public class CityStage extends Stage {
             //System.out.println(screenHeight + " " + screenWidth);
             //System.out.println(mapWidth + " " + mapHeight);
 
-            //Going through with all the tiles and setting boundaries 
+            //Going through with all the tiles and setting boundaries
             for (int x = 0; x < mapWidth; x++) {
                 for (int y = 0; y < mapHeight; y++) {
                     CityCell cell = (CityCell) tiledLayer.getCell(x, y);

@@ -33,7 +33,7 @@ public class MenuBar {
     }
 
     public Table setTable(int id, final float width, final float height) {
-        //switch case for id
+        //switch case for id when multiple screens are implemented
 
         //Create Table
         currTable = new Table(skin);

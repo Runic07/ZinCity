@@ -44,13 +44,7 @@ public class CityMap {
         for ( i = 0; i < 30; i++) {
             for ( j = 0; j < 20; j++) {
                 CityCell cell = new CityCell();
-                if(i == 10 && j == 10){
-                    cell.setTile(tileSet.getTile(1));
-                    cell.setName();
-                }
-                else {
-                    cell.setTile(tileSet.getTile(0));
-                }
+                cell.setTile(tileSet.getTile(0));
                 cell.setY(j);
                 cell.setX(i);
                 baseLayer.setCell(i, j, cell);
@@ -59,7 +53,7 @@ public class CityMap {
 
         map = new TiledMap();
         map.getLayers().add(baseLayer);
-        //map.getLayers().add(buildingLayer);
+        //map.getLayers().add(buildingLayer);  //commented out till layer ids are implemented.
     }
     public TiledMap getMap(){
         return map;
