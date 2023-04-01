@@ -14,6 +14,6 @@ public class TiledMapClickListener extends ClickListener {
     @Override
     public void clicked(InputEvent event, float x, float y) {
         CityCell cell = actor.getCell();
-        System.out.println(cell + " has been clicked. " + cell.getX() +" "+ cell.getY() + cell.getName() +" x:" + x + " y: " + y);
+        System.out.println(cell + " has been clicked. " + cell.getX() +" "+ cell.getY() +" x:" + x + " y: " + y);
     }
 }
