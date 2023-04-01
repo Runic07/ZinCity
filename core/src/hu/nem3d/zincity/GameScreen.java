@@ -82,6 +82,8 @@ public class GameScreen implements Screen { //draft
     @Override
     public void render(float delta) {
         mapRenderer.render();
+        cityStage.act();
+        cityStage.draw();
         stage.act();
         stage.draw();
     }
@@ -90,6 +92,7 @@ public class GameScreen implements Screen { //draft
     public void resize(int width, int height) {
         mapRenderer.setView(camera);
         cityStage = new CityStage(cityMap, uiId);
+
 
         screenWidth = width;
         screenHeight = height;
