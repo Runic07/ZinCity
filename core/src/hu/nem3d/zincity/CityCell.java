@@ -8,7 +8,6 @@ public class CityCell extends TiledMapTileLayer.Cell {
     //equvivalent with "tile" class in UML diagram. Renamed to avoid confusion.
     int x;
     int y;
-    String name;
     public CityCell() {
         super();
     }
