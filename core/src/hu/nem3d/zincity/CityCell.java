@@ -5,12 +5,11 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 public class CityCell extends TiledMapTileLayer.Cell {
     //CLASS FOR EACH TILE ON THE MAP
     //should contain logic data.
-    //equvivalent with "tile" class in UML diagram. Renamed to avoid confusion.
+    //equivalent with "tile" class in UML diagram. Renamed to avoid confusion.
 
-    //For saving coordinates, may be removed later
-    private int x, y;
+    private int x, y; //necessary for selecting tiles
 
-    //It will may need a rework, but now for efficiency purposes, those are 2 booleans
+    //It may need a rework, but now for efficiency purposes, those are 2 booleans
     //Obviously, each tile starts with no wire, electricity
     private boolean isElectrified = false;
     private boolean isWired = false;
@@ -27,7 +26,6 @@ public class CityCell extends TiledMapTileLayer.Cell {
         this.y = y;
     }
 
-    //Basic setters, getters
     public int getX() {return x;}
     public void setX(int x) {this.x = x;}
 
@@ -38,20 +36,30 @@ public class CityCell extends TiledMapTileLayer.Cell {
     public void setWired(boolean wired) {isWired = wired;}
 
     public boolean isElectrified() {return isElectrified;}
-    public void setElectrified(boolean elect) {
-        if (elect) {
-            if (isWired) {  //Electricity requires wires to flow through
+    public boolean setElectrified(boolean elect) {
+        if(elect){
+            if (isWired){  //Electricity requires wires to flow through
                 isElectrified = true;
-            } else {
-                throw new IllegalArgumentException("Can't have electricity without wires!");
+                return true;
+            }else{
+                return false;
             }
-        } else {
+        }else{
             isElectrified = false;
+            return true;
         }
+
     }
 
-    //Result of merging Position and Tile class from UML
+    //Result of merging the Position and the Tile classes from UML
     public double distance(CityCell c){
         return Math.sqrt(Math.pow((c.getX()-this.x), 2) + Math.pow((c.getY()-this.y), 2));
     }
+
+    //For efficiency purposes, it'll be useful for tile-seeking algorithm
+    //It's easier to use this, than "(new Industrial()).getClass() == this.getClass()"
+    public boolean isIndustrial(){return false;}
+    public boolean isLiving(){return false;}
+    public boolean isService(){return false;}
+    public boolean isRoad(){return false;}
 }
