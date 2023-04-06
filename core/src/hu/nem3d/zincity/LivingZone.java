@@ -8,7 +8,4 @@ public class LivingZone extends Zone{
         super(x, y, capacity);
     }
 
-    //For efficiency purposes: because of this, there is no need for checking class
-    @Override
-    public boolean isLiving() {return true;}
 }

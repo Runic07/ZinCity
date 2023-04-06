@@ -3,7 +3,7 @@ package hu.nem3d.zincity;
 public abstract class Building extends CityCell{
 
     protected enum BuildingPart{
-        UpLeft, UpRight, DownLeft, DownRight;
+        UpLeft, UpRight, DownLeft, DownRight, Simple;
     }
 
     protected BuildingPart part;

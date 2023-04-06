@@ -65,7 +65,3 @@ public abstract class Zone extends CityCell{
         }
     }
 }
-
-//Temp class
-//TODO remove this, after issue "24-create-citizen-class" is resolved
-class Citizen{}

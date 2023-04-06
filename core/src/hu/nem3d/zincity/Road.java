@@ -8,7 +8,4 @@ public class Road extends CityCell{
         super(x, y);
     }
 
-    //For efficiency purposes: because of this, there is no need for checking class
-    @Override
-    public boolean isRoad() {return true;}
 }
