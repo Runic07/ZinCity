@@ -29,9 +29,14 @@ public class City {
             //update satisfaction of whole city
             //collect tax
         }
-        //for (TiledMapTileLayer.Cell cell : (TiledMapTileLayer)map.getLayers().get(0).getCell(1,1)){
-            //upkeep costs
-        //}
+        TiledMapTileLayer buildingLayer = (TiledMapTileLayer)map.getLayers().get(1);
+        for (int i = 0; i < 30; i++){ //no forall here unfortunately
+            for (int j = 0; j < 20; j++){
+                buildingLayer.getCell(i,j);
+                //do logic with cell here
+            }
+
+        }
     }
 
 }

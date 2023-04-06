@@ -52,7 +52,7 @@ public class CityMap {
         map.getLayers().add(baseLayer);
         map.getLayers().add(buildingLayer);
     }
-    public TiledMap getMap(){
+    public TiledMap getMap() {
         return map;
     }
 }
