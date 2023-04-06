@@ -50,7 +50,7 @@ public class CityMap {
                 CityCell cell = new CityCell();
                 System.out.println(OpenSimplex2S.noise2(seed, i,j));
 
-                if (OpenSimplex2S.noise2(seed, i, j) > 0.0){
+                if (OpenSimplex2S.noise2(seed, i, j) > -0.2){
                     cell.setTile(tileSet.getTile(0));
                 }
                 else{
