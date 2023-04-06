@@ -52,14 +52,8 @@ public class CityCell extends TiledMapTileLayer.Cell { //when Issue#21 is solved
     }
 
     //Result of merging the Position and the Tile classes from UML
-    public double distance(CityCell c){
-        return Math.sqrt(Math.pow((c.getX()-this.x), 2) + Math.pow((c.getY()-this.y), 2));
+    public double auraRadiusSize(CityCell c) {
+        return Math.sqrt(Math.pow((c.getX() - this.x), 2) + Math.pow((c.getY() - this.y), 2));
     }
 
-    //For efficiency purposes, it'll be useful for tile-seeking algorithm
-    //It's easier to use this, than "(new Industrial()).getClass() == this.getClass()"
-    public boolean isIndustrial(){return false;}
-    public boolean isLiving(){return false;}
-    public boolean isService(){return false;}
-    public boolean isRoad(){return false;}
 }
