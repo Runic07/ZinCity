@@ -2,17 +2,17 @@ package hu.nem3d.zincity;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
-public class CityCell extends TiledMapTileLayer.Cell {
+public class CityCell extends TiledMapTileLayer.Cell { //when Issue#21 is solved, this should be refactored as 'abstract'
     //CLASS FOR EACH TILE ON THE MAP
     //should contain logic data.
     //equivalent with "tile" class in UML diagram. Renamed to avoid confusion.
 
-    private int x, y; //necessary for selecting tiles
+    protected int x, y; //necessary for selecting tiles
 
     //It may need a rework, but now for efficiency purposes, those are 2 booleans
     //Obviously, each tile starts with no wire, electricity
-    private boolean isElectrified = false;
-    private boolean isWired = false;
+    protected boolean isElectrified = false;
+    protected boolean isWired = false;
 
     public CityCell() {
         super();
@@ -26,43 +26,25 @@ public class CityCell extends TiledMapTileLayer.Cell {
         this.y = y;
     }
 
-    public int getX() {
-        return x;
-    }
+    public int getX() {return x;}
+    public void setX(int x) {this.x = x;}
 
-    public void setX(int x) {
-        this.x = x;
-    }
+    public int getY() {return y;}
+    public void setY(int y) {this.y = y;}
 
-    public int getY() {
-        return y;
-    }
+    public boolean isWired() {return isWired;}
+    public void setWired(boolean wired) {isWired = wired;}
 
-    public void setY(int y) {
-        this.y = y;
-    }
-
-    public boolean isWired() {
-        return isWired;
-    }
-
-    public void setWired(boolean wired) {
-        isWired = wired;
-    }
-
-    public boolean isElectrified() {
-        return isElectrified;
-    }
-
+    public boolean isElectrified() {return isElectrified;}
     public boolean setElectrified(boolean elect) {
-        if (elect) {
-            if (isWired) {  //Electricity requires wires to flow through
+        if(elect){
+            if (isWired){  //Electricity requires wires to flow through
                 isElectrified = true;
                 return true;
-            } else {
+            }else{
                 return false;
             }
-        } else {
+        }else{
             isElectrified = false;
             return true;
         }
