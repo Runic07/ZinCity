@@ -43,7 +43,7 @@ public class CityMap {
         //fill the layer with tiles. Everything is grass now.
         for ( i = 0; i < 30; i++) {
             for ( j = 0; j < 20; j++) {
-                CityCell cell = new CityCell();
+                CityCell cell = new CityCell(i, j);
                 cell.setTile(tileSet.getTile(0));
                 cell.setY(j);
                 cell.setX(i);
