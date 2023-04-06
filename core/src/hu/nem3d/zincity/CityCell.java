@@ -26,25 +26,43 @@ public class CityCell extends TiledMapTileLayer.Cell {
         this.y = y;
     }
 
-    public int getX() {return x;}
-    public void setX(int x) {this.x = x;}
+    public int getX() {
+        return x;
+    }
 
-    public int getY() {return y;}
-    public void setY(int y) {this.y = y;}
+    public void setX(int x) {
+        this.x = x;
+    }
 
-    public boolean isWired() {return isWired;}
-    public void setWired(boolean wired) {isWired = wired;}
+    public int getY() {
+        return y;
+    }
 
-    public boolean isElectrified() {return isElectrified;}
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public boolean isWired() {
+        return isWired;
+    }
+
+    public void setWired(boolean wired) {
+        isWired = wired;
+    }
+
+    public boolean isElectrified() {
+        return isElectrified;
+    }
+
     public boolean setElectrified(boolean elect) {
-        if(elect){
-            if (isWired){  //Electricity requires wires to flow through
+        if (elect) {
+            if (isWired) {  //Electricity requires wires to flow through
                 isElectrified = true;
                 return true;
-            }else{
+            } else {
                 return false;
             }
-        }else{
+        } else {
             isElectrified = false;
             return true;
         }
@@ -52,14 +70,8 @@ public class CityCell extends TiledMapTileLayer.Cell {
     }
 
     //Result of merging the Position and the Tile classes from UML
-    public double distance(CityCell c){
-        return Math.sqrt(Math.pow((c.getX()-this.x), 2) + Math.pow((c.getY()-this.y), 2));
+    public double auraRadiusSize(CityCell c) {
+        return Math.sqrt(Math.pow((c.getX() - this.x), 2) + Math.pow((c.getY() - this.y), 2));
     }
 
-    //For efficiency purposes, it'll be useful for tile-seeking algorithm
-    //It's easier to use this, than "(new Industrial()).getClass() == this.getClass()"
-    public boolean isIndustrial(){return false;}
-    public boolean isLiving(){return false;}
-    public boolean isService(){return false;}
-    public boolean isRoad(){return false;}
 }
