@@ -7,8 +7,6 @@ public class Citizen {
     private LivingZone home;
     private IndustrialZone nearestIndustrial;
 
-    //TODO decide whether this or the City calculates the perfect workplace-home combination
-
     public Citizen(){
         this.satisfaction = 0.0;
     }
@@ -36,8 +34,3 @@ public class Citizen {
     }
 
 }
-
-//Temp classes
-class Zone{}
-class LivingZone{}
-class IndustrialZone{}
