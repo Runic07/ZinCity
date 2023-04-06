@@ -10,6 +10,9 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileSet;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 
+import java.util.Random;
+
+
 
 
 
@@ -39,14 +42,27 @@ public class CityMap {
         //create the layer
         baseLayer = new TiledMapTileLayer(30,20,24,24);
         buildingLayer = new TiledMapTileLayer(30,20,24,24);
-        //fill the layer with tiles. Everything is grass now.
+
+        Random r = new Random();
+        long seed = r.nextLong();
         for ( i = 0; i < 30; i++) {
             for ( j = 0; j < 20; j++) {
                 CityCell cell = new CityCell();
-                cell.setTile(tileSet.getTile(0));
+                System.out.println(OpenSimplex2S.noise2(seed, i,j));
+
+                if (OpenSimplex2S.noise2(seed, i, j) > 0.0){
+                    cell.setTile(tileSet.getTile(0));
+                }
+                else{
+                    cell.setTile(tileSet.getTile(1));
+                }
+
                 baseLayer.setCell(i, j, cell);
+
             }
         }
+
+
 
         map = new TiledMap();
         map.getLayers().add(baseLayer);
