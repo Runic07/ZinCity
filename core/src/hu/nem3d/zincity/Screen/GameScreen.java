@@ -1,9 +1,8 @@
-package hu.nem3d.zincity;
+package hu.nem3d.zincity.Screen;
 
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 
@@ -13,8 +12,8 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.FillViewport;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import hu.nem3d.zincity.Logic.CityMap;
 
 
 public class GameScreen implements Screen { //draft
@@ -69,11 +68,11 @@ public class GameScreen implements Screen { //draft
         multiplexer.addProcessor(cityStage);
         Gdx.input.setInputProcessor(multiplexer);
 
-        Table table = new Table();
+        Table table;
         table = menuBar.setTable(uiId, screenWidth, screenHeight);
         //Setting the bounds og the UI to start at 0 at 95% of the virtual ScreenHeight and with 100% of the virtual screen width
         //and to be 15% of the normal screen height (so the size is 100% width and 15% of height at the top of screen
-        table.setBounds(0, (float) (screenHeight * 0.90 *1.5), (float) ((float) screenWidth *1 * 1.5), (float) (screenHeight * 0.15));
+        table.setBounds(0, (float) (screenHeight * 0.90 *1.5), (float) (screenWidth *1 * 1.5), (float) (screenHeight * 0.15));
         stage.addActor(table);
 
 

@@ -1,9 +1,12 @@
-package hu.nem3d.zincity;
+package hu.nem3d.zincity.Cell;
+
+import hu.nem3d.zincity.Logic.Citizen;
+import hu.nem3d.zincity.Misc.Direction;
 
 import java.util.HashSet;
 import java.util.LinkedList;
 
-public abstract class Zone extends CityCell{
+public abstract class ZoneCell extends CityCell{
     protected int capacity;
     protected int level = 1;
     protected final LinkedList<Citizen> occupants = new LinkedList<>();
@@ -11,13 +14,13 @@ public abstract class Zone extends CityCell{
     //I'm not quite sure, whether if it's the best choice for storing this data, but it ensures the uniqueness of each element
     protected HashSet<Direction> roadDirections = new HashSet<>();
 
-    protected Zone(int capacity) {
+    protected ZoneCell(int capacity) {
         super();
         this.isWired = true;
         this.capacity = capacity;
     }
 
-    protected Zone(int x, int y, int capacity) {
+    protected ZoneCell(int x, int y, int capacity) {
         super(x, y);
         this.isWired = true;
         this.capacity = capacity;
@@ -27,7 +30,7 @@ public abstract class Zone extends CityCell{
     public int getCapacity() {return capacity;}
     public int getLevel() {return level;}
     public int getOccCount() {return occupants.size();}
-    public boolean isFull() {return capacity == occupants.size();};
+    public boolean isFull() {return capacity == occupants.size();}
     public HashSet<Direction> getRoadDirections() {return roadDirections;}
 
     //Methods revolving around roadDirections

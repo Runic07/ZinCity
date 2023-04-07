@@ -2,8 +2,7 @@ package hu.nem3d.zincity;
 
 
 import com.badlogic.gdx.Game;
-
-
+import hu.nem3d.zincity.Screen.MainMenu;
 
 
 public class ZinCity extends Game {
@@ -20,6 +19,6 @@ public class ZinCity extends Game {
 	
 	@Override
 	public void dispose () {
-
+		super.dispose();
 	}
 }

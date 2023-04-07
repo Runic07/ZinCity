@@ -1,8 +1,9 @@
-package hu.nem3d.zincity;
+package hu.nem3d.zincity.Screen;
 
-import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import hu.nem3d.zincity.Cell.CityCell;
+import hu.nem3d.zincity.Logic.CityMap;
 
 public class TiledMapActor extends Actor {
 

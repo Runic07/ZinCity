@@ -1,7 +1,8 @@
-package hu.nem3d.zincity;
+package hu.nem3d.zincity.Screen;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import hu.nem3d.zincity.Cell.CityCell;
 
 public class TiledMapClickListener extends ClickListener {
 

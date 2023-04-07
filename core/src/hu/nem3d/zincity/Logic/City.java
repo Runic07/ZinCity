@@ -1,4 +1,4 @@
-package hu.nem3d.zincity;
+package hu.nem3d.zincity.Logic;
 
 
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class City {
     //still a skeleton
-    public ArrayList<?> citizens; //implement citizen class for this
+    public ArrayList<Citizen> citizens; //implement citizen class for this
 
 
     public double budget;
@@ -24,10 +24,10 @@ public class City {
     public City() {
     }
     public void step(){
-        for (Object citizen : citizens) {
-            //update satisfaction of each citizen
-            //update satisfaction of whole city
-            //collect tax
+        for (Citizen citizen : citizens) {
+            //TODO update satisfaction of each citizen
+            //TODO update satisfaction of whole city
+            //TODO collect tax
         }
         TiledMapTileLayer buildingLayer = (TiledMapTileLayer)map.getLayers().get(1);
         for (int i = 0; i < 30; i++){ //no forall here unfortunately

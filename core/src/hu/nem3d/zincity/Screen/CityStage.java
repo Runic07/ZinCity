@@ -1,12 +1,13 @@
-package hu.nem3d.zincity;
+package hu.nem3d.zincity.Screen;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.maps.Map;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import hu.nem3d.zincity.Cell.CityCell;
+import hu.nem3d.zincity.Logic.CityMap;
 
 public class CityStage extends Stage {
         private TiledMap tiledMap;

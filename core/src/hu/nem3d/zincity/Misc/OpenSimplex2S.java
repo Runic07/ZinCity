@@ -1,4 +1,4 @@
-package hu.nem3d.zincity;
+package hu.nem3d.zincity.Misc;
 
 /**
  * K.jpg's OpenSimplex 2, smooth variant ("SuperSimplex")

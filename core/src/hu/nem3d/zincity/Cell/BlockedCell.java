@@ -1,4 +1,4 @@
-package hu.nem3d.zincity;
+package hu.nem3d.zincity.Cell;
 
 public class BlockedCell extends CityCell{
 

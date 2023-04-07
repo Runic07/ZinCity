@@ -1,4 +1,4 @@
-package hu.nem3d.zincity;
+package hu.nem3d.zincity.Misc;
 
 
 //list the tiles on the texture png in their respective order.

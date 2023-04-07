@@ -1,8 +1,8 @@
-package hu.nem3d.zincity;
+package hu.nem3d.zincity.Cell;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
-public class CityCell extends TiledMapTileLayer.Cell { //when Issue#21 is solved, this should be refactored as 'abstract'
+public abstract class CityCell extends TiledMapTileLayer.Cell {
     //CLASS FOR EACH TILE ON THE MAP
     //should contain logic data.
     //equivalent with "tile" class in UML diagram. Renamed to avoid confusion.

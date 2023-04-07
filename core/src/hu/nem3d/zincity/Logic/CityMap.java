@@ -1,15 +1,19 @@
-package hu.nem3d.zincity;
+package hu.nem3d.zincity.Logic;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.maps.MapLayers;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileSet;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
+import hu.nem3d.zincity.Cell.CityCell;
+import hu.nem3d.zincity.Cell.EmptyCell;
+import hu.nem3d.zincity.Cell.ForestCell;
+import hu.nem3d.zincity.Misc.OpenSimplex2S;
+import hu.nem3d.zincity.Misc.TextureTiles;
 
 import java.util.Random;
 
@@ -49,8 +53,8 @@ public class CityMap {
         long seedTrees = r.nextLong();
         for ( i = 0; i < 30; i++) {
             for ( j = 0; j < 20; j++) {
-                CityCell cell = new CityCell();
-                CityCell forestCell = new CityCell();
+                CityCell cell = new EmptyCell();
+                CityCell forestCell = new ForestCell();
 
                 if (OpenSimplex2S.noise2(seedWater, i*0.05, j*0.05) > -0.3){ //change these threshold values to modify world gen
                     cell.setTile(tileSet.getTile(0));
@@ -78,7 +82,7 @@ public class CityMap {
 
         map = new TiledMap();
         map.getLayers().add(baseLayer);
-        //map.getLayers().add(buildingLayer);  //commented out till layer ids are implemented.
+        map.getLayers().add(buildingLayer);  //commented out till layer ids are implemented.
     }
     public TiledMap getMap() {
         return map;
