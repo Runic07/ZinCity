@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.maps.MapLayers;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -77,9 +78,9 @@ public class CityMap {
 
         map = new TiledMap();
         map.getLayers().add(baseLayer);
-        map.getLayers().add(buildingLayer);
+        //map.getLayers().add(buildingLayer);  //commented out till layer ids are implemented.
     }
-    public TiledMap getMap(){
+    public TiledMap getMap() {
         return map;
     }
 }
