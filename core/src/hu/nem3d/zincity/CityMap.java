@@ -44,20 +44,31 @@ public class CityMap {
         buildingLayer = new TiledMapTileLayer(30,20,24,24);
 
         Random r = new Random();
-        long seed = r.nextLong();
+        long seedWater = r.nextLong();
+        long seedTrees = r.nextLong();
         for ( i = 0; i < 30; i++) {
             for ( j = 0; j < 20; j++) {
                 CityCell cell = new CityCell();
-                System.out.println(OpenSimplex2S.noise2(seed, i,j));
+                CityCell forestCell = new CityCell();
 
-                if (OpenSimplex2S.noise2(seed, i, j) > -0.2){
+                if (OpenSimplex2S.noise2(seedWater, i*0.05, j*0.05) > -0.3){ //change these threshold values to modify world gen
                     cell.setTile(tileSet.getTile(0));
                 }
                 else{
                     cell.setTile(tileSet.getTile(1));
                 }
-
                 baseLayer.setCell(i, j, cell);
+
+                if (OpenSimplex2S.noise2(seedTrees, i*0.05, j*0.05) > 0.65  ){
+                    //add dense forest
+                    forestCell.setTile((tileSet.getTile(3)));
+                }
+                else if (OpenSimplex2S.noise2(seedTrees, i*0.05, j*0.05) > 0.5){
+                    //add sparse forest
+                    forestCell.setTile((tileSet.getTile(2)));
+                }
+
+                buildingLayer.setCell(i,j,forestCell);
 
             }
         }
