@@ -18,13 +18,11 @@ import hu.nem3d.zincity.Logic.CityMap;
 
 
 public class GameScreen implements Screen { //draft
-    CityMap cityMap;
+    City city;
     OrthographicCamera camera;
     TiledMapRenderer mapRenderer;
 
     public CityStage cityStage;
-
-    public City city = new City();
 
     //Need this for menuBar
 
@@ -50,11 +48,11 @@ public class GameScreen implements Screen { //draft
         cityMap = new CityMap();
         //render map
         float unitScale = 1 / 24f;
-        mapRenderer = new OrthogonalTiledMapRenderer(cityMap.getMap(), unitScale);
+        mapRenderer = new OrthogonalTiledMapRenderer(city.getCityMap().getMap(), unitScale);
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 30, 20);
         mapRenderer.setView(camera);
-        cityStage = new CityStage(cityMap, 0, stat);
+        cityStage = new CityStage(city.getCityMap(), 0, stat);
 
         //MenuBar rendering
         UICamera = new OrthographicCamera();
@@ -128,7 +126,7 @@ public class GameScreen implements Screen { //draft
     @Override
     public void resize(int width, int height) {
         mapRenderer.setView(camera);
-        cityStage = new CityStage(cityMap, uiId, stat);
+        cityStage = new CityStage(city.getCityMap(), uiId, stat);
 
 
         screenWidth = width;
