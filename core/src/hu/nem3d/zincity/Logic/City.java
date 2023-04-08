@@ -6,10 +6,13 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import hu.nem3d.zincity.Cell.*;
 
 import java.util.ArrayList;
+import java.util.Random;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class City {
-    //still a skeleton
-    public ArrayList<Citizen> citizens;
+
+    public CopyOnWriteArrayList<Citizen> citizens; //using this because ArrayList iterator is a clown
+    //ain't it fun kids, fixing concurrency bugs?
 
 
     public double budget;
@@ -18,9 +21,9 @@ public class City {
 
     public double satisfaction; //sum of satisfactions
     public final double satisfactionUpperThreshold = 0.2; //above this number, it's possible to receive new inhabitants
-    public final double satisfactionLowerThreshold = -0.2; //below this, a citizen may flee.
+    public final double satisfactionLowerThreshold = -0.8; //below this, a citizen may flee.
 
-
+    Random r = new Random();
     CityMap cityMap; //generates and stores the map
 
     public CityMap getCityMap() {
@@ -34,10 +37,10 @@ public class City {
     public City() {
         budget = 500;
         satisfaction = 0.0;
-        taxCoefficient = 1.0;
+        taxCoefficient = 1.2;
         baseTaxAmount = 50;
         cityMap = new CityMap();
-        citizens = new ArrayList<>();
+        citizens = new CopyOnWriteArrayList<>();
         for (int i = 0; i < 4; i++) {
             if (addCitizen()) {
                 System.out.println("Added starter citizen");
@@ -63,7 +66,7 @@ public class City {
                     //bro how does this even work?
                     //cast is only needed in theory, to get the associated methods. should not actually change the class.
                     //but this collection of multiple types of objects kinda makes me want to puke
-                    //also going to mess this up probably
+
 
                     citizen.setHome((LivingZoneCell) cell);
                     ((LivingZoneCell) cell).addOccupant();
@@ -94,7 +97,7 @@ public class City {
     public void step(){ //a unit of time passes
         System.out.println("Current citizen satisfactions: ");
         for (Citizen citizen : citizens) {
-            budget += baseTaxAmount;
+            budget += baseTaxAmount * taxCoefficient;
 
             citizen.setSatisfaction(
                     citizen.getSatisfaction() + citizen.getSatisfaction() * 0.05 + //previous satisfaction added with small weight
@@ -108,12 +111,20 @@ public class City {
             System.out.print(citizen.getSatisfaction() + "\t");
             satisfaction += citizen.getSatisfaction();
 
+            if (satisfaction < satisfactionLowerThreshold){
+                if (r.nextInt() % 20 == 0){
+                    citizens.remove(citizen);
+
+                }
+            }
 
         }
         TiledMapTileLayer buildingLayer = (TiledMapTileLayer) cityMap.getMap().getLayers().get(1);
         for (int i = 0; i < 30; i++){ //no forall here unfortunately
             for (int j = 0; j < 20; j++){
                 CityCell cell = (CityCell) buildingLayer.getCell(i,j);
+
+                //upkeep costs
                 if (cell.getClass() == LivingZoneCell.class){
                     budget -=20;
 
@@ -126,11 +137,21 @@ public class City {
                     budget -=30;
 
                 }
+                if (cell.getClass() == RoadCell.class){
+                    budget -=5;
+
+                }
             }
 
         }
 
         satisfaction = satisfaction / ((double) citizens.size());
+
+        if (satisfaction > satisfactionUpperThreshold){
+            if (r.nextInt() % 20 == 0){
+                addCitizen();
+            }
+        }
 
         //spew info
         System.out.println("\nCurrent city satisfaction: " + satisfaction + "\nCurrent budget: " + budget + "\nCurrent tax coeff: " + taxCoefficient);
