@@ -18,6 +18,7 @@ import hu.nem3d.zincity.Logic.CityMap;
 
 
 public class GameScreen implements Screen { //draft
+
     City city;
     OrthographicCamera camera;
     TiledMapRenderer mapRenderer;
@@ -43,9 +44,12 @@ public class GameScreen implements Screen { //draft
     float screenHeight = Gdx.graphics.getHeight();
 
 
+    int frameCounter = 0; //not permanent, find a better solution to pass the time!
+
 
     public GameScreen(){
-        cityMap = new CityMap();
+        city = new City();
+
         //render map
         float unitScale = 1 / 24f;
         mapRenderer = new OrthogonalTiledMapRenderer(city.getCityMap().getMap(), unitScale);
@@ -90,6 +94,11 @@ public class GameScreen implements Screen { //draft
 
     @Override
     public void render(float delta) {
+        frameCounter++;
+        if (frameCounter > 60){
+            city.step();
+            frameCounter=0;
+        }
         mapRenderer.render();
         cityStage.act();
         cityStage.draw();
