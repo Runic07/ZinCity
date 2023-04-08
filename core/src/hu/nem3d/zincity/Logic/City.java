@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class City {
     //still a skeleton
-    public ArrayList<Citizen> citizens; //implement citizen class for this
+    public ArrayList<Citizen> citizens;
 
 
     public double budget;
