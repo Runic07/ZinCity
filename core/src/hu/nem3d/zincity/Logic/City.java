@@ -40,7 +40,7 @@ public class City {
         citizens = new ArrayList<>();
         for (int i = 0; i < 4; i++) {
             if (addCitizen()) {
-                System.out.printf("Added starter citizen");
+                System.out.println("Added starter citizen");
             }
         }
 
@@ -92,6 +92,7 @@ public class City {
 
     }
     public void step(){ //a unit of time passes
+        System.out.println("Current citizen satisfactions: ");
         for (Citizen citizen : citizens) {
             budget += baseTaxAmount;
 
@@ -104,6 +105,7 @@ public class City {
 
 
             );
+            System.out.print(citizen.getSatisfaction() + "\t");
             satisfaction += citizen.getSatisfaction();
 
 
@@ -122,16 +124,17 @@ public class City {
                 }
                 if (cell.getClass() == ServiceZoneCell.class){
                     budget -=30;
-
+                    System.out.println("subtracted");
                 }
             }
 
         }
-        System.out.println("sat before: " + satisfaction);
+
         satisfaction = satisfaction / ((double) citizens.size());
 
         //spew info
-        System.out.println("Current satisfaction: " + satisfaction + "\nCurrent budget: " + budget + "\nCurrent tax coeff: " + taxCoefficient);
+        System.out.println("\nCurrent city satisfaction: " + satisfaction + "\nCurrent budget: " + budget + "\nCurrent tax coeff: " + taxCoefficient);
+        System.out.println("---------------------------------");
     }
 
 }
