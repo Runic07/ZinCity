@@ -13,12 +13,13 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import hu.nem3d.zincity.Logic.City;
 import hu.nem3d.zincity.Logic.CityMap;
 
 
 public class GameScreen implements Screen { //draft
     //ZinCity zinCity;
-    CityMap cityMap;
+    City city;
     OrthographicCamera camera;
     TiledMapRenderer mapRenderer;
 
@@ -38,14 +39,15 @@ public class GameScreen implements Screen { //draft
 
 
     public GameScreen(){
-        cityMap = new CityMap();
+        city = new City();
+
         //render map
         float unitScale = 1 / 24f;
-        mapRenderer = new OrthogonalTiledMapRenderer(cityMap.getMap(), unitScale);
+        mapRenderer = new OrthogonalTiledMapRenderer(city.getCityMap().getMap(), unitScale);
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 30, 20);
         mapRenderer.setView(camera);
-        cityStage = new CityStage(cityMap, uiId);
+        cityStage = new CityStage(city.getCityMap(), uiId);
 
         //MenuBar rendering
         UICamera = new OrthographicCamera();
@@ -80,6 +82,7 @@ public class GameScreen implements Screen { //draft
 
     @Override
     public void render(float delta) {
+        city.step();
         mapRenderer.render();
         cityStage.act();
         cityStage.draw();
@@ -90,7 +93,7 @@ public class GameScreen implements Screen { //draft
     @Override
     public void resize(int width, int height) {
         mapRenderer.setView(camera);
-        cityStage = new CityStage(cityMap, uiId);
+        cityStage = new CityStage(city.getCityMap(), uiId);
 
 
         screenWidth = width;
