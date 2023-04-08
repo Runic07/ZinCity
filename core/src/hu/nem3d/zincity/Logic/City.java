@@ -96,8 +96,11 @@ public class City {
     }
     public void step(){ //a unit of time passes
         System.out.println("Current citizen satisfactions: ");
+        satisfaction = 0;
+
         for (Citizen citizen : citizens) {
             budget += baseTaxAmount * taxCoefficient;
+
 
             citizen.setSatisfaction(
                     citizen.getSatisfaction() + citizen.getSatisfaction() * 0.05 + //previous satisfaction added with small weight
@@ -109,9 +112,10 @@ public class City {
 
             );
             System.out.print(citizen.getSatisfaction() + "\t");
+
             satisfaction += citizen.getSatisfaction();
 
-            if (satisfaction < satisfactionLowerThreshold){
+            if (citizen.getSatisfaction() < satisfactionLowerThreshold){
                 if (r.nextInt() % 20 == 0){
                     citizens.remove(citizen);
 
@@ -119,6 +123,8 @@ public class City {
             }
 
         }
+        satisfaction = satisfaction / ((double) citizens.size());
+
         TiledMapTileLayer buildingLayer = (TiledMapTileLayer) cityMap.getMap().getLayers().get(1);
         for (int i = 0; i < 30; i++){ //no forall here unfortunately
             for (int j = 0; j < 20; j++){
@@ -145,7 +151,7 @@ public class City {
 
         }
 
-        satisfaction = satisfaction / ((double) citizens.size());
+
 
         if (satisfaction > satisfactionUpperThreshold){
             if (r.nextInt() % 20 == 0){
