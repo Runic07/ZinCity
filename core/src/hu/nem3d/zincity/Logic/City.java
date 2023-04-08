@@ -124,7 +124,7 @@ public class City {
                 }
                 if (cell.getClass() == ServiceZoneCell.class){
                     budget -=30;
-                    System.out.println("subtracted");
+
                 }
             }
 
