@@ -61,6 +61,8 @@ public class CityMap {
                     cell.setTile(tileSet.getTile(1));
                 }
                 baseLayer.setCell(i, j, cell);
+                cell.setX(i);
+                cell.setY(j);
 
                 if (OpenSimplex2S.noise2(seedTrees, i*0.05, j*0.05) > 0.7  ){
                     //add dense forest
@@ -70,7 +72,6 @@ public class CityMap {
                     //add sparse forest
                     forestCell.setTile((tileSet.getTile(2)));
                 }
-
                 buildingLayer.setCell(i,j,forestCell);
 
 

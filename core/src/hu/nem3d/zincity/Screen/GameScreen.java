@@ -13,22 +13,26 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import hu.nem3d.zincity.Logic.City;
 import hu.nem3d.zincity.Logic.CityMap;
 
 
 public class GameScreen implements Screen { //draft
-    //ZinCity zinCity;
     CityMap cityMap;
     OrthographicCamera camera;
     TiledMapRenderer mapRenderer;
 
     public CityStage cityStage;
 
+    public City city = new City();
+
     //Need this for menuBar
     protected Stage stage;
     private Viewport viewport;
     private SpriteBatch batch;
     int uiId = 0;
+    Table UiTable;
+    Table statTable;
     OrthographicCamera UICamera;
     MenuBar menuBar;
 
@@ -57,7 +61,7 @@ public class GameScreen implements Screen { //draft
         viewport = new FillViewport((float) (screenWidth *1.5), (float) (screenHeight * 1.5), UICamera);
         viewport.apply();
         stage = new Stage(viewport, batch);
-        menuBar = new MenuBar(stage);
+        menuBar = new MenuBar(stage, city);
     }
 
 
@@ -67,14 +71,15 @@ public class GameScreen implements Screen { //draft
         multiplexer.addProcessor(stage);
         multiplexer.addProcessor(cityStage);
         Gdx.input.setInputProcessor(multiplexer);
-
-        Table table;
-        table = menuBar.setTable(uiId, screenWidth, screenHeight);
+        UiTable = menuBar.setTable(uiId, screenWidth, screenHeight);
         //Setting the bounds og the UI to start at 0 at 95% of the virtual ScreenHeight and with 100% of the virtual screen width
         //and to be 15% of the normal screen height (so the size is 100% width and 15% of height at the top of screen
-        table.setBounds(0, (float) (screenHeight * 0.90 *1.5), (float) (screenWidth *1 * 1.5), (float) (screenHeight * 0.15));
-        stage.addActor(table);
+        UiTable.setBounds(0, (float) (screenHeight * 0.90 *1.5), (float) (screenWidth *0.6 * 1.5), (float) (screenHeight * 0.15));
+        stage.addActor(UiTable);
 
+        statTable = menuBar.statTable( screenWidth, screenHeight);
+        statTable.setBounds((float) (screenWidth *0.6 * 1.5), (float) (screenHeight * 0.90 *1.5), (float) (screenWidth *0.4 * 1.5), (float) (screenHeight * 0.15));
+        stage.addActor(statTable);
 
     }
 
@@ -83,6 +88,16 @@ public class GameScreen implements Screen { //draft
         mapRenderer.render();
         cityStage.act();
         cityStage.draw();
+        if(menuBar.getIdTo() != uiId){
+            uiId = menuBar.getIdTo();
+            UiTable = menuBar.setTable(uiId, screenWidth, screenHeight);
+            UiTable.setBounds(0, (float) (screenHeight * 0.90 *1.5), (float) (screenWidth *0.6 * 1.5), (float) (screenHeight * 0.15));
+            stage.addActor(UiTable);
+        }
+        statTable = menuBar.statTable( screenWidth, screenHeight);
+        statTable.setBounds((float) (screenWidth *0.6 * 1.5), (float) (screenHeight * 0.90 *1.5), (float) (screenWidth *0.4 * 1.5), (float) (screenHeight * 0.15));
+        stage.addActor(statTable);
+
         stage.act();
         stage.draw();
     }
@@ -100,7 +115,7 @@ public class GameScreen implements Screen { //draft
         viewport = new FillViewport((float) (screenWidth *1.5), (float) (screenHeight * 1.5), UICamera);
         viewport.apply();
         stage = new Stage(viewport, batch);
-        menuBar = new MenuBar(stage);
+        menuBar = new MenuBar(stage, city);
         this.show();
     }
 
