@@ -26,6 +26,16 @@ public class Citizen {
     public LivingZoneCell getHome() {return home;}
     public void setHome(LivingZoneCell home) {this.home = home;}
     public double getSatisfaction() {return satisfaction;}
+    public void setSatisfaction(double satisfaction) {
+        if (satisfaction > 1.0) {
+            this.satisfaction = 1.0;
+        } else if (satisfaction < -1.0) {
+            this.satisfaction = -1.0;
+        } else {
+            this.satisfaction = satisfaction;
+        }
+    }
+    /*moved to city class
 
 
     //needs current budget, negativeSince from city, and ratio of services/industrial - 1
@@ -36,5 +46,7 @@ public class Citizen {
 
         return result;
     }
+    */
+
 
 }
