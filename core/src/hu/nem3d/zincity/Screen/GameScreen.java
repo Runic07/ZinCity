@@ -27,12 +27,17 @@ public class GameScreen implements Screen { //draft
     public City city = new City();
 
     //Need this for menuBar
+
+    private StatUI stat;
+    private Table cellStatTable;
     protected Stage stage;
+
+    protected Stage statStage;
     private Viewport viewport;
     private SpriteBatch batch;
     int uiId = 0;
     Table UiTable;
-    Table statTable;
+    Table statTableUI;
     OrthographicCamera UICamera;
     MenuBar menuBar;
 
@@ -49,7 +54,7 @@ public class GameScreen implements Screen { //draft
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 30, 20);
         mapRenderer.setView(camera);
-        cityStage = new CityStage(cityMap, uiId);
+        cityStage = new CityStage(cityMap, 0, stat);
 
         //MenuBar rendering
         UICamera = new OrthographicCamera();
@@ -61,7 +66,9 @@ public class GameScreen implements Screen { //draft
         viewport = new FillViewport((float) (screenWidth *1.5), (float) (screenHeight * 1.5), UICamera);
         viewport.apply();
         stage = new Stage(viewport, batch);
+        statStage = new Stage(viewport, batch);
         menuBar = new MenuBar(stage, city);
+        stat = new StatUI();
     }
 
 
@@ -77,9 +84,9 @@ public class GameScreen implements Screen { //draft
         UiTable.setBounds(0, (float) (screenHeight * 0.90 *1.5), (float) (screenWidth *0.6 * 1.5), (float) (screenHeight * 0.15));
         stage.addActor(UiTable);
 
-        statTable = menuBar.statTable( screenWidth, screenHeight);
-        statTable.setBounds((float) (screenWidth *0.6 * 1.5), (float) (screenHeight * 0.90 *1.5), (float) (screenWidth *0.4 * 1.5), (float) (screenHeight * 0.15));
-        stage.addActor(statTable);
+        statTableUI = menuBar.statTable( screenWidth, screenHeight);
+        statTableUI.setBounds((float) (screenWidth *0.6 * 1.5), (float) (screenHeight * 0.90 *1.5), (float) (screenWidth *0.4 * 1.5), (float) (screenHeight * 0.15));
+        stage.addActor(statTableUI);
 
     }
 
@@ -89,23 +96,39 @@ public class GameScreen implements Screen { //draft
         cityStage.act();
         cityStage.draw();
         if(menuBar.getIdTo() != uiId){
+            if(uiId == 2 || uiId == 1){
+                stage.clear();
+            }
             uiId = menuBar.getIdTo();
             UiTable = menuBar.setTable(uiId, screenWidth, screenHeight);
             UiTable.setBounds(0, (float) (screenHeight * 0.90 *1.5), (float) (screenWidth *0.6 * 1.5), (float) (screenHeight * 0.15));
+            if(menuBar.getIdTo() == 2 || menuBar.getIdTo() == 1){
+                UiTable.setBounds(0, (float) (screenHeight * 0.80 *1.5), (float) (screenWidth *0.6 * 1.5), (float) (screenHeight * 0.3));
+            }
             stage.addActor(UiTable);
         }
-        statTable = menuBar.statTable( screenWidth, screenHeight);
-        statTable.setBounds((float) (screenWidth *0.6 * 1.5), (float) (screenHeight * 0.90 *1.5), (float) (screenWidth *0.4 * 1.5), (float) (screenHeight * 0.15));
-        stage.addActor(statTable);
-
+        statTableUI = menuBar.statTable( screenWidth, screenHeight);
+        statTableUI.setBounds((float) (screenWidth *0.6 * 1.5), (float) (screenHeight * 0.90 *1.5), (float) (screenWidth *0.4 * 1.5), (float) (screenHeight * 0.15));
+        stage.addActor(statTableUI);
         stage.act();
         stage.draw();
+
+        if(stat.getShown() && uiId == 0){
+            cellStatTable = stat.cellStatTable(screenWidth, screenHeight);
+            cellStatTable.setBounds(0, (float) (screenHeight * 0.77 *1.5), (float) (screenWidth *0.3 * 1.5), (float) (screenHeight * 0.2));
+            statStage.addActor(cellStatTable);
+        }
+        if(!stat.getShown() || uiId != 0){
+            statStage.clear();
+        }
+        statStage.act();
+        statStage.draw();
     }
 
     @Override
     public void resize(int width, int height) {
         mapRenderer.setView(camera);
-        cityStage = new CityStage(cityMap, uiId);
+        cityStage = new CityStage(cityMap, uiId, stat);
 
 
         screenWidth = width;
@@ -115,6 +138,7 @@ public class GameScreen implements Screen { //draft
         viewport = new FillViewport((float) (screenWidth *1.5), (float) (screenHeight * 1.5), UICamera);
         viewport.apply();
         stage = new Stage(viewport, batch);
+        statStage = new Stage(viewport, batch);
         menuBar = new MenuBar(stage, city);
         this.show();
     }

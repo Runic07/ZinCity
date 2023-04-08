@@ -1,6 +1,7 @@
 package hu.nem3d.zincity.Cell;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import hu.nem3d.zincity.Screen.StatUI;
 
 public abstract class CityCell extends TiledMapTileLayer.Cell {
     //CLASS FOR EACH TILE ON THE MAP
@@ -54,6 +55,10 @@ public abstract class CityCell extends TiledMapTileLayer.Cell {
     //Result of merging the Position and the Tile classes from UML
     public double auraRadiusSize(CityCell c) {
         return Math.sqrt(Math.pow((c.getX() - this.x), 2) + Math.pow((c.getY() - this.y), 2));
+    }
+
+    public void statCall(StatUI statscreen){
+        statscreen.statCall(this);
     }
 
 }

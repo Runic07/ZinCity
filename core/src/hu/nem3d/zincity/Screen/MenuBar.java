@@ -13,7 +13,7 @@ public class MenuBar {
     City city;
 
     private  int currId = 0;
-    private int IdTo = 0;
+    private int idTo = 0;
     private TextureAtlas atlas;
     private Skin skin;
 
@@ -66,10 +66,15 @@ public class MenuBar {
 
         TextButton backButton = new TextButton("Back", skin);
         backButton.setSize(width / 9, (float) ((height * 0.15) / 2));
-        backButton.addListener(new ClickListener() {
+        backButton.addListener(new ClickListener() {            //If anything more is needed than going back to mainUI than implement here this is the back button
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                IdTo = 0;
+                if(currId == 5 || currId == 6){
+                    idTo = 4;
+                }
+                else{
+                    idTo = 0;
+                }
             }
         });
         switch (currId) {
@@ -85,27 +90,37 @@ public class MenuBar {
                 TextButton statButton = new TextButton("Stats", skin);
                 statButton.setSize(width / 9, (float) ((height * 0.15) / 2));
 
+                TextButton moreButton = new TextButton("More", skin);
+                moreButton.setSize(width / 9, (float) ((height * 0.15) / 2));
+
                 //Add listeners to buttons
                 buildButton.addListener(new ClickListener() {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-                        IdTo = 1;
+                        idTo = 1;
                         //System.out.println("Build");
                     }
                 });
                 specialButton.addListener(new ClickListener() {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-                        IdTo = 2;
+                        idTo = 2;
                         //System.out.println("Build");
                     }
                 });
                 statButton.addListener((new ClickListener() {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-                        IdTo = 3;
+                        idTo = 3;  //TODO call statScreen when clicked (ID set stays!)
                     }
                 }));
+
+                moreButton.addListener(new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        idTo = 4;
+                    }
+                });
 
                 //currTable.setBounds( 0, (float) (height * 0.8), width, (float) (height * 0.15));
                 //currTable.setSize((float) Gdx.graphics.getWidth(), (float) (Gdx.graphics.getHeight() * 0.15));
@@ -115,6 +130,7 @@ public class MenuBar {
                 currTable.add(specialButton).spaceRight(10).expand().bottom().fill();
                 //currTable.add(statButton);
                 currTable.add(statButton).spaceRight(10).expand().bottom().fill();
+                currTable.add(moreButton).spaceRight(10).expand().bottom().fill();
                 break;
             case(1):
                 TextButton industrialButton = new TextButton("Industrial", skin);
@@ -125,6 +141,9 @@ public class MenuBar {
 
                 TextButton livingButton = new TextButton("Living", skin);
                 livingButton.setSize(width / 9, (float) ((height * 0.15) / 2));
+
+                TextButton upgradeButton = new TextButton("Upgrade", skin);
+                upgradeButton.setSize(width / 9, (float) ((height * 0.15) / 2));
 
                 industrialButton.addListener(new ClickListener() {
                     @Override
@@ -143,10 +162,136 @@ public class MenuBar {
                     public void clicked(InputEvent event, float x, float y) {
                     }
                 });
+
+                upgradeButton.addListener(new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                    }
+                });
                 currTable.add(industrialButton).spaceRight(10).expand().bottom().fill();
                 currTable.add(serviceButton).spaceRight(10).expand().bottom().fill();
                 //currTable.add(statButton);
+                currTable.row();
                 currTable.add(livingButton).spaceRight(10).expand().bottom().fill();
+                currTable.add(upgradeButton).spaceRight(10).expand().bottom().fill();
+                break;
+
+            case(2):
+                TextButton fireDepButton = new TextButton("Fire station", skin);
+                fireDepButton.setSize(width / 9, (float) ((height * 0.15) / 2));
+
+                TextButton policeButton = new TextButton("Police", skin);
+                policeButton.setSize(width / 9, (float) ((height * 0.15) / 2));
+
+                TextButton arenaButton = new TextButton("Arena", skin);
+                arenaButton.setSize(width / 9, (float) ((height * 0.15) / 2));
+
+                TextButton generatorButton = new TextButton("Generator", skin);
+                generatorButton.setSize(width / 9, (float) ((height * 0.15) / 2));
+
+                TextButton forestButton = new TextButton("Forest", skin);
+                forestButton.setSize(width / 9, (float) ((height * 0.15) / 2));
+
+                policeButton.addListener(new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                    }
+                });
+
+                fireDepButton.addListener(new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                    }
+                });
+
+                arenaButton.addListener(new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                    }
+                });
+
+                generatorButton.addListener(new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                    }
+                });
+
+                forestButton.addListener(new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                    }
+                });
+                currTable.add(fireDepButton).spaceRight(10).expand().bottom().fill();
+                currTable.add(policeButton).spaceRight(10).expand().bottom().fill();
+                currTable.add(arenaButton).spaceRight(10).expand().bottom().fill();
+                currTable.row();
+                currTable.add(generatorButton).spaceRight(10).expand().bottom().fill();
+                currTable.add(forestButton).spaceRight(10).expand().bottom().fill();
+                break;
+
+            case(3):            //If the stat screen need anything other than backing out implement here
+                break;
+
+            case(4):
+               TextButton networkButton = new TextButton("Networks", skin);
+                networkButton.setSize(width / 9, (float) ((height * 0.15) / 2));
+
+                TextButton settingsButton = new TextButton("Settings", skin);
+                settingsButton.setSize(width / 9, (float) ((height * 0.15) / 2));
+
+                TextButton deleteButton = new TextButton("Delete", skin);
+                deleteButton.setSize(width / 9, (float) ((height * 0.15) / 2));
+
+                networkButton.addListener(new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        idTo = 5;
+                    }
+                });
+
+                settingsButton.addListener(new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                    }
+                });
+
+                deleteButton.addListener(new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        idTo = 6;
+                    }
+                });
+
+                currTable.add(networkButton).spaceRight(10).expand().bottom().fill();
+                currTable.add(deleteButton).spaceRight(10).expand().bottom().fill();
+                currTable.add(settingsButton).spaceRight(10).expand().bottom().fill();
+
+                break;
+
+            case(5):
+                TextButton roadButton = new TextButton("Roads", skin);
+                roadButton.setSize(width / 9, (float) ((height * 0.15) / 2));
+
+                TextButton elecButton = new TextButton("Electric lines", skin);
+                elecButton.setSize(width / 9, (float) ((height * 0.15) / 2));
+
+                roadButton.addListener(new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                    }
+                });
+                elecButton.addListener(new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                    }
+                });
+
+                currTable.add(elecButton).spaceRight(10).expand().bottom().fill();
+                currTable.add(roadButton).spaceRight(10).expand().bottom().fill();
+
+                break;
+
+            case(6):        //if delete needs anything other than backing out of it implement here.
                 break;
 
         }
@@ -170,7 +315,7 @@ public class MenuBar {
         Label happiness = new Label( city.satisfaction + " ", skin);
         happiness.setSize(width / 9, (float) ((height * 0.15) / 2));
 
-        Label date = new Label("2023.03.30 ", skin);
+        Label date = new Label("2023.03.30 ", skin);  //TODO import date instead of this placeholder
         date.setSize(width / 9, (float) ((height * 0.15) / 2));
 
         Label money = new Label(city.budget + "", skin);
@@ -186,6 +331,6 @@ public class MenuBar {
 
 
     public int getIdTo(){
-        return IdTo;
+        return idTo;
     }
 }

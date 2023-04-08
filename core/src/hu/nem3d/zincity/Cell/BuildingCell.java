@@ -5,6 +5,7 @@ public abstract class BuildingCell extends CityCell {
     protected enum BuildingPart{
         NorthEast, NorthWest, SouthEast, SouthWest
     }
+    protected String name;  //Need for stats --Newton
     boolean isSimple;
     protected BuildingPart part;
     protected int range;
@@ -33,6 +34,14 @@ public abstract class BuildingCell extends CityCell {
         this.range = range;
         this.maintenanceFee = maintenanceFee;
         this.part = part;
+    }
+
+    public String getName(){
+        return this.name;
+    }
+
+    public int getMaintenanceFee(){
+        return this.maintenanceFee;
     }
 
     public abstract void doEffect();
