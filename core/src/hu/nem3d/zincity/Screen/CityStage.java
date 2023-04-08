@@ -15,10 +15,17 @@ public class CityStage extends Stage {
         private TiledMap tiledMap;
         private CityMap city;
 
+        private int UIid;
+
+        private int buildCode;
+
         public CityStage(CityMap city, int id, StatUI stat) {
+
             this.tiledMap = city.getMap();
             this.city = city;
             this.stats = stat;
+            this.UIid = id;
+            this.buildCode = 0;
 
             /*MapLayer layer = tiledMap.getLayers().get(id);
             TiledMapTileLayer tiledLayer = (TiledMapTileLayer)layer;
@@ -28,6 +35,11 @@ public class CityStage extends Stage {
                 TiledMapTileLayer tiledLayer = (TiledMapTileLayer)layer;
                 createActorsForLayer(tiledLayer);
             }
+        }
+
+        public void setBuildProperties(int buildCode_, int UIid_){
+            this.buildCode = buildCode_;
+            this.UIid = UIid_;
         }
 
         private void createActorsForLayer(TiledMapTileLayer tiledLayer) {
@@ -46,9 +58,17 @@ public class CityStage extends Stage {
                     TiledMapActor actor = new TiledMapActor(city, tiledLayer, cell);
                     actor.setBounds(x * screenWidth / mapWidth , y * screenHeight / mapHeight , screenWidth / mapWidth, screenHeight / mapHeight);
                     addActor(actor);
-                    EventListener eventListener = new TiledMapClickListener(actor, stats);
+                    EventListener eventListener = new TiledMapClickListener(actor, stats, city, this);
                     actor.addListener(eventListener);
                 }
             }
         }
+
+    public int getUIid() {
+        return UIid;
     }
+
+    public int getBuildCode() {
+        return buildCode;
+    }
+}

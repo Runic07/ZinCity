@@ -22,6 +22,7 @@ import java.util.Random;
 public class CityMap {
     TiledMap map;
     TiledMapTileLayer baseLayer; //contains Cell objects that point to TiledMapTile objects
+
     TiledMapTileLayer buildingLayer; //more layers can be added on demand
     TiledMapTileSet tileSet; //contains TiledMapTile objects.
     Texture texture;
@@ -133,9 +134,21 @@ public class CityMap {
 
         map = new TiledMap();
         map.getLayers().add(baseLayer);
-        map.getLayers().add(buildingLayer);  //commented out till layer ids are implemented.
+        map.getLayers().add(buildingLayer);
     }
     public TiledMap getMap() {
         return map;
+    }
+
+    public TiledMapTileLayer getBuildingLayer() {
+        return buildingLayer;
+    }
+
+    public void setBuildingLayer(TiledMapTileLayer buildingLayer) {
+        this.buildingLayer = buildingLayer;
+    }
+
+    public TiledMapTileSet getTileSet() {
+        return tileSet;
     }
 }

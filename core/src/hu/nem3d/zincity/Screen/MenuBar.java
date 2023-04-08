@@ -16,6 +16,8 @@ public class MenuBar {
 
     public int day = 0;
 
+    private int buildCode = 0;
+
     private  int currId = 0;
     private int idTo = 0;
     private TextureAtlas atlas;
@@ -79,13 +81,15 @@ public class MenuBar {
                 else{
                     idTo = 0;
                 }
+                buildCode = 0;
             }
         });
         switch (currId) {
 
             case (0):
+                buildCode = 0;
                 //Create buttons
-                TextButton buildButton = new TextButton("Zones", skin);
+                final TextButton buildButton = new TextButton("Zones", skin);
                 buildButton.setSize(width / 9, (float) ((height * 0.15) / 2));
 
                 TextButton specialButton = new TextButton("Special", skin);
@@ -152,24 +156,28 @@ public class MenuBar {
                 industrialButton.addListener(new ClickListener() {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
+                        buildCode = 1;
                     }
                 });
 
                 serviceButton.addListener(new ClickListener() {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
+                        buildCode = 2;
                     }
                 });
 
                 livingButton.addListener(new ClickListener() {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
+                        buildCode = 3;
                     }
                 });
 
                 upgradeButton.addListener(new ClickListener() {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
+                        buildCode = 4;
                     }
                 });
                 currTable.add(industrialButton).spaceRight(10).expand().bottom().fill();
@@ -199,34 +207,39 @@ public class MenuBar {
                 policeButton.addListener(new ClickListener() {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
+                        buildCode = 1;
                     }
                 });
 
                 fireDepButton.addListener(new ClickListener() {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
+                        buildCode = 2;
                     }
                 });
 
                 arenaButton.addListener(new ClickListener() {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
+                        buildCode = 3;
                     }
                 });
 
                 generatorButton.addListener(new ClickListener() {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
+                        buildCode = 4;
                     }
                 });
 
                 forestButton.addListener(new ClickListener() {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
+                        buildCode = 5;
                     }
                 });
-                currTable.add(fireDepButton).spaceRight(10).expand().bottom().fill();
                 currTable.add(policeButton).spaceRight(10).expand().bottom().fill();
+                currTable.add(fireDepButton).spaceRight(10).expand().bottom().fill();
                 currTable.add(arenaButton).spaceRight(10).expand().bottom().fill();
                 currTable.row();
                 currTable.add(generatorButton).spaceRight(10).expand().bottom().fill();
@@ -279,14 +292,16 @@ public class MenuBar {
                 TextButton elecButton = new TextButton("Electric lines", skin);
                 elecButton.setSize(width / 9, (float) ((height * 0.15) / 2));
 
-                roadButton.addListener(new ClickListener() {
-                    @Override
-                    public void clicked(InputEvent event, float x, float y) {
-                    }
-                });
                 elecButton.addListener(new ClickListener() {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
+                        buildCode = 1;
+                    }
+                });
+                roadButton.addListener(new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        buildCode = 2;
                     }
                 });
 
@@ -339,4 +354,6 @@ public class MenuBar {
     public int getIdTo(){
         return idTo;
     }
+
+    public int getBuildCode(){return buildCode;}
 }

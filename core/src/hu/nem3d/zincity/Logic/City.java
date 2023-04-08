@@ -95,7 +95,7 @@ public class City {
 
     }
     public void step(){ //a unit of time passes
-        System.out.println("Current citizen satisfactions: ");
+        //System.out.println("Current citizen satisfactions: ");
         satisfaction = 0;
 
         for (Citizen citizen : citizens) {
@@ -111,7 +111,7 @@ public class City {
 
 
             );
-            System.out.print(citizen.getSatisfaction() + "\t");
+            //System.out.print(citizen.getSatisfaction() + "\t");
 
             satisfaction += citizen.getSatisfaction();
 
@@ -163,8 +163,8 @@ public class City {
         }
 
         //spew info
-        System.out.println("\nCurrent city satisfaction: " + satisfaction + "\nCurrent budget: " + budget + "\nCurrent tax coeff: " + taxCoefficient);
-        System.out.println("---------------------------------");
+        //System.out.println("\nCurrent city satisfaction: " + satisfaction + "\nCurrent budget: " + budget + "\nCurrent tax coeff: " + taxCoefficient);
+        //System.out.println("---------------------------------");
     }
 
 }
