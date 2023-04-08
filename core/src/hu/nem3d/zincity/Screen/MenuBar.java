@@ -8,9 +8,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import hu.nem3d.zincity.Logic.City;
 
+import java.text.DecimalFormat;
+
 public class MenuBar {
 
     City city;
+
+    public int day = 0;
 
     private  int currId = 0;
     private int idTo = 0;
@@ -312,10 +316,12 @@ public class MenuBar {
         statTable.background("dialog");
         //Set alignment of contents in the table.
         statTable.top();
-        Label happiness = new Label( city.satisfaction + " ", skin);
+        DecimalFormat df = new DecimalFormat("#.###");
+
+        Label happiness = new Label( df.format(city.satisfaction) + " ", skin);
         happiness.setSize(width / 9, (float) ((height * 0.15) / 2));
 
-        Label date = new Label("2023.03.30 ", skin);  //TODO import date instead of this placeholder
+        Label date = new Label("Day: " + day, skin);  //TODO import date instead of this placeholder
         date.setSize(width / 9, (float) ((height * 0.15) / 2));
 
         Label money = new Label(city.budget + "", skin);

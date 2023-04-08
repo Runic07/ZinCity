@@ -58,17 +58,17 @@ public class StatUI {
         }
         else if(cell.getClass() == LivingZoneCell.class){
             name = "Living zone";
-            dataString = "Capacity: "+ ((LivingZoneCell) cell).getOccCount() + " / " + ((LivingZoneCell) cell).getCapacity();
+            dataString = "Capacity: "+ ((LivingZoneCell) cell).getOccupants() + " / " + ((LivingZoneCell) cell).getCapacity();
             tier = "Tier: " +  ((LivingZoneCell) cell).getLevel();
         }
         else if(cell.getClass() == IndustrialZoneCell.class){
             name = "Industrial zone";
-            dataString = "Capacity: " + ((IndustrialZoneCell) cell).getCapacity() +  " / " + ((IndustrialZoneCell) cell).getCapacity();
+            dataString = "Capacity: " + ((IndustrialZoneCell) cell).getOccupants()  +  " / " + ((IndustrialZoneCell) cell).getCapacity();
             tier = "Tier: " + ((IndustrialZoneCell) cell).getLevel();
         }
         else if(cell.getClass() == ServiceZoneCell.class){
             name = "Service zone";
-            dataString = "Capacity: " + ((ServiceZoneCell) cell).getOccCount() + " / " + ((ServiceZoneCell) cell).getCapacity();
+            dataString = "Capacity: " + ((ServiceZoneCell) cell).getOccupants()  + " / " + ((ServiceZoneCell) cell).getCapacity();
             tier = "Tier: " + ((ServiceZoneCell) cell).getLevel();
         }
         else {

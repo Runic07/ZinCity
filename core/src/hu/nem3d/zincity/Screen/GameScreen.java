@@ -97,6 +97,7 @@ public class GameScreen implements Screen { //draft
         frameCounter++;
         if (frameCounter > 60){
             city.step();
+            menuBar.day++;
             frameCounter=0;
         }
         mapRenderer.render();
