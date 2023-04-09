@@ -32,6 +32,12 @@ public class TiledMapClickListener extends ClickListener {
         CityCell cell = actor.getCell();
         System.out.println(cell + " has been clicked. " + cell.getX() +" "+ cell.getY() + " x:" + x + " y: " + y + " ");
         this.UIid = stage.getUIid();
+        if(UIid == 7){
+            UIid = 1;
+        }
+        else if(UIid == 8){
+            UIid = 2;
+        }
         this.buildCode = stage.getBuildCode();
 
         System.out.println(UIid + " " + buildCode);

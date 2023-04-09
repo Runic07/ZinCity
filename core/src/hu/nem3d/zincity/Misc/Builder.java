@@ -18,6 +18,8 @@ public class Builder {
     TiledMapTileSet tileSet;
 
     TiledMapTileLayer buildLayer;
+    //TODO for all of the build...(cell) functions budget and fee calc and ifs but since city is here it is easy to do but no specs as of now.
+
     /*
     This will signify which action to do in a given UI id selection
     UIid = 1 --> zones
@@ -54,6 +56,9 @@ public class Builder {
                 break;
             case(2):
                 cell = buildSpecial(cell);
+                break;
+            case(5):
+                cell = buildNetwork(cell);
                 break;
         }
         cityMap.setBuildingLayer(buildLayer);
@@ -108,6 +113,21 @@ public class Builder {
 
 
         return  cell;
+    }
+
+    public CityCell buildNetwork(CityCell cell){
+        switch (code){
+            case(2):
+                if(cell.getClass() == EmptyCell.class) {
+                    cell = new RoadCell();
+                    cell.setTile((tileSet.getTile(4)));
+                    cell.setX(x);
+                    cell.setY(y);
+                    buildLayer.setCell(x, y, cell);
+                }
+                break;
+        }
+        return cell;
     }
 
 

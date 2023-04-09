@@ -81,7 +81,7 @@ public class MenuBar {
                 else{
                     idTo = 0;
                 }
-                if(id != 7){
+                if(currId != 7 && currId != 8){
                     buildCode = 0;
                 }
             }
@@ -159,6 +159,7 @@ public class MenuBar {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         buildCode = 1;
+                        idTo = 7;
                     }
                 });
 
@@ -166,6 +167,7 @@ public class MenuBar {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         buildCode = 2;
+                        idTo = 7;
                     }
                 });
 
@@ -173,6 +175,7 @@ public class MenuBar {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         buildCode = 3;
+                        idTo = 7;
                     }
                 });
 
@@ -180,6 +183,7 @@ public class MenuBar {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         buildCode = 4;
+                        idTo = 7;
                     }
                 });
                 currTable.add(industrialButton).spaceRight(10).expand().bottom().fill();
@@ -210,7 +214,7 @@ public class MenuBar {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         buildCode = 1;
-                        idTo = 7;
+                        idTo = 8;
                     }
                 });
 
@@ -218,7 +222,7 @@ public class MenuBar {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         buildCode = 2;
-                        idTo = 7;
+                        idTo = 8;
                     }
                 });
 
@@ -226,7 +230,7 @@ public class MenuBar {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         buildCode = 3;
-                        idTo = 7;
+                        idTo = 8;
                     }
                 });
 
@@ -234,7 +238,7 @@ public class MenuBar {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         buildCode = 4;
-                        idTo = 7;
+                        idTo = 8;
                     }
                 });
 
@@ -242,7 +246,7 @@ public class MenuBar {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         buildCode = 5;
-                        idTo = 7;
+                        idTo = 8;
                     }
                 });
                 currTable.add(policeButton).spaceRight(10).expand().bottom().fill();
