@@ -3,6 +3,7 @@ package hu.nem3d.zincity.Screen;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import hu.nem3d.zincity.Cell.CityCell;
+import hu.nem3d.zincity.Logic.City;
 import hu.nem3d.zincity.Logic.CityMap;
 import hu.nem3d.zincity.Misc.Builder;
 
@@ -10,14 +11,14 @@ public class TiledMapClickListener extends ClickListener {
 
     private StatUI stats;
     private int UIid;
-    private CityMap city;
+    private City city;
 
     private CityStage stage;
 
     private TiledMapActor actor;
     private int buildCode;
 
-    public TiledMapClickListener(TiledMapActor actor, StatUI stat,CityMap city_,CityStage stage_) {
+    public TiledMapClickListener(TiledMapActor actor, StatUI stat, City city_, CityStage stage_) {
         this.actor = actor;
         this.stats = stat;
         this.stage = stage_;
@@ -35,7 +36,7 @@ public class TiledMapClickListener extends ClickListener {
 
         System.out.println(UIid + " " + buildCode);
         Builder builder = new Builder(UIid, buildCode, city);
-        builder.build(cell);
+        cell = builder.build(cell);
         System.out.println(cell.getClass());
 
         stats.isShown(cell);

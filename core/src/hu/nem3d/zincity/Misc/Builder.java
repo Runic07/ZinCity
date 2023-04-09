@@ -2,16 +2,16 @@ package hu.nem3d.zincity.Misc;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileSet;
-import hu.nem3d.zincity.Cell.CityCell;
-import hu.nem3d.zincity.Cell.IndustrialZoneCell;
-import hu.nem3d.zincity.Cell.LivingZoneCell;
-import hu.nem3d.zincity.Cell.ServiceZoneCell;
+import hu.nem3d.zincity.Cell.*;
+import hu.nem3d.zincity.Logic.City;
 import hu.nem3d.zincity.Logic.CityMap;
 
 public class Builder {
     private int buildId;
     private int code = 0;
-    CityMap city;
+    CityMap cityMap;
+
+    City city;
 
     private int x,y;
 
@@ -36,57 +36,79 @@ public class Builder {
         ->code = 1 --> roads
      */
 
-    public Builder(int id, int code_, CityMap city_){
+    public Builder(int id, int code_, City city_){
         this.buildId = id;
         this.code = code_;
         this.city = city_;
-        this.tileSet = city.getTileSet();
-        this.buildLayer = city.getBuildingLayer();
+        cityMap = city.getCityMap();
+        this.tileSet = cityMap.getTileSet();
+        this.buildLayer = cityMap.getBuildingLayer();
     }
 
-    public void build(CityCell cell){
+    public CityCell build(CityCell cell){
         x = cell.getX();
         y = cell.getY();
-        System.out.println(buildId);
-        System.out.println(code);
         switch (buildId){
             case(1):
-                buildZone(cell);
+                cell = buildZone(cell);
                 break;
             case(2):
+                cell = buildSpecial(cell);
+                break;
         }
-        city.setBuildingLayer(buildLayer);
+        cityMap.setBuildingLayer(buildLayer);
+        return cell;
     }
 
-    public void buildZone(CityCell cell){
-        switch (code){
-            case(1):
-                cell = new IndustrialZoneCell(2);
-                cell.setTile(tileSet.getTile(8));
-                cell.setX(x);
-                cell.setY(y);
-                buildLayer.setCell(x, y, cell);
-                break;
-            case(2):
-                cell = new ServiceZoneCell(2);
-                cell.setTile(tileSet.getTile(11));
-                cell.setX(x);
-                cell.setY(y);
-                buildLayer.setCell(x,y, cell);
-                System.out.println(cell.getClass());
-                break;
-            case(3):
-                cell = new LivingZoneCell(4);
-                cell.setTile(tileSet.getTile(5));
-                cell.setX(x);
-                cell.setY(y);
-                buildLayer.setCell(x,y, cell);
-                break;
-
+    public CityCell buildZone(CityCell cell){
+        if(cell.getClass() == EmptyCell.class) {
+            switch (code) {
+                case (1):
+                    cell = new IndustrialZoneCell(2);
+                    cell.setTile(tileSet.getTile(8));
+                    cell.setX(x);
+                    cell.setY(y);
+                    buildLayer.setCell(x, y, cell);
+                    break;
+                case (2):
+                    cell = new ServiceZoneCell(2);
+                    cell.setTile(tileSet.getTile(11));
+                    cell.setX(x);
+                    cell.setY(y);
+                    buildLayer.setCell(x, y, cell);
+                    break;
+                case (3):
+                    cell = new LivingZoneCell(4);
+                    cell.setTile(tileSet.getTile(5));
+                    cell.setX(x);
+                    cell.setY(y);
+                    buildLayer.setCell(x, y, cell);
+                    break;
+                case(4):
+                    //TODO write upgrade method in each zone in there respectice classes!!!
+                    break;
+            }
         }
+        return cell;
 
     }
 
+    public CityCell buildSpecial(CityCell cell){ //can only do forest since this is the only one implemented
+        if(cell.getClass() == EmptyCell.class) {
+            switch (code) {
+                case(5):
+                    cell = new ForestCell(x,y);
+                    cell.setTile((tileSet.getTile(2)));
+                    cell.setX(x);
+                    cell.setY(y);
+                    buildLayer.setCell(x,y,cell);
+                    break;
+            }
+        }
+
+
+        return  cell;
+    }
 
 
 }
