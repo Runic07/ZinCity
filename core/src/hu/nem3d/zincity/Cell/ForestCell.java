@@ -16,21 +16,27 @@ public class ForestCell extends CityCell{
     public void setAge(int age) {this.age = age;}
     public void increaseAge(){age = (age == 10) ? 10 : age+1;}
 
-
     /*
-    private int plantingYear;
+    //Suggestion for aging trees
+    private int plantingDay;
 
     public ForestCell() {
-        this.plantingYear = 2023;
+        super();
+        this.plantingDay = 0;
     }
 
-    public ForestCell(int x, int y, int plantingYear) {
+    public ForestCell(int x, int y) {
         super(x, y);
-        this.plantingYear = plantingYear;
+        this.plantingDay = 0;
     }
 
-    public int getPlantingYear() {return plantingYear;}
-    public void setPlantingYear(int plantingYear) {this.plantingYear = plantingYear;}
-    public int getAge(int yearNow){return (yearNow - plantingYear);}
+    public ForestCell(int x, int y, int plantingDay) {
+        super(x, y);
+        this.plantingDay = plantingDay;
+    }
+
+    public int getPlantingDay() {return plantingDay;}
+    public void setPlantingDay(int plantingDay) {this.plantingDay = plantingDay;}
+    public int getAge(int now){return (now - plantingDay)/365;}
     */
 }
