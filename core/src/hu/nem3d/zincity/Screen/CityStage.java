@@ -10,21 +10,24 @@ import hu.nem3d.zincity.Cell.CityCell;
 import hu.nem3d.zincity.Logic.CityMap;
 
 public class CityStage extends Stage {
+
+        private StatUI stats;
         private TiledMap tiledMap;
         private CityMap city;
 
-        public CityStage(CityMap city, int id) {
+        public CityStage(CityMap city, int id, StatUI stat) {
             this.tiledMap = city.getMap();
             this.city = city;
+            this.stats = stat;
 
-            MapLayer layer = tiledMap.getLayers().get(id);
+            /*MapLayer layer = tiledMap.getLayers().get(id);
             TiledMapTileLayer tiledLayer = (TiledMapTileLayer)layer;
-            createActorsForLayer(tiledLayer);
+            createActorsForLayer(tiledLayer);*/
 
-           /* for (MapLayer layer : tiledMap.getLayers()) {
+            for (MapLayer layer : tiledMap.getLayers()) {
                 TiledMapTileLayer tiledLayer = (TiledMapTileLayer)layer;
                 createActorsForLayer(tiledLayer);
-            }*/
+            }
         }
 
         private void createActorsForLayer(TiledMapTileLayer tiledLayer) {
@@ -43,7 +46,7 @@ public class CityStage extends Stage {
                     TiledMapActor actor = new TiledMapActor(city, tiledLayer, cell);
                     actor.setBounds(x * screenWidth / mapWidth , y * screenHeight / mapHeight , screenWidth / mapWidth, screenHeight / mapHeight);
                     addActor(actor);
-                    EventListener eventListener = new TiledMapClickListener(actor);
+                    EventListener eventListener = new TiledMapClickListener(actor, stats);
                     actor.addListener(eventListener);
                 }
             }

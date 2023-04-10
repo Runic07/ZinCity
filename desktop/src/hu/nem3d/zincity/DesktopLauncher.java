@@ -10,6 +10,7 @@ public class DesktopLauncher {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 		config.setForegroundFPS(60);
 		config.setTitle("ZinCity");
+		config.setWindowSizeLimits(720,480,9999,9999);
 		new Lwjgl3Application(new ZinCity(), config);
 	}
 }
