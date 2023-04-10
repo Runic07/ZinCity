@@ -30,7 +30,7 @@ public class TiledMapClickListener extends ClickListener {
     @Override
     public void clicked(InputEvent event, float x, float y) {
         CityCell cell = actor.getCell();
-        System.out.println(cell + " has been clicked. " + cell.getX() +" "+ cell.getY() + " x:" + x + " y: " + y + " ");
+        //System.out.println(cell + " has been clicked. " + cell.getX() +" "+ cell.getY() + " x:" + x + " y: " + y + " ");
         this.UIid = stage.getUIid();
         if(UIid == 7){
             UIid = 1;
@@ -40,10 +40,10 @@ public class TiledMapClickListener extends ClickListener {
         }
         this.buildCode = stage.getBuildCode();
 
-        System.out.println(UIid + " " + buildCode);
+        //System.out.println(UIid + " " + buildCode);
         Builder builder = new Builder(UIid, buildCode, city);
         cell = builder.build(cell);
-        System.out.println(cell.getClass());
+        //System.out.println(cell.getClass());
 
         stats.isShown(cell);
         cell.statCall(stats);
