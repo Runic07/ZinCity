@@ -56,7 +56,7 @@ public class GameScreen implements Screen { //draft
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 30, 20);
         mapRenderer.setView(camera);
-        cityStage = new CityStage(city.getCityMap(), 0, stat);
+        cityStage = new CityStage(city, 0, stat);
 
         //MenuBar rendering
         UICamera = new OrthographicCamera();
@@ -95,7 +95,7 @@ public class GameScreen implements Screen { //draft
     @Override
     public void render(float delta) {
         frameCounter++;
-        if (frameCounter > 60){
+        if (frameCounter > 600){
             city.step();
             menuBar.day++;
             frameCounter=0;
@@ -103,6 +103,8 @@ public class GameScreen implements Screen { //draft
         mapRenderer.render();
         cityStage.act();
         cityStage.draw();
+
+        cityStage.setBuildProperties(menuBar.getBuildCode(),uiId);
         if(menuBar.getIdTo() != uiId){
             if(uiId == 2 || uiId == 1){
                 stage.clear();
@@ -136,7 +138,7 @@ public class GameScreen implements Screen { //draft
     @Override
     public void resize(int width, int height) {
         mapRenderer.setView(camera);
-        cityStage = new CityStage(city.getCityMap(), uiId, stat);
+        cityStage = new CityStage(city, uiId, stat);
 
 
         screenWidth = width;

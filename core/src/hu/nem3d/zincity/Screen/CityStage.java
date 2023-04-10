@@ -7,18 +7,28 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import hu.nem3d.zincity.Cell.CityCell;
+import hu.nem3d.zincity.Logic.City;
 import hu.nem3d.zincity.Logic.CityMap;
 
 public class CityStage extends Stage {
 
         private StatUI stats;
         private TiledMap tiledMap;
-        private CityMap city;
+        private CityMap cityMap;
 
-        public CityStage(CityMap city, int id, StatUI stat) {
-            this.tiledMap = city.getMap();
+        private City city;
+
+        private int UIid;
+
+        private int buildCode;
+
+        public CityStage(City city, int id, StatUI stat) {
             this.city = city;
+            this.cityMap = city.getCityMap();
             this.stats = stat;
+            this.UIid = id;
+            this.buildCode = 0;
+            this.tiledMap = cityMap.getMap();
 
             /*MapLayer layer = tiledMap.getLayers().get(id);
             TiledMapTileLayer tiledLayer = (TiledMapTileLayer)layer;
@@ -28,6 +38,11 @@ public class CityStage extends Stage {
                 TiledMapTileLayer tiledLayer = (TiledMapTileLayer)layer;
                 createActorsForLayer(tiledLayer);
             }
+        }
+
+        public void setBuildProperties(int buildCode_, int UIid_){
+            this.buildCode = buildCode_;
+            this.UIid = UIid_;
         }
 
         private void createActorsForLayer(TiledMapTileLayer tiledLayer) {
@@ -43,12 +58,20 @@ public class CityStage extends Stage {
             for (int x = 0; x < mapWidth; x++) {
                 for (int y = 0; y < mapHeight; y++) {
                     CityCell cell = (CityCell) tiledLayer.getCell(x, y);
-                    TiledMapActor actor = new TiledMapActor(city, tiledLayer, cell);
+                    TiledMapActor actor = new TiledMapActor(cityMap, tiledLayer, cell);
                     actor.setBounds(x * screenWidth / mapWidth , y * screenHeight / mapHeight , screenWidth / mapWidth, screenHeight / mapHeight);
                     addActor(actor);
-                    EventListener eventListener = new TiledMapClickListener(actor, stats);
+                    EventListener eventListener = new TiledMapClickListener(actor, stats, city, this);
                     actor.addListener(eventListener);
                 }
             }
         }
+
+    public int getUIid() {
+        return UIid;
     }
+
+    public int getBuildCode() {
+        return buildCode;
+    }
+}
