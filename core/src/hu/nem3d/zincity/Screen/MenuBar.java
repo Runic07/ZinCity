@@ -28,11 +28,14 @@ public class MenuBar {
 
     private Stage stage;
 
-    public MenuBar(Stage stage_, City city_) {
+    private GameScreen screen;
+
+    public MenuBar(Stage stage_, City city_, GameScreen screen_) {
         atlas = new TextureAtlas(Gdx.files.internal("PlaceHolderMenu\\uiskin.atlas"));
         skin = new Skin(Gdx.files.internal("PlaceHolderMenu\\uiskin.json"), atlas);
         stage = stage_;
         city = city_;
+        screen = screen_;
     }
 
     public Table setTable(final int id, final float width, final float height) {
@@ -261,14 +264,17 @@ public class MenuBar {
                 break;
 
             case(4):
-               TextButton networkButton = new TextButton("Networks", skin);
+               TextButton networkButton = new TextButton("Network", skin);
                 networkButton.setSize(width / 9, (float) ((height * 0.15) / 2));
 
-                TextButton settingsButton = new TextButton("Settings", skin);
+                TextButton settingsButton = new TextButton("Setting", skin);
                 settingsButton.setSize(width / 9, (float) ((height * 0.15) / 2));
 
                 TextButton deleteButton = new TextButton("Delete", skin);
                 deleteButton.setSize(width / 9, (float) ((height * 0.15) / 2));
+
+                TextButton speedButton = new TextButton("Speed", skin);
+                speedButton.setSize(width / 9, (float) ((height * 0.15) / 2));
 
                 networkButton.addListener(new ClickListener() {
                     @Override
@@ -280,6 +286,42 @@ public class MenuBar {
                 settingsButton.addListener(new ClickListener() {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
+
+                    }
+                });
+
+                speedButton.addListener(new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        int curSpeed = screen.getSpeed();
+                        switch (curSpeed){
+                            case(600):
+                                screen.setSpeed(300);
+                                break;
+                            case(300):
+                                screen.setSpeed(60);
+                                break;
+                            case(60):
+                                screen.setSpeed(6000);
+                                break;
+                            default:
+                                screen.setSpeed(600);
+                                break;
+                        }
+                        Dialog dialog = new Dialog("Speed", skin, "dialog") {
+                            public void result(Object obj) {
+                                System.out.println("result " + obj);
+                                boolean quitMenu = (Boolean) obj;
+                                if (quitMenu) {
+                                    Gdx.app.exit();
+                                }
+                            }
+                        };
+                        dialog.text("Current speed: " + screen.getSpeed());
+                        dialog.button("OK", false);
+                        dialog.getBackground().setMinWidth(200);
+                        dialog.getBackground().setMinHeight(200);
+                        dialog.show(stage);
                     }
                 });
 
@@ -292,6 +334,7 @@ public class MenuBar {
 
                 currTable.add(networkButton).spaceRight(10).expand().bottom().fill();
                 currTable.add(deleteButton).spaceRight(10).expand().bottom().fill();
+                currTable.add(speedButton).spaceRight(10).expand().bottom().fill();
                 currTable.add(settingsButton).spaceRight(10).expand().bottom().fill();
 
                 break;
