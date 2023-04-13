@@ -4,6 +4,10 @@ import hu.nem3d.zincity.Cell.IndustrialZoneCell;
 import hu.nem3d.zincity.Cell.LivingZoneCell;
 import hu.nem3d.zincity.Cell.ZoneCell;
 
+/**
+ * Represents an occupant living in the city.
+ * Knows its workplace and home.
+ */
 public class Citizen {
     //private City city; //It's necessary, if the Citizen calculates its own workplace-home combo
     private double satisfaction;

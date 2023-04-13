@@ -5,7 +5,11 @@ import hu.nem3d.zincity.Misc.Direction;
 
 import java.util.HashSet;
 import java.util.LinkedList;
-
+/**
+ * Provides base class for Zone type cell tiles.
+ * @see CityCell
+ * @see com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell
+ */
 public abstract class ZoneCell extends CityCell{
     protected int capacity;
     protected int level = 1;

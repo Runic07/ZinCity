@@ -1,5 +1,10 @@
 package hu.nem3d.zincity.Cell;
 
+/**
+ * Provides base class for building cell tiles with various effects.
+ * @see com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell
+ * @see hu.nem3d.zincity.Cell.CityCell
+ */
 public abstract class BuildingCell extends CityCell {
 
     protected enum BuildingPart{

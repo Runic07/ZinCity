@@ -9,6 +9,11 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+/**
+ * Engine class for an instance of a city. Responsible for storing the map, and logic
+ * related to managing budget, satisfaction and citizens
+ *
+ */
 public class City {
 
     public CopyOnWriteArrayList<Citizen> citizens; //using this because ArrayList iterator is a clown
@@ -51,6 +56,15 @@ public class City {
 
     }
 
+    /**
+     * Method to add a citizen to the city.
+     * If a certain satisfaction threshold is reached city-wide,
+     * citizens will move in at a random rate
+     * if any vacant LivingZoneTile is present, and they have either a
+     * Service or Industrial zone to work in.
+     *
+     * @return true if adding a citizen succeeded, false otherwise
+     */
     public boolean addCitizen(){
         Citizen citizen = new Citizen();
         boolean foundHome = false;
@@ -94,6 +108,13 @@ public class City {
         }
 
     }
+
+    /**
+     * Main game loop method. Ideally gets called every n-th frame in the screen implementation.
+     * Responsible for moving the game forward a discrete time amount.
+     * Updates every tile, and every citizen.
+     *
+     */
     public void step(){ //a unit of time passes
         System.out.println("Current citizen satisfactions: ");
         satisfaction = 0;

@@ -3,6 +3,11 @@ package hu.nem3d.zincity.Cell;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import hu.nem3d.zincity.Screen.StatUI;
 
+/**
+ * Provides base class for cell tiles.
+ * @see com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell
+ *
+ */
 public abstract class CityCell extends TiledMapTileLayer.Cell {
     //CLASS FOR EACH TILE ON THE MAP
     //should contain logic data.
