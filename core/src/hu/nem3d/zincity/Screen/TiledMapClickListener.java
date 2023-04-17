@@ -1,11 +1,16 @@
 package hu.nem3d.zincity.Screen;
 
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import hu.nem3d.zincity.Cell.ArenaCell;
 import hu.nem3d.zincity.Cell.CityCell;
+import hu.nem3d.zincity.Cell.EmptyCell;
+import hu.nem3d.zincity.Cell.GeneratorCell;
 import hu.nem3d.zincity.Logic.City;
 import hu.nem3d.zincity.Logic.CityMap;
 import hu.nem3d.zincity.Misc.Builder;
+import java.util.ArrayList;
 
 public class TiledMapClickListener extends ClickListener {
 
@@ -29,7 +34,9 @@ public class TiledMapClickListener extends ClickListener {
 
     @Override
     public void clicked(InputEvent event, float x, float y) {
-        CityCell cell = actor.getCell();
+
+        ArrayList<CityCell> cells;
+
         //System.out.println(cell + " has been clicked. " + cell.getX() +" "+ cell.getY() + " x:" + x + " y: " + y + " ");
         this.UIid = stage.getUIid();
         if(UIid == 7){
@@ -42,13 +49,25 @@ public class TiledMapClickListener extends ClickListener {
 
         //System.out.println(UIid + " " + buildCode);
         Builder builder = new Builder(UIid, buildCode, city);
-        cell = builder.build(cell);
-        //System.out.println(cell.getClass());
+        cells =  builder.build(actor.getCell());
+        if(actor.getCell() != null && cells.size() > 1) {
+            actor.setCell(cells.get(0));
+        }
 
-        stats.isShown(cell);
-        cell.statCall(stats);
-        actor.setCell(cell);
-        //System.out.println(stats.getShown());
+        if(actor.getCell().getClass() == ArenaCell.class || actor.getCell().getClass() == GeneratorCell.class){
+            for(Actor actors : stage.getActors()){
+                TiledMapActor actorTmp = (TiledMapActor) actors;
+                for(CityCell cellTmp : cells){
+                    if(cellTmp.getX() == actor.getPosX() && cellTmp.getY() == actor.getPosY()){
+                        actorTmp.setCell(cellTmp);
+                    }
+                }
+            }
+        }
+        //System.out.println(actor.getCell().getClass());
 
+        stats.isShown(actor.getCell());
+        actor.getCell().statCall(stats);
+        //actor.setCell(actor.getCell());
     }
 }

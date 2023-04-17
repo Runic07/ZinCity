@@ -6,6 +6,7 @@ import hu.nem3d.zincity.Cell.*;
 import hu.nem3d.zincity.Logic.Citizen;
 import hu.nem3d.zincity.Logic.City;
 import hu.nem3d.zincity.Logic.CityMap;
+import java.util.ArrayList;
 
 public class Builder {
     private int buildId;
@@ -49,25 +50,26 @@ public class Builder {
         this.buildLayer = cityMap.getBuildingLayer();
     }
 
-    public CityCell build(CityCell cell){
+    public ArrayList<CityCell> build(CityCell cell){
+        ArrayList<CityCell> cells = new ArrayList<>();
         x = cell.getX();
         y = cell.getY();
         switch (buildId){
             case(1):
-                cell = buildZone(cell);
+                cells.add(buildZone(cell));
                 break;
             case(2):
-                cell = buildSpecial(cell);
+                cells = buildSpecial(cell);
                 break;
             case(5):
-                cell = buildNetwork(cell);
+                cells.add(buildNetwork(cell));
                 break;
             case(6):
-                cell = deleteCell(cell);
+                cells.add(deleteCell(cell));
                 break;
         }
         cityMap.setBuildingLayer(buildLayer);
-        return cell;
+        return cells;
     }
 
     public CityCell buildZone(CityCell cell){
@@ -125,7 +127,8 @@ public class Builder {
 
     }
 
-    public CityCell buildSpecial(CityCell cell){ //can only do forest since this is the only one implemented
+    public ArrayList<CityCell> buildSpecial(CityCell cell){
+        ArrayList <CityCell> returnCells = new ArrayList<>();
         if(cell.getClass() == EmptyCell.class) {
             switch (code) {
                 case(1):
@@ -140,35 +143,89 @@ public class Builder {
                     boolean isFree = true;
                     for(int i = 0; i > -2; i-- ){
                         for(int j = 0; j < 2; j++){
-                            if(buildLayer.getCell(x + j, y + i).getClass() != EmptyCell.class){
+                            if(x+j < 0 || x+j > 29 || y + i < 0 || y - i > 19){
+                                isFree = false;
+                            }
+                            else if(buildLayer.getCell(x + j, y + i).getClass() != EmptyCell.class){
                                 isFree = false;
                             }
                         }
                     }
                     if(isFree){
                         cell = new ArenaCell(3, 100);
-                        for(int i = 1; i > -2; i-- ){
-                            for(int j = 1; j < 2; j++){
+                        for(int i = 0; i > -2; i-- ){
+                            for(int j = 0; j < 2; j++){
                                 ArenaCell tmpCell = new ArenaCell(3, 100);
-                                tmpCell.setTile((tileSet.getTile(16 + j + (-1 * i))));
+                                int step = j;
+                                if(i == -1){
+                                    step = 1;
+                                    if(j == 1){
+                                        step = 2;
+                                    }
+                                }
+                                tmpCell.setTile((tileSet.getTile(16 + step + (i *-1))));
                                 buildLayer.setCell(x + j,y + i, tmpCell);
+                                tmpCell.setX(x+j);
+                                tmpCell.setY(y+i);
+                                returnCells.add(tmpCell);
+                            }
+                        }
+                        cell.setTile(tileSet.getTile(16));
+                        returnCells.add(cell);
+                    }
+                    break;
+                case(4):
+                    boolean isFreeGen = true;
+                    for(int i = 0; i > -2; i-- ){
+                        for(int j = 0; j < 2; j++){
+                            if(x + j < 0 || x + j > 29 || y + i < 0 || y - i > 19){
+                                isFreeGen = false;
+                            }
+                            else if(buildLayer.getCell(x + j, y + i).getClass() != EmptyCell.class){
+                                isFreeGen = false;
                             }
                         }
                     }
+                    if(isFreeGen){
+                        cell = new GeneratorCell(3, 200);
+                        for(int i = 0; i > -2; i-- ){
+                            for(int j = 0; j < 2; j++){
+                                GeneratorCell tmpCell = new GeneratorCell(3, 200);
+                                int step = j;
+                                if(i == -1){
+                                    step = 1;
+                                    if(j == 1){
+                                        step = 2;
+                                    }
+                                }
+                                tmpCell.setTile((tileSet.getTile(20 + step + (i *-1))));
+                                buildLayer.setCell(x + j,y + i, tmpCell);
+                                tmpCell.setX(x+j);
+                                tmpCell.setY(y+i);
+                                returnCells.add(tmpCell);
+                            }
+                        }
+                        cell.setTile(tileSet.getTile(20));
+                        returnCells.add(cell);
+                    }
                     break;
+
 
                 case(5):
                     cell = new ForestCell(x,y);
                     cell.setTile((tileSet.getTile(2)));
                     break;
             }
-            cell.setX(x);
-            cell.setY(y);
-            buildLayer.setCell(x,y,cell);
+            if(code != 3 && code != 4){
+                cell.setX(x);
+                cell.setY(y);
+                buildLayer.setCell(x,y,cell);
+                returnCells.add(cell);
+            }
         }
 
 
-        return  cell;
+        return  returnCells;
     }
 
     public CityCell buildNetwork(CityCell cell){

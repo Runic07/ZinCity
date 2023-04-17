@@ -13,6 +13,10 @@ public class TiledMapActor extends Actor {
 
     private CityCell cell;
 
+    private int posX;
+
+    private int posY;
+
     public CityCell getCell() {
         return cell;
     }
@@ -25,6 +29,22 @@ public class TiledMapActor extends Actor {
         this.tiledMap = tiledMap;
         this.tiledLayer = tiledLayer;
         this.cell = cell;
+    }
+
+    public void setPosX(int posX) {
+        this.posX = posX;
+    }
+
+    public void setPosY(int posY) {
+        this.posY = posY;
+    }
+
+    public int getPosX() {
+        return posX;
+    }
+
+    public int getPosY() {
+        return posY;
     }
 
 }
