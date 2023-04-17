@@ -42,7 +42,7 @@ public class City {
     public City() {
         budget = 500;
         satisfaction = 0.0;
-        taxCoefficient = 1.2;
+        taxCoefficient = 0.8;
         baseTaxAmount = 50;
         cityMap = new CityMap();
         citizens = new CopyOnWriteArrayList<>();
