@@ -71,34 +71,56 @@ public class Builder {
     }
 
     public CityCell buildZone(CityCell cell){
-        if(cell.getClass() == EmptyCell.class) {
             switch (code) {
                 case (1):
-                    cell = new IndustrialZoneCell(2);
-                    cell.setTile(tileSet.getTile(8));
-                    cell.setX(x);
-                    cell.setY(y);
-                    buildLayer.setCell(x, y, cell);
+                    if(cell.getClass() == EmptyCell.class) {
+                        cell = new IndustrialZoneCell(2);
+                        cell.setTile(tileSet.getTile(8));
+                        cell.setX(x);
+                        cell.setY(y);
+                        buildLayer.setCell(x, y, cell);
+                    }
                     break;
                 case (2):
-                    cell = new ServiceZoneCell(2);
-                    cell.setTile(tileSet.getTile(11));
-                    cell.setX(x);
-                    cell.setY(y);
-                    buildLayer.setCell(x, y, cell);
+                    if(cell.getClass() == EmptyCell.class) {
+                        cell = new ServiceZoneCell(2);
+                        cell.setTile(tileSet.getTile(11));
+                        cell.setX(x);
+                        cell.setY(y);
+                        buildLayer.setCell(x, y, cell);
+                    }
                     break;
                 case (3):
-                    cell = new LivingZoneCell(4);
-                    cell.setTile(tileSet.getTile(5));
+                    if(cell.getClass() == EmptyCell.class) {
+                        cell = new LivingZoneCell(4);
+                        cell.setTile(tileSet.getTile(5));
+                        cell.setX(x);
+                        cell.setY(y);
+                        buildLayer.setCell(x, y, cell);
+                    }
+                    break;
+                case(4):
+                    //TODO implement price and budget changes!
+                    if(LivingZoneCell.class == cell.getClass()){
+                        if(((LivingZoneCell) cell).levelUp(((LivingZoneCell) cell).getCapacity() * 2)) {
+                            cell.setTile(tileSet.getTile(5 + ((LivingZoneCell) cell).getLevel() - 1 ));
+                        }
+                    }
+                    else if(ServiceZoneCell.class == cell.getClass()){
+                        if(((ServiceZoneCell) cell).levelUp(((ServiceZoneCell) cell).getCapacity() * 2)){
+                            cell.setTile(tileSet.getTile(11 + ((ServiceZoneCell) cell).getLevel() - 1 ));
+                        }
+                    }
+                    else if(IndustrialZoneCell.class == cell.getClass()){
+                        if(((IndustrialZoneCell) cell).levelUp(((IndustrialZoneCell) cell).getCapacity() * 2)){
+                            cell.setTile(tileSet.getTile(8 + ((IndustrialZoneCell) cell).getLevel() - 1));
+                        }
+                    }
                     cell.setX(x);
                     cell.setY(y);
                     buildLayer.setCell(x, y, cell);
                     break;
-                case(4):
-                    //TODO write upgrade method in each zone in there respectice classes!!!
-                    break;
             }
-        }
         return cell;
 
     }
@@ -106,14 +128,24 @@ public class Builder {
     public CityCell buildSpecial(CityCell cell){ //can only do forest since this is the only one implemented
         if(cell.getClass() == EmptyCell.class) {
             switch (code) {
+                case(1):
+                    cell = new PoliceCell(2,100);
+                    cell.setTile((tileSet.getTile(14)));
+                    break;
+                case(2):
+                    cell = new FireStationCell(2,100);
+                    cell.setTile((tileSet.getTile(15)));
+                    break;
+                case(3):
+
                 case(5):
                     cell = new ForestCell(x,y);
                     cell.setTile((tileSet.getTile(2)));
-                    cell.setX(x);
-                    cell.setY(y);
-                    buildLayer.setCell(x,y,cell);
                     break;
             }
+            cell.setX(x);
+            cell.setY(y);
+            buildLayer.setCell(x,y,cell);
         }
 
 

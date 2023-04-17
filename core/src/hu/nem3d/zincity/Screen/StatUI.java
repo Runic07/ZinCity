@@ -46,7 +46,7 @@ public class StatUI {
             dataString = "null";
             tier = "null";
         }
-        else if(cell.getClass() == BuildingCell.class){
+        else if(cell instanceof BuildingCell){
             name = ((BuildingCell)cell).getName();
             dataString = "Fee: " + ((BuildingCell)cell).getMaintenanceFee();
             tier = "null";
