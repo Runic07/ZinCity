@@ -49,6 +49,8 @@ public class MenuBar {
         //Set alignment of contents in the table.
         currTable.top();
 
+        skin.getFont("commodore-64").getData().setScale(width/720f, height/480f);
+
         TextButton exitButton = new TextButton("Exit", skin);
         exitButton.setSize(width / 9, (float) ((height * 0.15) / 2));
         exitButton.addListener(new ClickListener() {
@@ -289,23 +291,27 @@ public class MenuBar {
 
                     }
                 });
-
                 speedButton.addListener(new ClickListener() {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         int curSpeed = screen.getSpeed();
+                        String speedmsg = "";
                         switch (curSpeed){
                             case(600):
                                 screen.setSpeed(300);
+                                speedmsg = "5 sec / day";
                                 break;
                             case(300):
                                 screen.setSpeed(60);
+                                speedmsg = "1 sec / day";
                                 break;
                             case(60):
                                 screen.setSpeed(6000);
+                                speedmsg = "Paused";
                                 break;
                             default:
                                 screen.setSpeed(600);
+                                speedmsg = "10 sec / day";
                                 break;
                         }
                         Dialog dialog = new Dialog("Speed", skin, "dialog") {
@@ -317,7 +323,7 @@ public class MenuBar {
                                 }
                             }
                         };
-                        dialog.text("Current speed: " + screen.getSpeed());
+                        dialog.text("Current speed: " + speedmsg);
                         dialog.button("OK", false);
                         dialog.getBackground().setMinWidth(200);
                         dialog.getBackground().setMinHeight(200);
@@ -385,15 +391,18 @@ public class MenuBar {
         statTable.background("dialog");
         //Set alignment of contents in the table.
         statTable.top();
-        DecimalFormat df = new DecimalFormat("#.###");
 
-        Label happiness = new Label( df.format(city.satisfaction) + " ", skin);
+        skin.getFont("commodore-64").getData().setScale(width/720f, height/480f);
+
+        DecimalFormat df = new DecimalFormat("###.#");
+
+        Label happiness = new Label( " " + df.format(city.satisfaction * 100) + "% ", skin);
         happiness.setSize(width / 9, (float) ((height * 0.15) / 2));
 
-        Label date = new Label("Day: " + day, skin);  //TODO import date instead of this placeholder
+        Label date = new Label("Day: " + day, skin);
         date.setSize(width / 9, (float) ((height * 0.15) / 2));
 
-        Label money = new Label(city.budget + "", skin);
+        Label money = new Label(city.budget + "$", skin);
         money.setSize(width / 9, (float) ((height * 0.15) / 2));
 
         statTable.add(happiness).spaceRight(10).expand().bottom().fill();

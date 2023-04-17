@@ -90,7 +90,7 @@ public class Builder {
                     buildLayer.setCell(x, y, cell);
                     break;
                 case(4):
-                    //TODO write upgrade method in each zone in there respectice classes!!!
+                    //TODO write upgrade method in each zone in there respective classes!!!
                     break;
             }
         }
