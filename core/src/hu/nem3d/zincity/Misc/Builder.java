@@ -65,7 +65,7 @@ public class Builder {
                 cells.add(buildNetwork(cell));
                 break;
             case(6):
-                cells.add(deleteCell(cell));
+                cells = deleteCell(cell);
                 break;
         }
         cityMap.setBuildingLayer(buildLayer);
@@ -153,6 +153,7 @@ public class Builder {
                     }
                     if(isFree){
                         cell = new ArenaCell(3, 100);
+                        ((ArenaCell) cell).setPart(BuildingCell.BuildingPart.valueOf("NorthWest"));
                         for(int i = 0; i > -2; i-- ){
                             for(int j = 0; j < 2; j++){
                                 ArenaCell tmpCell = new ArenaCell(3, 100);
@@ -161,6 +162,18 @@ public class Builder {
                                     step = 1;
                                     if(j == 1){
                                         step = 2;
+                                        tmpCell.setPart(BuildingCell.BuildingPart.valueOf("SouthEast"));
+                                    }
+                                    else{
+                                        tmpCell.setPart(BuildingCell.BuildingPart.valueOf("SouthWest"));
+                                    }
+                                }
+                                else{
+                                    if(j == 1){
+                                        tmpCell.setPart(BuildingCell.BuildingPart.valueOf("NorthEast"));
+                                    }
+                                    else{
+                                        tmpCell.setPart(BuildingCell.BuildingPart.valueOf("NorthWest"));
                                     }
                                 }
                                 tmpCell.setTile((tileSet.getTile(16 + step + (i *-1))));
@@ -188,6 +201,7 @@ public class Builder {
                     }
                     if(isFreeGen){
                         cell = new GeneratorCell(3, 200);
+                        ((GeneratorCell) cell).setPart(BuildingCell.BuildingPart.valueOf("NorthWest"));;
                         for(int i = 0; i > -2; i-- ){
                             for(int j = 0; j < 2; j++){
                                 GeneratorCell tmpCell = new GeneratorCell(3, 200);
@@ -196,6 +210,18 @@ public class Builder {
                                     step = 1;
                                     if(j == 1){
                                         step = 2;
+                                        tmpCell.setPart(BuildingCell.BuildingPart.valueOf("SouthEast"));
+                                    }
+                                    else{
+                                        tmpCell.setPart(BuildingCell.BuildingPart.valueOf("SouthWest"));
+                                    }
+                                }
+                                else{
+                                    if(j == 1){
+                                        tmpCell.setPart(BuildingCell.BuildingPart.valueOf("NorthEast"));
+                                    }
+                                    else{
+                                        tmpCell.setPart(BuildingCell.BuildingPart.valueOf("NorthWest"));
                                     }
                                 }
                                 tmpCell.setTile((tileSet.getTile(20 + step + (i *-1))));
@@ -243,7 +269,8 @@ public class Builder {
         return cell;
     }
 
-    public CityCell deleteCell(CityCell cell){
+    public ArrayList <CityCell> deleteCell(CityCell cell){
+        ArrayList <CityCell> returnCells = new ArrayList<>();
         if(cell.getClass() != BlockedCell.class){   //TODO implement conflicting delete here in if --> example: cell.ConflictDelete in if statement
             if(cell.getClass() == LivingZoneCell.class){
                 for (Citizen citizen : city.citizens) {
@@ -263,13 +290,38 @@ public class Builder {
                     }
                 }
             }
+            if(cell.getClass() == ArenaCell.class || cell.getClass() == GeneratorCell.class){
+                BuildingCell.BuildingPart part = ((BuildingCell) cell).getPart();
+                if(part == BuildingCell.BuildingPart.valueOf("NorthEast")){
+                    x = x - 1;
+                }
+                else if(part == BuildingCell.BuildingPart.valueOf("SouthWest")){
+                    y = y + 1;
+                }
+                else if(part == BuildingCell.BuildingPart.valueOf("SouthEast")){
+                    x = x - 1;
+                    y = y + 1;
+                }
+
+                for(int i = 0; i > -2; i-- ){
+                    for(int j = 0; j < 2; j++){
+                        EmptyCell tmpCell = new EmptyCell();
+                        tmpCell.setTile((tileSet.getTile(0)));
+                        buildLayer.setCell(x + j,y + i, tmpCell);
+                        tmpCell.setX(x+j);
+                        tmpCell.setY(y+i);
+                        returnCells.add(tmpCell);
+                    }
+                }
+
+            }
             cell = new EmptyCell();
             cell.setTile((tileSet.getTile(0)));
             cell.setX(x);
             cell.setY(y);
             buildLayer.setCell(x, y, cell);
         }
-      return cell;
+        return  returnCells;
     }
 
 }

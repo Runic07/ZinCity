@@ -35,7 +35,7 @@ public class TiledMapClickListener extends ClickListener {
     @Override
     public void clicked(InputEvent event, float x, float y) {
 
-        ArrayList<CityCell> cells;
+        ArrayList<CityCell> cells = new ArrayList<>();
 
         //System.out.println(cell + " has been clicked. " + cell.getX() +" "+ cell.getY() + " x:" + x + " y: " + y + " ");
         this.UIid = stage.getUIid();
@@ -54,11 +54,11 @@ public class TiledMapClickListener extends ClickListener {
             actor.setCell(cells.get(0));
         }
 
-        if(actor.getCell().getClass() == ArenaCell.class || actor.getCell().getClass() == GeneratorCell.class){
+        if(cells.size() > 2){
             for(Actor actors : stage.getActors()){
                 TiledMapActor actorTmp = (TiledMapActor) actors;
                 for(CityCell cellTmp : cells){
-                    if(cellTmp.getX() == actor.getPosX() && cellTmp.getY() == actor.getPosY()){
+                    if(cellTmp.getX() == actorTmp.getPosX() && cellTmp.getY() == actorTmp.getPosY()){
                         actorTmp.setCell(cellTmp);
                     }
                 }

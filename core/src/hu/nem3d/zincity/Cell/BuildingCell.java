@@ -95,6 +95,9 @@ public abstract class BuildingCell extends CityCell {
         }
 
     }
+    public BuildingPart getPart() {
+        return part;
+    }
 }
 
 
