@@ -137,6 +137,25 @@ public class Builder {
                     cell.setTile((tileSet.getTile(15)));
                     break;
                 case(3):
+                    boolean isFree = true;
+                    for(int i = 0; i > -2; i-- ){
+                        for(int j = 0; j < 2; j++){
+                            if(buildLayer.getCell(x + j, y + i).getClass() != EmptyCell.class){
+                                isFree = false;
+                            }
+                        }
+                    }
+                    if(isFree){
+                        cell = new ArenaCell(3, 100);
+                        for(int i = 1; i > -2; i-- ){
+                            for(int j = 1; j < 2; j++){
+                                ArenaCell tmpCell = new ArenaCell(3, 100);
+                                tmpCell.setTile((tileSet.getTile(16 + j + (-1 * i))));
+                                buildLayer.setCell(x + j,y + i, tmpCell);
+                            }
+                        }
+                    }
+                    break;
 
                 case(5):
                     cell = new ForestCell(x,y);
