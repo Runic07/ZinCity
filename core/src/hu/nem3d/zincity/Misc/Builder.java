@@ -3,6 +3,7 @@ package hu.nem3d.zincity.Misc;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileSet;
 import hu.nem3d.zincity.Cell.*;
+import hu.nem3d.zincity.Logic.Citizen;
 import hu.nem3d.zincity.Logic.City;
 import hu.nem3d.zincity.Logic.CityMap;
 
@@ -36,6 +37,7 @@ public class Builder {
      UIid = 5 --> networks/connections
         ->code = 1 --> electricity cables
         ->code = 1 --> roads
+     UIid = 6 --> delete
      */
 
     public Builder(int id, int code_, City city_){
@@ -59,6 +61,9 @@ public class Builder {
                 break;
             case(5):
                 cell = buildNetwork(cell);
+                break;
+            case(6):
+                cell = deleteCell(cell);
                 break;
         }
         cityMap.setBuildingLayer(buildLayer);
@@ -130,5 +135,33 @@ public class Builder {
         return cell;
     }
 
+    public CityCell deleteCell(CityCell cell){
+        if(cell.getClass() != BlockedCell.class){   //TODO implement conflicting delete here in if --> example: cell.ConflictDelete in if statement
+            if(cell.getClass() == LivingZoneCell.class){
+                for (Citizen citizen : city.citizens) {
+                    if(citizen.getHome().getX() == y && citizen.getHome().getY() == x){
+                        citizen.getWorkplace().removeOccupant(citizen);
+                        citizen.setWorkplace(null);
+                        citizen.setHome(null);
+                        city.citizens.remove(citizen);
+                    }
+                }
+            }
+            else if(cell.getClass() == ServiceZoneCell.class || cell.getClass() == IndustrialZoneCell.class){
+                for (Citizen citizen : city.citizens) {
+                    if(citizen.getWorkplace().getX() == y && citizen.getWorkplace().getY() == x){
+                        citizen.getWorkplace().removeOccupant(citizen);
+                        citizen.setWorkplace(null);
+                    }
+                }
+            }
+            cell = new EmptyCell();
+            cell.setTile((tileSet.getTile(0)));
+            cell.setX(x);
+            cell.setY(y);
+            buildLayer.setCell(x, y, cell);
+        }
+      return cell;
+    }
 
 }
