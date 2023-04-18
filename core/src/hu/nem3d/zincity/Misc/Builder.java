@@ -184,6 +184,8 @@ public class Builder {
                             }
                         }
                         cell.setTile(tileSet.getTile(16));
+                        cell.setX(x);
+                        cell.setY(y);
                         returnCells.add(cell);
                     }
                     break;
@@ -232,6 +234,8 @@ public class Builder {
                             }
                         }
                         cell.setTile(tileSet.getTile(20));
+                        cell.setX(x);
+                        cell.setY(y);
                         returnCells.add(cell);
                     }
                     break;

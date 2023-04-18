@@ -50,6 +50,9 @@ public class StatUI {
             name = ((BuildingCell)cell).getName();
             dataString = "Fee: " + ((BuildingCell)cell).getMaintenanceFee();
             tier = "null";
+            if(cell.getClass() == ArenaCell.class || cell.getClass() == GeneratorCell.class){
+                tier = "Part: " + ((BuildingCell) cell).getPart();
+            }
         }
         else if(cell.getClass() == EmptyCell.class){
             name = "Empty";
