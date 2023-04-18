@@ -95,7 +95,7 @@ public class GameScreen implements Screen { //draft
     @Override
     public void render(float delta) {
         frameCounter++;
-        if (frameCounter > 600){
+        if (frameCounter > 60){
             city.step();
             menuBar.day++;
             frameCounter=0;
