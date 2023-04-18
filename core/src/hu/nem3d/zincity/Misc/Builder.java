@@ -8,9 +8,12 @@ import hu.nem3d.zincity.Logic.City;
 import hu.nem3d.zincity.Logic.CityMap;
 import java.util.ArrayList;
 
+/**
+ * This handles the changes in a cell due to user input. Later in the code you can see which UiId and buildCode combinations refer to which action.
+ */
 public class Builder {
-    private int buildId;
-    private int code = 0;
+    private int UiId;
+    private int buildCode = 0;
     CityMap cityMap;
 
     City city;
@@ -41,20 +44,31 @@ public class Builder {
      UIid = 6 --> delete
      */
 
+    /**
+     * Setting default values.
+     * @param id
+     * @param code_
+     * @param city_
+     */
     public Builder(int id, int code_, City city_){
-        this.buildId = id;
-        this.code = code_;
+        this.UiId = id;
+        this.buildCode = code_;
         this.city = city_;
         cityMap = city.getCityMap();
         this.tileSet = cityMap.getTileSet();
         this.buildLayer = cityMap.getBuildingLayer();
     }
 
+    /**
+     * We call the 4 different actions based on the UiId and after that we return the affected cells in an ArrayList.
+     * @param cell
+     * @return
+     */
     public ArrayList<CityCell> build(CityCell cell){
         ArrayList<CityCell> cells = new ArrayList<>();
         x = cell.getX();
         y = cell.getY();
-        switch (buildId){
+        switch (UiId){
             case(1):
                 cells.add(buildZone(cell));
                 break;
@@ -72,8 +86,14 @@ public class Builder {
         return cells;
     }
 
+    /**
+     * Handles the zone Building, if you want to build a zone it checks for if its empty and then builds it.
+     * If its an upgrade it doubles capacity and steps to the correct sprite based on the tier of upgrade.
+     * @param cell
+     * @return
+     */
     public CityCell buildZone(CityCell cell){
-            switch (code) {
+            switch (buildCode) {
                 case (1):
                     if(cell.getClass() == EmptyCell.class) {
                         cell = new IndustrialZoneCell(2);
@@ -127,10 +147,19 @@ public class Builder {
 
     }
 
+    /**
+     * For 1x1 cells its the same as seen in buildZone, but in 2x2 cells it starts form northWest checks if its free and NE and SW and SE is free, if it is
+     * than it builds on them and sets its place in the building(NW, NE, SW, SE) and its properties.
+     * With step the setting of step is steps the correct number in the sprites id
+     * to get to the correct sprite for the building.
+     * @param cell
+     * @return
+     */
+
     public ArrayList<CityCell> buildSpecial(CityCell cell){
         ArrayList <CityCell> returnCells = new ArrayList<>();
         if(cell.getClass() == EmptyCell.class) {
-            switch (code) {
+            switch (buildCode) {
                 case(1):
                     cell = new PoliceCell(2,100);
                     cell.setTile((tileSet.getTile(14)));
@@ -246,7 +275,7 @@ public class Builder {
                     cell.setTile((tileSet.getTile(2)));
                     break;
             }
-            if(code != 3 && code != 4){
+            if(buildCode != 3 && buildCode != 4){
                 cell.setX(x);
                 cell.setY(y);
                 buildLayer.setCell(x,y,cell);
@@ -258,8 +287,13 @@ public class Builder {
         return  returnCells;
     }
 
+    /**
+     * Builds a road or a poweLine !!!still needs more implementation!!!.
+     * @param cell
+     * @return
+     */
     public CityCell buildNetwork(CityCell cell){
-        switch (code){
+        switch (buildCode){
             case(2):
                 if(cell.getClass() == EmptyCell.class) {
                     cell = new RoadCell();
@@ -273,6 +307,13 @@ public class Builder {
         return cell;
     }
 
+    /**
+     * Deletes a cell if its a workingZone it makes its workers jobless if its a home all occupants are removed from the workplaces and from the city itself
+     * If its a 2x2 first it sets the starting cell as the NorthWest cell and deletes itself just like it build itself but it sets it as an EmptyCell instead of
+     * a 2x2 cell. If its just a 1x1 and not a zone it just sets itself as an EmptyCell.
+     * @param cell
+     * @return
+     */
     public ArrayList <CityCell> deleteCell(CityCell cell){
         ArrayList <CityCell> returnCells = new ArrayList<>();
         if(cell.getClass() != BlockedCell.class){   //TODO implement conflicting delete here in if --> example: cell.ConflictDelete in if statement

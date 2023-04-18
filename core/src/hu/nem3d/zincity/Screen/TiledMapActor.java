@@ -5,6 +5,11 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import hu.nem3d.zincity.Cell.CityCell;
 import hu.nem3d.zincity.Logic.CityMap;
 
+/**
+ * These are the actors that are added to the CityStage and representing each cell on it.
+ * PosX and PosY are necessary since the getX() function of parent refers to the position in pixels which are not constant due to resizing.
+ * PosX and PosY refers to the position in the 30x20 grid.
+ */
 public class TiledMapActor extends Actor {
 
     private CityMap tiledMap;
