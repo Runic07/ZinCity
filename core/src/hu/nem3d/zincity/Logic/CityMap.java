@@ -149,17 +149,45 @@ public class CityMap {
         return tileSet;
     }
 
-
+    /**
+     * Searches for the closest workplace location from a LivingCellZone (based on certain conditions)
+     * @param home the cell, where the search begins from
+     * @param isIndustrial If this is true, this searches for IndustrialZoneCell,
+     *                     otherwise this searches for ServiceZoneCell
+     * @param mustBeAvailable If this true, this should check, if any ZoneCell, that this finds, is not full
+     * @return The closest ZoneCell, that qualifies as proper workplace (based on the conditions, set in parameters), if there is any,
+     * otherwise, it's null
+     */
     public ZoneCell closestWorkplaceFrom(LivingZoneCell home, boolean isIndustrial, boolean mustBeAvailable) {
         return (closestOfWorkplaceWithDistance(home,
                 (isIndustrial ? IndustrialZoneCell.class : ServiceZoneCell.class), mustBeAvailable).getFirst());
     }
 
+    /**
+     * Searches for the shortest distance between the given LivingZoneCell and a ZoneCell,
+     * that qualifies as a workplace (based on certain conditions)
+     * @param home the cell, where the search begins from
+     * @param isIndustrial If this is true, this searches for IndustrialZoneCell,
+     *                     otherwise this searches for ServiceZoneCell
+     * @param mustBeAvailable If this true, this should check, if any ZoneCell, that this finds, is not full
+     * @return The number of the "steps" taken between the 2 CityCells. That is more, than 0, if there is a
+     *         proper workplace (based on the necessary qualification, and the set conditions). That is -1,
+     *         if this couldn't find any workplaces.
+     */
     public int shortestWorkplaceDistanceFrom(LivingZoneCell home, boolean isIndustrial, boolean mustBeAvailable) {
         return (closestOfWorkplaceWithDistance(home,
                 (isIndustrial ? IndustrialZoneCell.class : ServiceZoneCell.class), mustBeAvailable)).getSecond();
     }
 
+    /**
+     * Searches for the closest workplace location from a LivingCellZone (based on certain conditions), meanwhile, this
+     * counts the "steps" that this takes to reach that workplace CityCell
+     * @param home the cell, where the search begins from
+     * @param workplaceType the Class of the CityCell that this searches for
+     * @param mustBeAvailable If this true, this should check, if any ZoneCell, that this finds, is not full
+     * @return A tuple of the reached CityCell, that can qualify as a proper workplace (based on the conditions set in parameters),
+     * and the distance between the 2 CityCells, if there is no such workplace, this returns the tuple of (null, -1)
+     */
     private Tuple<ZoneCell, Integer> closestOfWorkplaceWithDistance(LivingZoneCell home, Class<?> workplaceType,
                                                                     boolean mustBeAvailable) {
 
@@ -201,6 +229,14 @@ public class CityMap {
         return (new Tuple<>(destination, distance));
     }
 
+    /**
+     * Collects the adjacent CityCells, that has the type of Road or given type (as parameter), and calculates the
+     * distances between these CityCells and the starting cell
+     * @param me The CityCell, which serves as the origin of this search
+     * @param workplaceType The sought type
+     * @param distances The matrix, that contains which cell is how far from the starting point
+     * @return A list of proper CityCells, that are adjacent to this
+     */
     private List<CityCell> getGoodNeighbours(CityCell me, Class<?> workplaceType, int[][] distances){
         ArrayList<CityCell> result = new ArrayList<>();
 
@@ -251,24 +287,47 @@ public class CityMap {
         return result;
     }
 
+    /**
+     * Checks if the coordinates are on this map
+     * @param x The distance of this from the origin on the horizontal axis
+     * @param y  The distance of this from the origin on the vertical axis
+     * @return True, if the given coordinates are on this map
+     */
     public boolean isReachable(int x, int y) {
         return (x >= 0 && x < buildingLayer.getWidth() && y >= 0 && y < buildingLayer.getHeight());
     }
 
+    /**
+     * Provides a class of 2 values combined
+     * @param <T1> The type of the first value
+     * @param <T2> The type of the second value
+     */
     private static class Tuple<T1, T2>{
         private final T1 first;
         private final T2 second;
 
-
+        /**
+         * Constructs a Tuple with the values of parameters
+         * @param first The first value of this
+         * @param second The second value of this
+         */
         Tuple(T1 first, T2 second){
             this.first = first;
             this.second = second;
         }
 
+        /**
+         * Gets the first value of this
+         * @return The first value of this
+         */
         public T1 getFirst() {
             return first;
         }
 
+        /**
+         * Gets the second value of this
+         * @return The second value of this
+         */
         public T2 getSecond() {
             return second;
         }
