@@ -15,7 +15,9 @@ import hu.nem3d.zincity.Misc.TextureTiles;
 
 import java.util.*;
 
-
+/**
+ * Responsible for all operations related to generating, and storing the game map.
+ */
 public class CityMap {
     TiledMap map;
     TiledMapTileLayer baseLayer; //contains Cell objects that point to TiledMapTile objects
@@ -207,22 +209,14 @@ public class CityMap {
 
         while(!queue.isEmpty()) {
             CityCell current = queue.remove(0);
-
             if(current.getClass() == workplaceType) {
                 destination = (ZoneCell) current;
                 if(mustBeAvailable) {
-                    if(!destination.isFull()){
-                        break;
-                    }else{
-                        destination = null;
-                    }
-                }else{
-                    break;
-                }
+                    if(!destination.isFull()){break;}
+                    else{destination = null;}
+                }else{break;}
             }
-
             queue.addAll(getGoodNeighbours(current, workplaceType, distances));
-
         }
 
         Integer distance = ((destination != null ) ? distances[destination.getX()][destination.getY()] : -1);
@@ -298,7 +292,7 @@ public class CityMap {
     }
 
     /**
-     * Provides a class of 2 values combined
+     * Provides a class of 2 values combined, a tuple
      * @param <T1> The type of the first value
      * @param <T2> The type of the second value
      */

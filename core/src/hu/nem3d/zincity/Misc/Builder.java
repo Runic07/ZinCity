@@ -74,6 +74,7 @@ public class Builder {
                     cell.setX(x);
                     cell.setY(y);
                     buildLayer.setCell(x, y, cell);
+                    //System.out.println("New IndustrialZoneCell on (" + x + "," + y + ").");
                     break;
                 case (2):
                     cell = new ServiceZoneCell(2);
@@ -81,6 +82,7 @@ public class Builder {
                     cell.setX(x);
                     cell.setY(y);
                     buildLayer.setCell(x, y, cell);
+                    //System.out.println("New ServiceZoneCell on (" + x + "," + y + ").");
                     break;
                 case (3):
                     cell = new LivingZoneCell(4);
@@ -88,6 +90,12 @@ public class Builder {
                     cell.setX(x);
                     cell.setY(y);
                     buildLayer.setCell(x, y, cell);
+                    /*
+                    ZoneCell ind = cityMap.closestWorkplaceFrom((LivingZoneCell) cell, true, true);
+                    System.out.println(ind == null ? "There is no proper IndustrialZC!" : ("Closest IndustrialZC: " + ind.getX() + " " + ind.getY() + "."));
+                    ZoneCell ser = cityMap.closestWorkplaceFrom((LivingZoneCell) cell, false, true);
+                    System.out.println(ser == null ? "There is no proper ServiceZC!" : ("Closest ServiceZC: " + ser.getX() + " " + ser.getY() + "."));
+                    */
                     break;
                 case(4):
                     //TODO write upgrade method in each zone in there respectice classes!!!
