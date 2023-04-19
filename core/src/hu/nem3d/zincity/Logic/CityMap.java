@@ -13,10 +13,7 @@ import hu.nem3d.zincity.Cell.*;
 import hu.nem3d.zincity.Misc.OpenSimplex2S;
 import hu.nem3d.zincity.Misc.TextureTiles;
 
-import java.util.Random;
-
-
-
+import java.util.*;
 
 
 public class CityMap {
@@ -150,5 +147,112 @@ public class CityMap {
 
     public TiledMapTileSet getTileSet() {
         return tileSet;
+    }
+
+    public ZoneCell closestWorkplaceFrom(LivingZoneCell home, boolean isIndustrial, boolean mustBeAvailable) {
+        return (closestOfWorkplaceWithDistance(home,
+                (isIndustrial ? IndustrialZoneCell.class : ServiceZoneCell.class), mustBeAvailable, 0));
+    }
+
+    public ZoneCell closestWorkplaceAndDistanceFrom(LivingZoneCell home, boolean isIndustrial, boolean mustBeAvailable, Integer distance) {
+        return (closestOfWorkplaceWithDistance(home,
+                (isIndustrial ? IndustrialZoneCell.class : ServiceZoneCell.class), mustBeAvailable, distance));
+    }
+
+    private ZoneCell closestOfWorkplaceWithDistance(LivingZoneCell home, Class<?> workplaceType,
+                                                    boolean mustBeAvailable, Integer distance) {
+
+        //Setting up the distances matrix with -1 values, this will represent the unreachable tiles
+        int[][] distances = new int[buildingLayer.getWidth()][buildingLayer.getHeight()];
+        for(int i = 0; i < buildingLayer.getWidth(); ++i) {
+            Arrays.fill(distances[i], -1);
+        }
+
+        distances[home.getX()][home.getY()] = 0;
+
+        ZoneCell destination = null;
+
+        //Queue always has Citycells "sorted" by their distances in increasing order (It's standard FIFO queue.)
+        LinkedList<CityCell> queue = new LinkedList<>();
+        queue.add(home);
+
+        while(!queue.isEmpty()) {
+            CityCell current = queue.remove(0);
+
+            if(current.getClass() == workplaceType) {
+                destination = (ZoneCell) current;
+                if(mustBeAvailable) {
+                    if(!destination.isFull()){
+                        break;
+                    }else{
+                        destination = null;
+                    }
+                }else{
+                    break;
+                }
+            }
+
+            queue.addAll(getGoodNeigbours(current, workplaceType, distances));
+
+        }
+
+        if(destination != null){distance = distances[destination.getX()][destination.getY()];}
+        return destination;
+    }
+
+
+
+    private List<CityCell> getGoodNeigbours(CityCell me, Class<?> workplaceType, int[][] distances){
+        ArrayList<CityCell> result = new ArrayList<>();
+
+        int distNow = distances[me.getX()][me.getY()];
+
+        CityCell current;
+
+        if(isReachable(me.getX()+1, me.getY())) {
+            if(distances[me.getX()+1][me.getY()] == -1) {
+                current = (CityCell) buildingLayer.getCell(me.getX()+1, me.getY());
+                if(current.getClass() == RoadCell.class || current.getClass() == workplaceType) {
+                    distances[me.getX()+1][me.getY()] = distNow + 1;
+                    result.add(current);
+                }
+            }
+        }
+
+        if(isReachable(me.getX()-1, me.getY())) {
+            if(distances[me.getX()-1][me.getY()] == -1) {
+                current = (CityCell) buildingLayer.getCell(me.getX()-1, me.getY());
+                if(current.getClass() == RoadCell.class || current.getClass() == workplaceType) {
+                    distances[me.getX()-1][me.getY()] = distNow + 1;
+                    result.add(current);
+                }
+            }
+        }
+
+        if(isReachable(me.getX(), me.getY()+1)) {
+            if(distances[me.getX()][me.getY()+1] == -1) {
+                current = (CityCell) buildingLayer.getCell(me.getX(), me.getY()+1);
+                if(current.getClass() == RoadCell.class || current.getClass() == workplaceType) {
+                    distances[me.getX()][me.getY()+1] = distNow + 1;
+                    result.add(current);
+                }
+            }
+        }
+
+        if(isReachable(me.getX(), me.getY()-1)) {
+            if(distances[me.getX()][me.getY()-1] == -1) {
+                current = (CityCell) buildingLayer.getCell(me.getX(), me.getY()-1);
+                if(current.getClass() == RoadCell.class || current.getClass() == workplaceType) {
+                    distances[me.getX()][me.getY()-1] = distNow + 1;
+                    result.add(current);
+                }
+            }
+        }
+
+        return result;
+    }
+
+    public boolean isReachable(int x, int y) {
+        return (x >= 0 && x < buildingLayer.getWidth() && y >= 0 && y < buildingLayer.getHeight());
     }
 }
