@@ -151,16 +151,16 @@ public class CityMap {
 
     public ZoneCell closestWorkplaceFrom(LivingZoneCell home, boolean isIndustrial, boolean mustBeAvailable) {
         return (closestOfWorkplaceWithDistance(home,
-                (isIndustrial ? IndustrialZoneCell.class : ServiceZoneCell.class), mustBeAvailable, 0));
+                (isIndustrial ? IndustrialZoneCell.class : ServiceZoneCell.class), mustBeAvailable).getKey());
     }
 
-    public ZoneCell closestWorkplaceAndDistanceFrom(LivingZoneCell home, boolean isIndustrial, boolean mustBeAvailable, Integer distance) {
+    public int shortestWorkplaceDistanceFrom(LivingZoneCell home, boolean isIndustrial, boolean mustBeAvailable) {
         return (closestOfWorkplaceWithDistance(home,
-                (isIndustrial ? IndustrialZoneCell.class : ServiceZoneCell.class), mustBeAvailable, distance));
+                (isIndustrial ? IndustrialZoneCell.class : ServiceZoneCell.class), mustBeAvailable)).getValue();
     }
 
-    private ZoneCell closestOfWorkplaceWithDistance(LivingZoneCell home, Class<?> workplaceType,
-                                                    boolean mustBeAvailable, Integer distance) {
+    private MapEntry<ZoneCell, Integer> closestOfWorkplaceWithDistance(LivingZoneCell home, Class<?> workplaceType,
+                                                    boolean mustBeAvailable) {
 
         //Setting up the distances matrix with -1 values, this will represent the unreachable tiles
         int[][] distances = new int[buildingLayer.getWidth()][buildingLayer.getHeight()];
@@ -192,17 +192,16 @@ public class CityMap {
                 }
             }
 
-            queue.addAll(getGoodNeigbours(current, workplaceType, distances));
+            queue.addAll(getGoodNeighbours(current, workplaceType, distances));
 
         }
 
-        if(destination != null){distance = distances[destination.getX()][destination.getY()];}
-        return destination;
+        return (new MapEntry(destination, distances[destination.getX()][destination.getY()]));
     }
 
 
 
-    private List<CityCell> getGoodNeigbours(CityCell me, Class<?> workplaceType, int[][] distances){
+    private List<CityCell> getGoodNeighbours(CityCell me, Class<?> workplaceType, int[][] distances){
         ArrayList<CityCell> result = new ArrayList<>();
 
         int distNow = distances[me.getX()][me.getY()];
@@ -254,5 +253,23 @@ public class CityMap {
 
     public boolean isReachable(int x, int y) {
         return (x >= 0 && x < buildingLayer.getWidth() && y >= 0 && y < buildingLayer.getHeight());
+    }
+
+    private class MapEntry<K, V>{
+        private K key;
+        private V value;
+
+        MapEntry(K key, V value){
+            this.key = key;
+            this.value = value;
+        }
+
+        public K getKey() {
+            return key;
+        }
+
+        public V getValue() {
+            return value;
+        }
     }
 }
