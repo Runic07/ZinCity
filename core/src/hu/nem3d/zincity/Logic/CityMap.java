@@ -149,18 +149,19 @@ public class CityMap {
         return tileSet;
     }
 
+
     public ZoneCell closestWorkplaceFrom(LivingZoneCell home, boolean isIndustrial, boolean mustBeAvailable) {
         return (closestOfWorkplaceWithDistance(home,
-                (isIndustrial ? IndustrialZoneCell.class : ServiceZoneCell.class), mustBeAvailable).getKey());
+                (isIndustrial ? IndustrialZoneCell.class : ServiceZoneCell.class), mustBeAvailable).getFirst());
     }
 
     public int shortestWorkplaceDistanceFrom(LivingZoneCell home, boolean isIndustrial, boolean mustBeAvailable) {
         return (closestOfWorkplaceWithDistance(home,
-                (isIndustrial ? IndustrialZoneCell.class : ServiceZoneCell.class), mustBeAvailable)).getValue();
+                (isIndustrial ? IndustrialZoneCell.class : ServiceZoneCell.class), mustBeAvailable)).getSecond();
     }
 
-    private MapEntry<ZoneCell, Integer> closestOfWorkplaceWithDistance(LivingZoneCell home, Class<?> workplaceType,
-                                                    boolean mustBeAvailable) {
+    private Tuple<ZoneCell, Integer> closestOfWorkplaceWithDistance(LivingZoneCell home, Class<?> workplaceType,
+                                                                    boolean mustBeAvailable) {
 
         //Setting up the distances matrix with -1 values, this will represent the unreachable tiles
         int[][] distances = new int[buildingLayer.getWidth()][buildingLayer.getHeight()];
@@ -196,10 +197,9 @@ public class CityMap {
 
         }
 
-        return (new MapEntry(destination, distances[destination.getX()][destination.getY()]));
+        Integer distance = ((destination != null ) ? distances[destination.getX()][destination.getY()] : -1);
+        return (new Tuple<>(destination, distance));
     }
-
-
 
     private List<CityCell> getGoodNeighbours(CityCell me, Class<?> workplaceType, int[][] distances){
         ArrayList<CityCell> result = new ArrayList<>();
@@ -255,21 +255,22 @@ public class CityMap {
         return (x >= 0 && x < buildingLayer.getWidth() && y >= 0 && y < buildingLayer.getHeight());
     }
 
-    private class MapEntry<K, V>{
-        private K key;
-        private V value;
+    private static class Tuple<T1, T2>{
+        private final T1 first;
+        private final T2 second;
 
-        MapEntry(K key, V value){
-            this.key = key;
-            this.value = value;
+
+        Tuple(T1 first, T2 second){
+            this.first = first;
+            this.second = second;
         }
 
-        public K getKey() {
-            return key;
+        public T1 getFirst() {
+            return first;
         }
 
-        public V getValue() {
-            return value;
+        public T2 getSecond() {
+            return second;
         }
     }
 }
