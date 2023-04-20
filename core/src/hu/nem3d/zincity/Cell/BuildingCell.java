@@ -10,8 +10,8 @@ public abstract class BuildingCell extends CityCell {
     /**
      * Represents the specific parts of a multi-cell building
      */
-    public enum BuildingPart{
-        NorthWest, NorthEast, SouthWest, SouthEast
+    protected enum BuildingPart{
+        NorthEast, NorthWest, SouthEast, SouthWest
     }
     protected String name;  //Need for stats --Newton
     boolean isSimple;
@@ -48,7 +48,7 @@ public abstract class BuildingCell extends CityCell {
         this.range = range;
         this.maintenanceFee = maintenanceFee;
         if (!isSimple){
-            this.part = BuildingPart.NorthWest;
+            this.part = BuildingPart.NorthEast;
             //TODO call build method for other parts
         }
     }
@@ -94,9 +94,6 @@ public abstract class BuildingCell extends CityCell {
             this.part = part_;
         }
 
-    }
-    public BuildingPart getPart() {
-        return part;
     }
 }
 

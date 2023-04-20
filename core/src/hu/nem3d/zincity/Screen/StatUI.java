@@ -7,14 +7,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import hu.nem3d.zincity.Cell.*;
 
-/**
- * This is what returns the Stats of a cell to GameScreen as a table and that is then rendered on screen and shows its stats.
- */
 public class StatUI {
 
     boolean shown;
     private String name;
     private String dataString;
+
     private String tier;
     private TextureAtlas atlas;
     private Skin skin;
@@ -28,11 +26,6 @@ public class StatUI {
         skin = new Skin(Gdx.files.internal("PlaceHolderMenu\\uiskin.json"), atlas);
         shown = false;
     };
-
-    /**
-     * Based on cell returns it stats value which are later made into a table.
-     * @param cell
-     */
     public void statCall(CityCell cell){
         x = cell.getX();
         y = cell.getY();
@@ -57,9 +50,6 @@ public class StatUI {
             name = ((BuildingCell)cell).getName();
             dataString = "Fee: " + ((BuildingCell)cell).getMaintenanceFee();
             tier = "null";
-            if(cell.getClass() == ArenaCell.class || cell.getClass() == GeneratorCell.class){
-                tier = "Part: " + ((BuildingCell) cell).getPart();
-            }
         }
         else if(cell.getClass() == EmptyCell.class){
             name = "Empty";
@@ -88,13 +78,6 @@ public class StatUI {
         }
 
     }
-
-    /**
-     * Makes a table out of the cells Stats which are given to GameScreen to render.
-     * @param width
-     * @param height
-     * @return
-     */
     public Table cellStatTable(final float width, final float height){
         Table table = new Table(skin);
         table.background("dialog");
@@ -122,10 +105,6 @@ public class StatUI {
         return table;
     }
 
-    /**
-     * It solves that if you click on the sameCell 2 times the StatUi becomes hidden, its just a switch mostly.
-     * @param cell
-     */
     public void isShown(CityCell cell){
         if(x == cell.getX() && y == cell.getY()){
             shown = !shown;
