@@ -5,4 +5,9 @@ public class PoliceCell extends BuildingCell{
         super(range, maintenanceFee, true);
         this.name = "Police station";
     }
+
+    @Override
+    public void doEffect() {
+
+    }
 }
