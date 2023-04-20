@@ -88,6 +88,13 @@ public abstract class BuildingCell extends CityCell {
      * The effect this has
      */
     public abstract void doEffect();
+
+    public void setPart(BuildingPart part_){
+        if(!isSimple){
+            this.part = part_;
+        }
+
+    }
 }
 
 
