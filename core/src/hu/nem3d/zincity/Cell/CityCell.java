@@ -1,6 +1,7 @@
 package hu.nem3d.zincity.Cell;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import hu.nem3d.zincity.Misc.Direction;
 import hu.nem3d.zincity.Screen.StatUI;
 
 /**
@@ -20,14 +21,8 @@ public abstract class CityCell extends TiledMapTileLayer.Cell {
     protected boolean isElectrified = false;
     protected boolean isWired = false;
 
-    /**
-     * Constructs a CityCell with coordinates of origin
-     */
-    public CityCell() {
-        super();
-        this.x = 0;
-        this.y = 0;
-    }
+    TiledMapTileLayer tileLayer; //in case the cell knows the tile layer it's located on.
+
 
     /**
      * Constructs a CityCell with parameters set as the coordinates
@@ -38,6 +33,13 @@ public abstract class CityCell extends TiledMapTileLayer.Cell {
         super();
         this.x = x;
         this.y = y;
+    }
+
+    public CityCell(int x, int y, TiledMapTileLayer tileLayer){
+        super();
+        this.x = x;
+        this.y = y;
+        this.tileLayer = tileLayer; //this way, the cell can locate tiles adjacent to itself.
     }
 
     /**
@@ -120,5 +122,25 @@ public abstract class CityCell extends TiledMapTileLayer.Cell {
     public void statCall(StatUI statscreen){
         statscreen.statCall(this);
     }
+
+    /**
+     * Helper method to get neighbors faster. Only works if this.tileLayer is specified.
+     * @return Neighboring tile, in spacified direction. null if neighbor doesn't exist.
+     */
+    public CityCell getNeighbor(Direction direction){
+
+        switch (direction){
+            case NORTH: try{ return (CityCell) tileLayer.getCell(x, y+1 ); } catch (Exception e) { return null; }
+            case EAST : try{ return (CityCell) tileLayer.getCell(x+1, y ); } catch (Exception e) { return null; }
+            case SOUTH: try{ return (CityCell) tileLayer.getCell(x, y-1 ); } catch (Exception e) { return null; }
+            case WEST : try{ return (CityCell) tileLayer.getCell(x-1, y ); } catch (Exception e) { return null; }
+            default: return null;
+
+        }
+
+
+    }
+
+
 
 }
