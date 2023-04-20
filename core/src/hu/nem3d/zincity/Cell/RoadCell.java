@@ -5,12 +5,7 @@ package hu.nem3d.zincity.Cell;
  */
 public class RoadCell extends CityCell{
 
-    /**
-     * Constructs a RoadCell with coordinates of origin
-     */
-    public RoadCell() {
-        super();
-    }
+
 
     /**
      * Constructs a RoadCell with coordinates set from parameters

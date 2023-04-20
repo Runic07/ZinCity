@@ -69,24 +69,33 @@ public class Builder {
         if(cell.getClass() == EmptyCell.class) {
             switch (code) {
                 case (1):
-                    cell = new IndustrialZoneCell(2);
+                    try {
+                        cell = new IndustrialZoneCell(x,y,2);
+                    } catch (CellException e) {
+                        System.err.println("Can't build that there");
+                    }
                     cell.setTile(tileSet.getTile(8));
-                    cell.setX(x);
-                    cell.setY(y);
+
                     buildLayer.setCell(x, y, cell);
                     break;
                 case (2):
-                    cell = new ServiceZoneCell(2);
+                    try {
+                        cell = new ServiceZoneCell(x,y,2);
+                    } catch (CellException e) {
+                        System.err.println("Can't build that there");
+                    }
                     cell.setTile(tileSet.getTile(11));
-                    cell.setX(x);
-                    cell.setY(y);
+
                     buildLayer.setCell(x, y, cell);
                     break;
                 case (3):
-                    cell = new LivingZoneCell(4);
+                    try {
+                        cell = new LivingZoneCell(x,y,4);
+                    } catch (CellException e) {
+                        System.err.println("Can't build that there");
+                    }
                     cell.setTile(tileSet.getTile(5));
-                    cell.setX(x);
-                    cell.setY(y);
+
                     buildLayer.setCell(x, y, cell);
                     break;
                 case(4):
@@ -102,10 +111,8 @@ public class Builder {
         if(cell.getClass() == EmptyCell.class) {
             switch (code) {
                 case(5):
-                    cell = new ForestCell(x,y);
+                    cell = new ForestCell(x,y, buildLayer);
                     cell.setTile((tileSet.getTile(2)));
-                    cell.setX(x);
-                    cell.setY(y);
                     buildLayer.setCell(x,y,cell);
                     break;
             }
@@ -119,10 +126,9 @@ public class Builder {
         switch (code){
             case(2):
                 if(cell.getClass() == EmptyCell.class) {
-                    cell = new RoadCell();
+                    cell = new RoadCell(x,y);
                     cell.setTile((tileSet.getTile(4)));
-                    cell.setX(x);
-                    cell.setY(y);
+
                     buildLayer.setCell(x, y, cell);
                 }
                 break;

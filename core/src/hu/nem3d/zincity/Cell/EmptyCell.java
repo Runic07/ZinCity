@@ -1,16 +1,12 @@
 package hu.nem3d.zincity.Cell;
 
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+
 /**
  * Represents a cell that can be built on
  */
 public class EmptyCell extends CityCell{
 
-    /**
-     * Constructs an EmptyCell with coordinates of origin
-     */
-    public EmptyCell() {
-        super();
-    }
 
     /**
      * Constructs an EmptyCell with coordinates set from the parameters
@@ -19,5 +15,8 @@ public class EmptyCell extends CityCell{
      */
     public EmptyCell(int x, int y) {
         super(x, y);
+    }
+    public EmptyCell(int x, int y, TiledMapTileLayer tileLayer) {
+        super(x, y, tileLayer);
     }
 }

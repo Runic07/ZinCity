@@ -30,13 +30,14 @@ public abstract class ZoneCell extends CityCell{
      * @param y The distance of this from the origin on the vertical axis
      * @param capacity The maximum number of occupants this zone can haves
      */
+
     protected ZoneCell(int x, int y, int capacity) throws CellException {
         super(x, y);
 
-        if (this.getNeighbor(Direction.NORTH).getClass() == RoadCell.class ||
-                this.getNeighbor(Direction.SOUTH).getClass() == RoadCell.class ||
-                this.getNeighbor(Direction.EAST).getClass() == RoadCell.class ||
-                this.getNeighbor(Direction.WEST).getClass() == RoadCell.class
+        if (this.getNeighbor(Direction.NORTH) != null && this.getNeighbor(Direction.NORTH).getClass() == RoadCell.class ||
+                this.getNeighbor(Direction.SOUTH) != null && this.getNeighbor(Direction.SOUTH).getClass() == RoadCell.class ||
+                this.getNeighbor(Direction.EAST) != null && this.getNeighbor(Direction.EAST).getClass() == RoadCell.class ||
+                this.getNeighbor(Direction.WEST) != null && this.getNeighbor(Direction.WEST).getClass() == RoadCell.class
         ){
             this.isWired = true;
             this.capacity = capacity;

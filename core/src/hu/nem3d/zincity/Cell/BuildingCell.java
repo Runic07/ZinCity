@@ -19,20 +19,7 @@ public abstract class BuildingCell extends CityCell {
     protected int range;
     protected int maintenanceFee;
 
-    //Temp constructor for testing purposes
-    /**
-     * Constructs a standard instance of a BuildingCell,
-     * with (coordinates of origin and) values set to the values of the parameters
-     * @param range The maximum distance between this and a cell, that this can effect
-     * @param maintenanceFee The annual cost of maintaining this
-     * @param isSimple It's true, if it is a single-cell building, else it is false
-     */
-    protected BuildingCell(int range, int maintenanceFee, boolean isSimple) {
-        super();
-        this.range = range;
-        this.maintenanceFee = maintenanceFee;
-        this.isSimple = isSimple;
-    }
+
 
     /**
      * Constructs a standard instance of a BuildingCell, with values set to the values of the parameters
