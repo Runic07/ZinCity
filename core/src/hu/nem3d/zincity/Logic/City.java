@@ -9,6 +9,11 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+/**
+ * Engine class for an instance of a city. Responsible for storing the map, and logic
+ * related to managing budget, satisfaction and citizens
+ *
+ */
 public class City {
 
     public CopyOnWriteArrayList<Citizen> citizens; //using this because ArrayList iterator is a clown
@@ -37,7 +42,7 @@ public class City {
     public City() {
         budget = 500;
         satisfaction = 0.0;
-        taxCoefficient = 1.2;
+        taxCoefficient = 0.8;
         baseTaxAmount = 50;
         cityMap = new CityMap();
         citizens = new CopyOnWriteArrayList<>();
@@ -46,39 +51,47 @@ public class City {
                 System.out.println("Added starter citizen");
             }
         }
-
-
-
     }
 
+    /**
+     * Method to add a citizen to the city.
+     * If a certain satisfaction threshold is reached city-wide,
+     * citizens will move in at a random rate
+     * if any vacant LivingZoneTile is present, and they have either a
+     * Service or Industrial zone to work in.
+     *
+     * @return true if adding a citizen succeeded, false otherwise
+     */
     public boolean addCitizen(){
         Citizen citizen = new Citizen();
         boolean foundHome = false;
         boolean foundWorkplace = false;
+        TiledMapTileLayer tl = (TiledMapTileLayer) cityMap.getMap().getLayers().get(1);
+        TiledMapTileLayer.Cell homeCell = null;
+        TiledMapTileLayer.Cell workCell = null;
 
         for (int i=0; i < 30; i++){
             for (int j=0; j < 20; j++){
-                TiledMapTileLayer tl = (TiledMapTileLayer) cityMap.getMap().getLayers().get(1);
+
                 TiledMapTileLayer.Cell cell = tl.getCell(i,j);
 
                 //find home
-                if (cell.getClass() == LivingZoneCell.class && !((ZoneCell) cell).isFull() && !foundHome){
-                    //bro how does this even work?
+                //TODO extra feature: choose randomly from available homes
+                if (cell.getClass() == LivingZoneCell.class && !(((ZoneCell) cell).isFull()) && !foundHome){
+
                     //cast is only needed in theory, to get the associated methods. should not actually change the class.
-                    //but this collection of multiple types of objects kinda makes me want to puke
+
+                    homeCell = cell;
 
 
-                    citizen.setHome((LivingZoneCell) cell);
-                    ((LivingZoneCell) cell).addOccupant();
                     foundHome=true;
 
 
                 }
                 //find workplace
-                if ((cell.getClass() == IndustrialZoneCell.class || cell.getClass() == ServiceZoneCell.class) && !((ZoneCell) cell).isFull() && !foundWorkplace){
+                if (((cell.getClass() == IndustrialZoneCell.class) || (cell.getClass() == ServiceZoneCell.class)) && !(((ZoneCell) cell).isFull()) && !foundWorkplace){
 
-                    citizen.setWorkplace((ZoneCell) cell);
-                    ((ZoneCell) cell).addOccupant();
+                    workCell = cell;
                     foundWorkplace = true;
 
                 }
@@ -86,7 +99,14 @@ public class City {
             }
         }
         if (foundHome && foundWorkplace){
+            citizen.setHome((LivingZoneCell) homeCell);
+            ((LivingZoneCell) homeCell).addOccupant();
+
+            citizen.setWorkplace((ZoneCell) workCell);
+            ((ZoneCell) workCell).addOccupant();
+
             citizens.add(citizen);
+
             return true;
         }
         else{
@@ -94,8 +114,16 @@ public class City {
         }
 
     }
+
+    /**
+     * Main game loop method. Ideally gets called every n-th frame in the screen implementation.
+     * Responsible for moving the game forward a discrete time amount.
+     * Updates every tile, and every citizen.
+     *
+     */
     public void step(){ //a unit of time passes
         System.out.println("Current citizen satisfactions: ");
+        System.out.println(citizens.toString());
         satisfaction = 0;
 
         for (Citizen citizen : citizens) {
@@ -123,10 +151,14 @@ public class City {
             }
 
         }
-        satisfaction = satisfaction / ((double) citizens.size());
-        /*TODO this is bugged. Satisfaction gets divided
-         * by the size it had before. Another update fixes this.
-        */
+        if (citizens.size() > 0){
+            satisfaction = satisfaction / ((double) citizens.size());
+        }
+        else{
+            satisfaction = 0; //TODO Game over!
+        }
+
+
 
         TiledMapTileLayer buildingLayer = (TiledMapTileLayer) cityMap.getMap().getLayers().get(1);
         for (int i = 0; i < 30; i++){ //no forall here unfortunately

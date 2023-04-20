@@ -7,27 +7,66 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import hu.nem3d.zincity.Cell.CityCell;
+import hu.nem3d.zincity.Logic.City;
 import hu.nem3d.zincity.Logic.CityMap;
 
+import java.util.ArrayList;
+
+/**
+ * This is a stage which has TiledMapActors as it actor which are the cells, so it makes a clickable layer above the map which is connected to the cells below.
+ */
 public class CityStage extends Stage {
+
+        private StatUI stats;
         private TiledMap tiledMap;
-        private CityMap city;
+        private CityMap cityMap;
 
-        public CityStage(CityMap city, int id) {
-            this.tiledMap = city.getMap();
+        private City city;
+
+        private int UIid;
+
+        private int buildCode;
+
+    /**
+     * Constructor sets the city (where the date is from), id which is the current UIs id which determines the actions that are doable, the stat is a StatUI
+     * which is responsible for getting each cells stats.
+     * @param city
+     * @param id
+     * @param stat
+     */
+        public CityStage(City city, int id, StatUI stat) {
             this.city = city;
+            this.cityMap = city.getCityMap();
+            this.stats = stat;
+            this.UIid = id;
+            this.buildCode = 0;
+            this.tiledMap = cityMap.getMap();
 
-            MapLayer layer = tiledMap.getLayers().get(id);
+            /*MapLayer layer = tiledMap.getLayers().get(id);
             TiledMapTileLayer tiledLayer = (TiledMapTileLayer)layer;
-            createActorsForLayer(tiledLayer);
+            createActorsForLayer(tiledLayer);*/
 
-           /* for (MapLayer layer : tiledMap.getLayers()) {
+            for (MapLayer layer : tiledMap.getLayers()) {
                 TiledMapTileLayer tiledLayer = (TiledMapTileLayer)layer;
                 createActorsForLayer(tiledLayer);
-            }*/
+            }
         }
 
-        private void createActorsForLayer(TiledMapTileLayer tiledLayer) {
+    /**
+     * BuildCode, and UIid determines what the Builder class will do.
+     * @param buildCode_
+     * @param UIid_
+     */
+    public void setBuildProperties(int buildCode_, int UIid_){
+            this.buildCode = buildCode_;
+            this.UIid = UIid_;
+        }
+
+    /**
+     * Adds tiledMapActors for each layer in a 30x20 grid and sets properties.
+     * @param tiledLayer
+     */
+    private void createActorsForLayer(TiledMapTileLayer tiledLayer) {
             float screenWidth = Gdx.graphics.getWidth();
             float screenHeight = Gdx.graphics.getHeight();
             float mapWidth = tiledLayer.getWidth();
@@ -40,12 +79,23 @@ public class CityStage extends Stage {
             for (int x = 0; x < mapWidth; x++) {
                 for (int y = 0; y < mapHeight; y++) {
                     CityCell cell = (CityCell) tiledLayer.getCell(x, y);
-                    TiledMapActor actor = new TiledMapActor(city, tiledLayer, cell);
+                    TiledMapActor actor = new TiledMapActor(cityMap, tiledLayer, cell);
                     actor.setBounds(x * screenWidth / mapWidth , y * screenHeight / mapHeight , screenWidth / mapWidth, screenHeight / mapHeight);
+                    actor.setPosX(x);
+                    actor.setPosY(y);
                     addActor(actor);
-                    EventListener eventListener = new TiledMapClickListener(actor);
+                    EventListener eventListener = new TiledMapClickListener(actor, stats, city, this);
                     actor.addListener(eventListener);
                 }
             }
         }
+
+    public int getUIid() {
+        return UIid;
     }
+
+    public int getBuildCode() {
+        return buildCode;
+    }
+
+}
