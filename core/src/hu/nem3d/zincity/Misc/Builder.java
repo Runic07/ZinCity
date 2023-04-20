@@ -186,11 +186,8 @@ public class Builder {
                         for(int i = 0; i > -2; i-- ){
                             for(int j = 0; j < 2; j++){
                                 ArenaCell tmpCell = new ArenaCell(3, 100);
-                                int step = j;
                                 if(i == -1){
-                                    step = 1;
                                     if(j == 1){
-                                        step = 2;
                                         tmpCell.setPart(BuildingCell.BuildingPart.valueOf("SouthEast"));
                                     }
                                     else{
@@ -205,7 +202,7 @@ public class Builder {
                                         tmpCell.setPart(BuildingCell.BuildingPart.valueOf("NorthWest"));
                                     }
                                 }
-                                tmpCell.setTile((tileSet.getTile(16 + step + (i *-1))));
+                                tmpCell.setTile((tileSet.getTile(16 +tmpCell.getPart().ordinal())));
                                 buildLayer.setCell(x + j,y + i, tmpCell);
                                 tmpCell.setX(x+j);
                                 tmpCell.setY(y+i);
@@ -236,11 +233,8 @@ public class Builder {
                         for(int i = 0; i > -2; i-- ){
                             for(int j = 0; j < 2; j++){
                                 GeneratorCell tmpCell = new GeneratorCell(3, 200);
-                                int step = j;
                                 if(i == -1){
-                                    step = 1;
                                     if(j == 1){
-                                        step = 2;
                                         tmpCell.setPart(BuildingCell.BuildingPart.valueOf("SouthEast"));
                                     }
                                     else{
@@ -255,7 +249,7 @@ public class Builder {
                                         tmpCell.setPart(BuildingCell.BuildingPart.valueOf("NorthWest"));
                                     }
                                 }
-                                tmpCell.setTile((tileSet.getTile(20 + step + (i *-1))));
+                                tmpCell.setTile((tileSet.getTile(20 + tmpCell.getPart().ordinal())));
                                 buildLayer.setCell(x + j,y + i, tmpCell);
                                 tmpCell.setX(x+j);
                                 tmpCell.setY(y+i);
