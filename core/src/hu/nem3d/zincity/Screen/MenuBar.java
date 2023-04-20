@@ -41,6 +41,7 @@ public class MenuBar {
         skin = new Skin(Gdx.files.internal("PlaceHolderMenu\\uiskin.json"), atlas);
         stage = stage_;
         city = city_;
+        screen = screen_;
     }
 
     /**
@@ -63,6 +64,8 @@ public class MenuBar {
         currTable.background("dialog");
         //Set alignment of contents in the table.
         currTable.top();
+
+        skin.getFont("commodore-64").getData().setScale(width/720f, height/480f);
 
         TextButton exitButton = new TextButton("Exit", skin);
         exitButton.setSize(width / 9, (float) ((height * 0.15) / 2));
@@ -279,14 +282,17 @@ public class MenuBar {
                 break;
 
             case(4):
-               TextButton networkButton = new TextButton("Networks", skin);
+               TextButton networkButton = new TextButton("Network", skin);
                 networkButton.setSize(width / 9, (float) ((height * 0.15) / 2));
 
-                TextButton settingsButton = new TextButton("Settings", skin);
+                TextButton settingsButton = new TextButton("Setting", skin);
                 settingsButton.setSize(width / 9, (float) ((height * 0.15) / 2));
 
                 TextButton deleteButton = new TextButton("Delete", skin);
                 deleteButton.setSize(width / 9, (float) ((height * 0.15) / 2));
+
+                TextButton speedButton = new TextButton("Speed", skin);
+                speedButton.setSize(width / 9, (float) ((height * 0.15) / 2));
 
                 networkButton.addListener(new ClickListener() {
                     @Override
@@ -298,6 +304,46 @@ public class MenuBar {
                 settingsButton.addListener(new ClickListener() {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
+
+                    }
+                });
+                speedButton.addListener(new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        int curSpeed = screen.getSpeed();
+                        String speedmsg = "";
+                        switch (curSpeed){
+                            case(600):
+                                screen.setSpeed(300);
+                                speedmsg = "5 sec / day";
+                                break;
+                            case(300):
+                                screen.setSpeed(60);
+                                speedmsg = "1 sec / day";
+                                break;
+                            case(60):
+                                screen.setSpeed(6000);
+                                speedmsg = "Paused";
+                                break;
+                            default:
+                                screen.setSpeed(600);
+                                speedmsg = "10 sec / day";
+                                break;
+                        }
+                        Dialog dialog = new Dialog("Speed", skin, "dialog") {
+                            public void result(Object obj) {
+                                System.out.println("result " + obj);
+                                boolean quitMenu = (Boolean) obj;
+                                if (quitMenu) {
+                                    Gdx.app.exit();
+                                }
+                            }
+                        };
+                        dialog.text("Current speed: " + speedmsg);
+                        dialog.button("OK", false);
+                        dialog.getBackground().setMinWidth(200);
+                        dialog.getBackground().setMinHeight(200);
+                        dialog.show(stage);
                     }
                 });
 
@@ -310,6 +356,7 @@ public class MenuBar {
 
                 currTable.add(networkButton).spaceRight(10).expand().bottom().fill();
                 currTable.add(deleteButton).spaceRight(10).expand().bottom().fill();
+                currTable.add(speedButton).spaceRight(10).expand().bottom().fill();
                 currTable.add(settingsButton).spaceRight(10).expand().bottom().fill();
 
                 break;
@@ -366,15 +413,18 @@ public class MenuBar {
         statTable.background("dialog");
         //Set alignment of contents in the table.
         statTable.top();
-        DecimalFormat df = new DecimalFormat("#.###");
 
-        Label happiness = new Label( df.format(city.satisfaction) + " ", skin);
+        skin.getFont("commodore-64").getData().setScale(width/720f, height/480f);
+
+        DecimalFormat df = new DecimalFormat("###.#");
+
+        Label happiness = new Label( " " + df.format(city.satisfaction * 100) + "% ", skin);
         happiness.setSize(width / 9, (float) ((height * 0.15) / 2));
 
-        Label date = new Label("Day: " + day, skin);  //TODO import date instead of this placeholder
+        Label date = new Label("Day: " + day, skin);
         date.setSize(width / 9, (float) ((height * 0.15) / 2));
 
-        Label money = new Label(city.budget + "", skin);
+        Label money = new Label(city.budget + "$", skin);
         money.setSize(width / 9, (float) ((height * 0.15) / 2));
 
         statTable.add(happiness).spaceRight(10).expand().bottom().fill();

@@ -81,6 +81,9 @@ public class Builder {
             case(6):
                 cells = deleteCell(cell);
                 break;
+            case(6):
+                cell = deleteCell(cell);
+                break;
         }
         cityMap.setBuildingLayer(buildLayer);
         return cells;
