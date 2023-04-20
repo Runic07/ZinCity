@@ -70,7 +70,7 @@ public class Builder {
             switch (code) {
                 case (1):
                     try {
-                        cell = new IndustrialZoneCell(x,y,2);
+                        cell = new IndustrialZoneCell(x,y,buildLayer, 2);
                     } catch (CellException e) {
                         System.err.println("Can't build that there");
                     }
@@ -80,7 +80,7 @@ public class Builder {
                     break;
                 case (2):
                     try {
-                        cell = new ServiceZoneCell(x,y,2);
+                        cell = new ServiceZoneCell(x,y,buildLayer,2);
                     } catch (CellException e) {
                         System.err.println("Can't build that there");
                     }
@@ -90,7 +90,7 @@ public class Builder {
                     break;
                 case (3):
                     try {
-                        cell = new LivingZoneCell(x,y,4);
+                        cell = new LivingZoneCell(x,y,buildLayer,4 );
                     } catch (CellException e) {
                         System.err.println("Can't build that there");
                     }

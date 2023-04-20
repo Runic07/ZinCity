@@ -1,5 +1,6 @@
 package hu.nem3d.zincity.Cell;
 
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import hu.nem3d.zincity.Misc.CellException;
 
 /**
@@ -14,8 +15,8 @@ public class IndustrialZoneCell extends ZoneCell {
      * @param y The distance of this from the origin on the vertical axis
      * @param capacity The maximum number of occupants this zone can haves
      */
-    public IndustrialZoneCell(int x, int y, int capacity) throws CellException {
+    public IndustrialZoneCell(int x, int y, TiledMapTileLayer tileLayer,  int capacity) throws CellException {
 
-        super(x, y, capacity);
+        super(x, y, tileLayer, capacity);
     }
 }

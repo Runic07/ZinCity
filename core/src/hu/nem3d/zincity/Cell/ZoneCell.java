@@ -31,7 +31,7 @@ public abstract class ZoneCell extends CityCell{
      * @param capacity The maximum number of occupants this zone can haves
      */
 
-    protected ZoneCell(int x, int y, int capacity) throws CellException {
+    protected ZoneCell(int x, int y, TiledMapTileLayer tileLayer, int capacity) throws CellException {
         super(x, y);
 
         if (this.getNeighbor(Direction.NORTH) != null && this.getNeighbor(Direction.NORTH).getClass() == RoadCell.class ||
