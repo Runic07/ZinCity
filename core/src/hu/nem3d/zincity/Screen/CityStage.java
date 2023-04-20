@@ -10,11 +10,6 @@ import hu.nem3d.zincity.Cell.CityCell;
 import hu.nem3d.zincity.Logic.City;
 import hu.nem3d.zincity.Logic.CityMap;
 
-import java.util.ArrayList;
-
-/**
- * This is a stage which has TiledMapActors as it actor which are the cells, so it makes a clickable layer above the map which is connected to the cells below.
- */
 public class CityStage extends Stage {
 
         private StatUI stats;
@@ -27,13 +22,6 @@ public class CityStage extends Stage {
 
         private int buildCode;
 
-    /**
-     * Constructor sets the city (where the date is from), id which is the current UIs id which determines the actions that are doable, the stat is a StatUI
-     * which is responsible for getting each cells stats.
-     * @param city
-     * @param id
-     * @param stat
-     */
         public CityStage(City city, int id, StatUI stat) {
             this.city = city;
             this.cityMap = city.getCityMap();
@@ -52,21 +40,12 @@ public class CityStage extends Stage {
             }
         }
 
-    /**
-     * BuildCode, and UIid determines what the Builder class will do.
-     * @param buildCode_
-     * @param UIid_
-     */
-    public void setBuildProperties(int buildCode_, int UIid_){
+        public void setBuildProperties(int buildCode_, int UIid_){
             this.buildCode = buildCode_;
             this.UIid = UIid_;
         }
 
-    /**
-     * Adds tiledMapActors for each layer in a 30x20 grid and sets properties.
-     * @param tiledLayer
-     */
-    private void createActorsForLayer(TiledMapTileLayer tiledLayer) {
+        private void createActorsForLayer(TiledMapTileLayer tiledLayer) {
             float screenWidth = Gdx.graphics.getWidth();
             float screenHeight = Gdx.graphics.getHeight();
             float mapWidth = tiledLayer.getWidth();
@@ -81,8 +60,6 @@ public class CityStage extends Stage {
                     CityCell cell = (CityCell) tiledLayer.getCell(x, y);
                     TiledMapActor actor = new TiledMapActor(cityMap, tiledLayer, cell);
                     actor.setBounds(x * screenWidth / mapWidth , y * screenHeight / mapHeight , screenWidth / mapWidth, screenHeight / mapHeight);
-                    actor.setPosX(x);
-                    actor.setPosY(y);
                     addActor(actor);
                     EventListener eventListener = new TiledMapClickListener(actor, stats, city, this);
                     actor.addListener(eventListener);
@@ -97,5 +74,4 @@ public class CityStage extends Stage {
     public int getBuildCode() {
         return buildCode;
     }
-
 }
