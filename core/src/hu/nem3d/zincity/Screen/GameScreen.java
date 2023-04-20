@@ -32,6 +32,8 @@ public class GameScreen implements Screen { //draft
     protected Stage stage;
 
     protected Stage statStage;
+
+    private int speed;
     private Viewport viewport;
     private SpriteBatch batch;
     int uiId = 0;
@@ -69,8 +71,9 @@ public class GameScreen implements Screen { //draft
         viewport.apply();
         stage = new Stage(viewport, batch);
         statStage = new Stage(viewport, batch);
-        menuBar = new MenuBar(stage, city);
+        menuBar = new MenuBar(stage, city, this);
         stat = new StatUI();
+        speed = 600;
     }
 
 
@@ -94,8 +97,10 @@ public class GameScreen implements Screen { //draft
 
     @Override
     public void render(float delta) {
-        frameCounter++;
-        if (frameCounter > 60){
+        if(speed != 6000){
+            frameCounter++;
+        }
+        if (frameCounter > speed){
             city.step();
             menuBar.day++;
             frameCounter=0;
@@ -149,7 +154,7 @@ public class GameScreen implements Screen { //draft
         viewport.apply();
         stage = new Stage(viewport, batch);
         statStage = new Stage(viewport, batch);
-        menuBar = new MenuBar(stage, city);
+        menuBar = new MenuBar(stage, city, this);
         this.show();
     }
 
@@ -171,6 +176,14 @@ public class GameScreen implements Screen { //draft
     @Override
     public void dispose() {
 
+    }
+
+    public int getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(int speed) {
+        this.speed = speed;
     }
 }
 
