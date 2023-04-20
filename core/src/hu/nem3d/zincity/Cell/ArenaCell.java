@@ -6,7 +6,4 @@ public class ArenaCell extends BuildingCell{   //It's a dummy class for building
         super(range, maintenanceFee, false);
         this.name = "Arena";
     }
-    @Override
-    public void doEffect(){
-    }
 }

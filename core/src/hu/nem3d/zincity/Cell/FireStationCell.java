@@ -5,8 +5,4 @@ public class FireStationCell extends BuildingCell{
         super(range, maintenanceFee, true);
         this.name = "Fire station";
     }
-    @Override
-    public void doEffect() {
-
-    }
 }
