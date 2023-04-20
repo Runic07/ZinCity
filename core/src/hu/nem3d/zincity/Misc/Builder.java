@@ -152,6 +152,7 @@ public class Builder {
      * than it builds on them and sets its place in the building(NW, NE, SW, SE) and its properties.
      * With step the setting of step is steps the correct number in the sprites id
      * to get to the correct sprite for the building.
+     * 
      * @param cell
      * @return
      */
