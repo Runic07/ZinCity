@@ -32,13 +32,14 @@ public abstract class ZoneCell extends CityCell{
      */
 
     protected ZoneCell(int x, int y, TiledMapTileLayer tileLayer, int capacity) throws CellException {
-        super(x, y);
+        super(x, y, tileLayer);
 
         if (this.getNeighbor(Direction.NORTH) != null && this.getNeighbor(Direction.NORTH).getClass() == RoadCell.class ||
                 this.getNeighbor(Direction.SOUTH) != null && this.getNeighbor(Direction.SOUTH).getClass() == RoadCell.class ||
                 this.getNeighbor(Direction.EAST) != null && this.getNeighbor(Direction.EAST).getClass() == RoadCell.class ||
                 this.getNeighbor(Direction.WEST) != null && this.getNeighbor(Direction.WEST).getClass() == RoadCell.class
-        ){
+        )
+        {
             this.isWired = true;
             this.capacity = capacity;
         }

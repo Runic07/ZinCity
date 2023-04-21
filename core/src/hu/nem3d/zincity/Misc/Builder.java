@@ -126,7 +126,7 @@ public class Builder {
         switch (code){
             case(2):
                 if(cell.getClass() == EmptyCell.class) {
-                    cell = new RoadCell(x,y);
+                    cell = new RoadCell(x,y, buildLayer);
                     cell.setTile((tileSet.getTile(4)));
 
                     buildLayer.setCell(x, y, cell);

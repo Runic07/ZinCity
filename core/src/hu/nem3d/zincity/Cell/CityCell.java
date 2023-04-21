@@ -28,12 +28,21 @@ public abstract class CityCell extends TiledMapTileLayer.Cell {
      * Constructs a CityCell with parameters set as the coordinates
      * @param x The distance of this from the origin on the horizontal axis
      * @param y The distance of this from the origin on the vertical axis
+     * @deprecated
      */
+
     public CityCell(int x, int y) {
         super();
         this.x = x;
         this.y = y;
     }
+    /**
+     * Constructs a CityCell
+     * @param x The distance of this from the origin on the horizontal axis
+     * @param y The distance of this from the origin on the vertical axis
+     * @param tileLayer the layer this cell is being constructed on.
+     *
+     */
 
     public CityCell(int x, int y, TiledMapTileLayer tileLayer){
         super();
@@ -130,10 +139,10 @@ public abstract class CityCell extends TiledMapTileLayer.Cell {
     public CityCell getNeighbor(Direction direction){
 
         switch (direction){
-            case NORTH: try{ return (CityCell) tileLayer.getCell(x, y+1 ); } catch (Exception e) { return null; }
-            case EAST : try{ return (CityCell) tileLayer.getCell(x+1, y ); } catch (Exception e) { return null; }
-            case SOUTH: try{ return (CityCell) tileLayer.getCell(x, y-1 ); } catch (Exception e) { return null; }
-            case WEST : try{ return (CityCell) tileLayer.getCell(x-1, y ); } catch (Exception e) { return null; }
+            case NORTH: return (CityCell) tileLayer.getCell(x, y+1 );
+            case EAST : return (CityCell) tileLayer.getCell(x+1, y );
+            case SOUTH: return (CityCell) tileLayer.getCell(x, y-1 );
+            case WEST : return (CityCell) tileLayer.getCell(x-1, y );
             default: return null;
 
         }
