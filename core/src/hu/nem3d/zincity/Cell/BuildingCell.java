@@ -47,6 +47,7 @@ public abstract class BuildingCell extends CityCell {
         super(x, y);
         this.range = range;
         this.maintenanceFee = maintenanceFee;
+        this.isWired = true;
         if (!isSimple){
             this.part = BuildingPart.NorthWest;
             //TODO call build method for other parts
@@ -65,6 +66,7 @@ public abstract class BuildingCell extends CityCell {
         super(x, y);
         this.range = range;
         this.maintenanceFee = maintenanceFee;
+        this.isWired = true;
         this.part = part;
     }
 
