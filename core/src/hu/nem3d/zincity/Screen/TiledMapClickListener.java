@@ -72,8 +72,10 @@ public class TiledMapClickListener extends ClickListener {
         //System.out.println(UIid + " " + buildCode);
         Builder builder = new Builder(UIid, buildCode, city);
         cells =  builder.build(actor.getCell());
-        if(actor.getCell() != null && cells.size() > 1) {
+        if(cells.size() == 1) {
+            System.out.println(cells.get(0).getClass());
             actor.setCell(cells.get(0));
+            System.out.println(actor.getCell().getClass());
         }
 
         if(cells.size() > 2){
@@ -90,6 +92,6 @@ public class TiledMapClickListener extends ClickListener {
 
         stats.isShown(actor.getCell());
         actor.getCell().statCall(stats);
-        //actor.setCell(actor.getCell());
+        actor.setCell(actor.getCell());
     }
 }
