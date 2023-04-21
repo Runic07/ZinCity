@@ -1,6 +1,6 @@
 package hu.nem3d.zincity.Cell;
 
-public class ArenaCell extends BuildingCell{   //It's a dummy class for building implementation
+public class ArenaCell extends BuildingCell {
 
     public ArenaCell(int range, int maintenanceFee){
         super(range, maintenanceFee, false);
