@@ -16,7 +16,9 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import hu.nem3d.zincity.Logic.City;
 import hu.nem3d.zincity.Logic.CityMap;
 
-
+/**
+ * GameScreen is the class that handles the UI elements and the render of the Map
+ */
 public class GameScreen implements Screen { //draft
 
     City city;
@@ -32,10 +34,10 @@ public class GameScreen implements Screen { //draft
     protected Stage stage;
 
     protected Stage statStage;
-
-    private int speed;
     private Viewport viewport;
     private SpriteBatch batch;
+
+    private int speed;
     int uiId = 0;
     Table UiTable;
     Table statTableUI;
@@ -48,7 +50,10 @@ public class GameScreen implements Screen { //draft
 
     int frameCounter = 0; //not permanent, find a better solution to pass the time!
 
-
+    /**
+     * Constructor sets the default camera for the Map and CityStage (which is responsible for clicking cells), and calls the initial UIs.
+     * ViewPort is 1.5* of the normal screen because of resolution and placement problems.
+     */
     public GameScreen(){
         city = new City();
 
@@ -76,7 +81,12 @@ public class GameScreen implements Screen { //draft
         speed = 600;
     }
 
-
+    /**
+     * Initial UI showing this is the basis for all of render. Multiplexing is required since we use 2 stages 1 for the UI clicking and the other (CityStage) is for
+     * clicking on the map.Setting the bounds of the UI to start at 0 at 90% of the virtual ScreenHeight and with 60% of the virtual screen width
+     * and to be 15% of the normal screen height (so the size is 100% width and 15% of height at the top of screen (this is the clickable menu), The stats are the
+     * same height but with 40% of the virtual screen and it starts at the end of the UITable.
+     */
     @Override
     public void show() {
         InputMultiplexer multiplexer = new InputMultiplexer();
@@ -84,8 +94,6 @@ public class GameScreen implements Screen { //draft
         multiplexer.addProcessor(cityStage);
         Gdx.input.setInputProcessor(multiplexer);
         UiTable = menuBar.setTable(uiId, screenWidth, screenHeight);
-        //Setting the bounds og the UI to start at 0 at 95% of the virtual ScreenHeight and with 100% of the virtual screen width
-        //and to be 15% of the normal screen height (so the size is 100% width and 15% of height at the top of screen
         UiTable.setBounds(0, (float) (screenHeight * 0.90 *1.5), (float) (screenWidth *0.6 * 1.5), (float) (screenHeight * 0.15));
         stage.addActor(UiTable);
 
@@ -94,7 +102,6 @@ public class GameScreen implements Screen { //draft
         stage.addActor(statTableUI);
 
     }
-
     @Override
     public void render(float delta) {
         if(speed != 6000){
@@ -140,6 +147,11 @@ public class GameScreen implements Screen { //draft
         statStage.draw();
     }
 
+    /**
+     * Resizes everything it is just a resize or reinitialize.
+     * @param width
+     * @param height
+     */
     @Override
     public void resize(int width, int height) {
         mapRenderer.setView(camera);
@@ -177,7 +189,6 @@ public class GameScreen implements Screen { //draft
     public void dispose() {
 
     }
-
     public int getSpeed() {
         return speed;
     }

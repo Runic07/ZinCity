@@ -10,6 +10,9 @@ import hu.nem3d.zincity.Logic.City;
 
 import java.text.DecimalFormat;
 
+/**
+ * Menubar represents the upper UI bar, both the buttons and the stats for the whole city
+ */
 public class MenuBar {
 
     City city;
@@ -30,6 +33,12 @@ public class MenuBar {
 
     private GameScreen screen;
 
+    /**
+     * Constructor sets the skin and TextureAtlas and skin that the UI uses, stage is a Stage where the UI is on as an actor and the city provides the data.
+     * @param stage_
+     * @param city_
+     * @param screen_
+     */
     public MenuBar(Stage stage_, City city_, GameScreen screen_) {
         atlas = new TextureAtlas(Gdx.files.internal("PlaceHolderMenu\\uiskin.atlas"));
         skin = new Skin(Gdx.files.internal("PlaceHolderMenu\\uiskin.json"), atlas);
@@ -38,6 +47,16 @@ public class MenuBar {
         screen = screen_;
     }
 
+    /**
+     * It gives back a table with textButtons on it which represents the options.Id is the current Id option menu that is currently on screen.
+     * Width and height are the properties of the table( it is set in GameScreen due to resizes). In the function every button has its own eventListener
+     * which dictates what the button does. IdTo is what UI should be called next, buildCode is only relevant when building something or removing, but that is just
+     * set here the handling is in Builder.
+     * @param id
+     * @param width
+     * @param height
+     * @return
+     */
     public Table setTable(final int id, final float width, final float height) {
         //switch case for id when multiple screens are implemented
         currId = id;
@@ -48,7 +67,6 @@ public class MenuBar {
         currTable.background("dialog");
         //Set alignment of contents in the table.
         currTable.top();
-
         skin.getFont("commodore-64").getData().setScale(width/720f, height/480f);
 
         TextButton exitButton = new TextButton("Exit", skin);
@@ -288,7 +306,6 @@ public class MenuBar {
                 settingsButton.addListener(new ClickListener() {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-
                     }
                 });
                 speedButton.addListener(new ClickListener() {
@@ -384,6 +401,12 @@ public class MenuBar {
         return currTable;
     }
 
+    /**
+     * statTable gives back the current stats (days, satisfaction and budget) on a table, width and height is the tables height not the screens.
+     * @param width
+     * @param height
+     * @return
+     */
     public Table statTable(final float width, final float height){
         statTable = new Table(skin);
         //Set table to fill stage

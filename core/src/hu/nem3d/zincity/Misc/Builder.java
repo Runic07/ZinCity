@@ -6,10 +6,14 @@ import hu.nem3d.zincity.Cell.*;
 import hu.nem3d.zincity.Logic.Citizen;
 import hu.nem3d.zincity.Logic.City;
 import hu.nem3d.zincity.Logic.CityMap;
+import java.util.ArrayList;
 
+/**
+ * This handles the changes in a cell due to user input. Later in the code you can see which UiId and buildCode combinations refer to which action.
+ */
 public class Builder {
-    private int buildId;
-    private int code = 0;
+    private int selectedMenuId;
+    private int buildCode = 0;
     CityMap cityMap;
 
     City city;
@@ -40,62 +44,76 @@ public class Builder {
      UIid = 6 --> delete
      */
 
+    /**
+     * Setting default values.
+     * @param id
+     * @param code_
+     * @param city_
+     */
     public Builder(int id, int code_, City city_){
-        this.buildId = id;
-        this.code = code_;
+        this.selectedMenuId = id;
+        this.buildCode = code_;
         this.city = city_;
         cityMap = city.getCityMap();
         this.tileSet = cityMap.getTileSet();
         this.buildLayer = cityMap.getBuildingLayer();
     }
 
-    public CityCell build(CityCell cell){
+    /**
+     * We call the 4 different actions based on the UiId and after that we return the affected cells in an ArrayList.
+     * @param cell
+     * @return
+     */
+    public ArrayList<CityCell> build(CityCell cell) {
+        ArrayList<CityCell> cells = new ArrayList<>();
         x = cell.getX();
         y = cell.getY();
-        switch (buildId){
-            case(1):
-                cell = buildZone(cell);
-                break;
-            case(2):
-                cell = buildSpecial(cell);
-                break;
-            case(5):
-                cell = buildNetwork(cell);
-                break;
-            case(6):
-                cell = deleteCell(cell);
-                break;
+        if (cell.getClass() != BlockedCell.class) {
+            switch (selectedMenuId) {
+                case (1):
+                    cells.add(buildZone(cell));
+                    break;
+                case (2):
+                    cells = buildSpecial(cell);
+                    break;
+                case (5):
+                    cells.add(buildNetwork(cell));
+                    break;
+                case (6):
+                    cells = deleteCell(cell);
+                    break;
+            }
+            cityMap.setBuildingLayer(buildLayer);
         }
-        cityMap.setBuildingLayer(buildLayer);
-        return cell;
+        return cells;
     }
 
+    /**
+     * Handles the zone Building, if you want to build a zone it checks for if its empty and then builds it.
+     * If its an upgrade it doubles capacity and steps to the correct sprite based on the tier of upgrade.
+     * @param cell
+     * @return
+     */
     public CityCell buildZone(CityCell cell){
-            switch (code) {
+            switch (buildCode) {
                 case (1):
                     if(cell.getClass() == EmptyCell.class) {
-                        cell = new IndustrialZoneCell(2);
+                        cell = new IndustrialZoneCell(x,y,2);
                         cell.setTile(tileSet.getTile(8));
-                        cell.setX(x);
-                        cell.setY(y);
                         buildLayer.setCell(x, y, cell);
                     }
                     break;
                 case (2):
                     if(cell.getClass() == EmptyCell.class) {
-                        cell = new ServiceZoneCell(2);
+                        cell = new ServiceZoneCell(x,y,2);
                         cell.setTile(tileSet.getTile(11));
-                        cell.setX(x);
-                        cell.setY(y);
                         buildLayer.setCell(x, y, cell);
                     }
                     break;
                 case (3):
                     if(cell.getClass() == EmptyCell.class) {
-                        cell = new LivingZoneCell(4);
+                        cell = new LivingZoneCell(x,y,4);
                         cell.setTile(tileSet.getTile(5));
-                        cell.setX(x);
-                        cell.setY(y);
                         buildLayer.setCell(x, y, cell);
                     }
                     break;
@@ -116,8 +134,6 @@ public class Builder {
                             cell.setTile(tileSet.getTile(8 + ((IndustrialZoneCell) cell).getLevel() - 1));
                         }
                     }
-                    cell.setX(x);
-                    cell.setY(y);
                     buildLayer.setCell(x, y, cell);
                     break;
             }
@@ -125,41 +141,109 @@ public class Builder {
 
     }
 
-    public CityCell buildSpecial(CityCell cell){ //can only do forest since this is the only one implemented
+    /**
+     * For 1x1 cells its the same as seen in buildZone, but in 2x2 cells it starts form northWest checks if its free and NE and SW and SE is free, if it is
+     * than it builds on them and sets its place in the building(NW, NE, SW, SE) and its properties.
+     * With step the setting of step is steps the correct number in the sprites id
+     * to get to the correct sprite for the building.
+     * @param cell
+     * @return
+     */
+
+    public ArrayList<CityCell> buildSpecial(CityCell cell){
+        ArrayList <CityCell> returnCells = new ArrayList<>();
         if(cell.getClass() == EmptyCell.class) {
-            switch (code) {
+            switch (buildCode) {
                 case(1):
-                    cell = new PoliceCell(2,100);
+                    cell = new PoliceCell(x,y,2,100);
                     cell.setTile((tileSet.getTile(14)));
                     break;
                 case(2):
-                    cell = new FireStationCell(2,100);
+                    cell = new FireStationCell(x, y,2,100);
                     cell.setTile((tileSet.getTile(15)));
                     break;
                 case(3):
+                    boolean isFree = true;
+                    for(int i = 0; i > -2; i-- ){
+                        for(int j = 0; j < 2; j++){
+                            if(x+j < 0 || x+j > 29 || y + i < 0 || y - i > 19){
+                                isFree = false;
+                            }
+                            else if(buildLayer.getCell(x + j, y + i).getClass() != EmptyCell.class){
+                                isFree = false;
+                            }
+                        }
+                    }
+                    if(isFree){
+                        int partArena = 0;
+                        for(int i = 0; i > -2; i-- ){
+                            for(int j = 0; j < 2; j++){
+                                BuildingCell.BuildingPart tmpPart = BuildingCell.BuildingPart.values()[partArena];
+                                partArena++;
+
+                                ArenaCell tmpCell = new ArenaCell(x+j,y+i,3, 100, tmpPart);
+                                tmpCell.setTile((tileSet.getTile(16 +tmpCell.getPart().ordinal())));
+                                buildLayer.setCell(x + j,y + i, tmpCell);
+                                returnCells.add(tmpCell);
+                            }
+                        }
+                    }
+                    break;
+                case(4):
+                    boolean isFreeGen = true;
+                    for(int i = 0; i > -2; i-- ){
+                        for(int j = 0; j < 2; j++){
+                            if(x + j < 0 || x + j > 29 || y + i < 0 || y - i > 19){
+                                isFreeGen = false;
+                            }
+                            else if(buildLayer.getCell(x + j, y + i).getClass() != EmptyCell.class){
+                                isFreeGen = false;
+                            }
+                        }
+                    }
+                    if(isFreeGen){
+                        int partGen = 0;
+                        for(int i = 0; i > -2; i-- ){
+                            for(int j = 0; j < 2; j++){
+                                BuildingCell.BuildingPart tmpPart = BuildingCell.BuildingPart.values()[partGen];
+                                partGen++;
+
+                                GeneratorCell tmpCell = new GeneratorCell(x+j,y+i,3, 100, tmpPart);
+                                tmpCell.setTile((tileSet.getTile(20 +tmpCell.getPart().ordinal())));
+                                buildLayer.setCell(x + j,y + i, tmpCell);
+                                returnCells.add(tmpCell);
+                            }
+                        }
+                    }
+                    break;
+
 
                 case(5):
                     cell = new ForestCell(x,y);
                     cell.setTile((tileSet.getTile(2)));
                     break;
             }
-            cell.setX(x);
-            cell.setY(y);
-            buildLayer.setCell(x,y,cell);
+            if(buildCode != 3 && buildCode != 4){
+                buildLayer.setCell(x,y,cell);
+                returnCells.add(cell);
+            }
         }
 
 
-        return  cell;
+        return  returnCells;
     }
 
+    /**
+     * Builds a road or a poweLine !!!still needs more implementation!!!.
+     * @param cell
+     * @return
+     */
     public CityCell buildNetwork(CityCell cell){
-        switch (code){
+        switch (buildCode){
             case(2):
                 if(cell.getClass() == EmptyCell.class) {
-                    cell = new RoadCell();
+                    cell = new RoadCell(x,y);
                     cell.setTile((tileSet.getTile(4)));
-                    cell.setX(x);
-                    cell.setY(y);
                     buildLayer.setCell(x, y, cell);
                 }
                 break;
@@ -167,11 +251,21 @@ public class Builder {
         return cell;
     }
 
-    public CityCell deleteCell(CityCell cell){
-        if(cell.getClass() != BlockedCell.class){   //TODO implement conflicting delete here in if --> example: cell.ConflictDelete in if statement
-            if(cell.getClass() == LivingZoneCell.class){
+    /**
+     * Deletes a cell if its a workingZone it makes its workers jobless if its a home all occupants are removed from the workplaces and from the city itself
+     * If its a 2x2 first it sets the starting cell as the NorthWest cell and deletes itself just like it build itself but it sets it as an EmptyCell instead of
+     * a 2x2 cell. If its just a 1x1 and not a zone it just sets itself as an EmptyCell.
+     * @param cell
+     * @return
+     */
+    public ArrayList <CityCell> deleteCell(CityCell cell){
+        ArrayList <CityCell> returnCells = new ArrayList<>();
+        //This is currently the best way to solve this since the Zones do not know who is in them and I have to check what kind of zone it is
+        //So when I get the type of cell I have to iterate through all the citizens and check for everyone's  home and workplace, cant do much else if I
+        //Understand the structure correctly
+         if(cell.getClass() == LivingZoneCell.class){         //TODO implement conflicting delete here in if --> example: cell.ConflictDelete in if statement
                 for (Citizen citizen : city.citizens) {
-                    if(citizen.getHome().getX() == y && citizen.getHome().getY() == x){
+                    if(citizen.getHome().getX() == x && citizen.getHome().getY() == y){
                         citizen.getWorkplace().removeOccupant(citizen);
                         citizen.setWorkplace(null);
                         citizen.setHome(null);
@@ -181,19 +275,43 @@ public class Builder {
             }
             else if(cell.getClass() == ServiceZoneCell.class || cell.getClass() == IndustrialZoneCell.class){
                 for (Citizen citizen : city.citizens) {
-                    if(citizen.getWorkplace().getX() == y && citizen.getWorkplace().getY() == x){
+                    if(citizen.getWorkplace().getX() == x && citizen.getWorkplace().getY() == y){
                         citizen.getWorkplace().removeOccupant(citizen);
                         citizen.setWorkplace(null);
                     }
                 }
             }
-            cell = new EmptyCell();
+
+
+            if(cell.getClass() == ArenaCell.class || cell.getClass() == GeneratorCell.class){
+                int partValue = ((BuildingCell) cell).getPart().ordinal();
+                switch (partValue){
+                    case(1):
+                        x = x - 1;
+                        break;
+                    case(2):
+                        y = y + 1;
+                        break;
+                    case(3):
+                        x = x - 1;
+                        y = y + 1;
+                        break;
+                }
+
+                for(int i = 0; i > -2; i-- ){
+                    for(int j = 0; j < 2; j++){
+                        EmptyCell tmpCell = new EmptyCell(x+j,y+i);
+                        tmpCell.setTile((tileSet.getTile(0)));
+                        buildLayer.setCell(x + j,y + i, tmpCell);
+                        returnCells.add(tmpCell);
+                    }
+                }
+
+            }
+            cell = new EmptyCell(x,y);
             cell.setTile((tileSet.getTile(0)));
-            cell.setX(x);
-            cell.setY(y);
             buildLayer.setCell(x, y, cell);
-        }
-      return cell;
+        return  returnCells;
     }
 
 }
