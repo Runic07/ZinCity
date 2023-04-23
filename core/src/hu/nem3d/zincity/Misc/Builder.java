@@ -97,25 +97,34 @@ public class Builder {
     public CityCell buildZone(CityCell cell){
             switch (buildCode) {
                 case (1):
-                    if(cell.getClass() == EmptyCell.class) {
-                        cell = new IndustrialZoneCell(x,y,2);
-                        cell.setTile(tileSet.getTile(8));
-                        buildLayer.setCell(x, y, cell);
+                    try {
+                        cell = new IndustrialZoneCell(x,y,buildLayer, 2);
+                    } catch (CellException e) {
+                        System.err.println("Can't build that there");
                     }
+                    cell.setTile(tileSet.getTile(8));
+
+                    buildLayer.setCell(x, y, cell);
                     break;
                 case (2):
-                    if(cell.getClass() == EmptyCell.class) {
-                        cell = new ServiceZoneCell(x,y,2);
-                        cell.setTile(tileSet.getTile(11));
-                        buildLayer.setCell(x, y, cell);
+                    try {
+                        cell = new ServiceZoneCell(x,y,buildLayer,2);
+                    } catch (CellException e) {
+                        System.err.println("Can't build that there");
                     }
+                    cell.setTile(tileSet.getTile(11));
+
+                    buildLayer.setCell(x, y, cell);
                     break;
                 case (3):
-                    if(cell.getClass() == EmptyCell.class) {
-                        cell = new LivingZoneCell(x,y,4);
-                        cell.setTile(tileSet.getTile(5));
-                        buildLayer.setCell(x, y, cell);
+                    try {
+                        cell = new LivingZoneCell(x,y,buildLayer,4 );
+                    } catch (CellException e) {
+                        System.err.println("Can't build that there");
                     }
+                    cell.setTile(tileSet.getTile(5));
+
+                    buildLayer.setCell(x, y, cell);
                     break;
                 case(4):
                     //TODO implement price and budget changes!
@@ -219,8 +228,9 @@ public class Builder {
 
 
                 case(5):
-                    cell = new ForestCell(x,y);
+                    cell = new ForestCell(x,y, buildLayer);
                     cell.setTile((tileSet.getTile(2)));
+                    buildLayer.setCell(x,y,cell);
                     break;
             }
             if(buildCode != 3 && buildCode != 4){
@@ -242,8 +252,9 @@ public class Builder {
         switch (buildCode){
             case(2):
                 if(cell.getClass() == EmptyCell.class) {
-                    cell = new RoadCell(x,y);
+                    cell = new RoadCell(x,y, buildLayer);
                     cell.setTile((tileSet.getTile(4)));
+
                     buildLayer.setCell(x, y, cell);
                 }
                 break;

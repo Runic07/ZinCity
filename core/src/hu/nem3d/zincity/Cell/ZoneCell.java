@@ -1,6 +1,8 @@
 package hu.nem3d.zincity.Cell;
 
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import hu.nem3d.zincity.Logic.Citizen;
+import hu.nem3d.zincity.Misc.CellException;
 import hu.nem3d.zincity.Misc.Direction;
 
 import java.util.HashSet;
@@ -21,15 +23,6 @@ public abstract class ZoneCell extends CityCell{
     //I'm not quite sure, whether if it's the best choice for storing this data, but it ensures the uniqueness of each element
     protected HashSet<Direction> roadDirections = new HashSet<>();
 
-    /**
-     * Constructs a ZoneCell with coordinates of origin and a capacity set from parameter
-     * @param capacity The maximum number of occupants this zone can haves
-     */
-    protected ZoneCell(int capacity) {
-        super();
-        this.isWired = true;
-        this.capacity = capacity;
-    }
 
     /**
      * Constructs an ZoneCell with coordinates and capacity set from parameters
@@ -37,10 +30,22 @@ public abstract class ZoneCell extends CityCell{
      * @param y The distance of this from the origin on the vertical axis
      * @param capacity The maximum number of occupants this zone can haves
      */
-    protected ZoneCell(int x, int y, int capacity) {
-        super(x, y);
-        this.isWired = true;
-        this.capacity = capacity;
+
+    protected ZoneCell(int x, int y, TiledMapTileLayer tileLayer, int capacity) throws CellException {
+        super(x, y, tileLayer);
+
+        if (this.getNeighbor(Direction.NORTH) != null && this.getNeighbor(Direction.NORTH).getClass() == RoadCell.class ||
+                this.getNeighbor(Direction.SOUTH) != null && this.getNeighbor(Direction.SOUTH).getClass() == RoadCell.class ||
+                this.getNeighbor(Direction.EAST) != null && this.getNeighbor(Direction.EAST).getClass() == RoadCell.class ||
+                this.getNeighbor(Direction.WEST) != null && this.getNeighbor(Direction.WEST).getClass() == RoadCell.class
+        )
+        {
+            this.isWired = true;
+            this.capacity = capacity;
+        }
+        else{
+            throw new CellException("Building failed - no road neighbors");
+        }
     }
 
     //Basic getters (may add/remove some (or add setters), if that will be necessary)

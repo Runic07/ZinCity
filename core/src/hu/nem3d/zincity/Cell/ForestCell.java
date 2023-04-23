@@ -1,5 +1,7 @@
 package hu.nem3d.zincity.Cell;
 
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+
 /**
  * Represents a cell of a forest
  */
@@ -9,18 +11,15 @@ public class ForestCell extends CityCell{
     /**
      * Constructs a ForestCell with the coordinates of origin and 0 as an age
      */
-    public ForestCell() {
-        super();
-        this.age = 0;
-    }
+
 
     /**
      * Constructs a ForestCell with parameters set as the coordinates
      * @param x The distance of this from the origin on the horizontal axis
      * @param y The distance of this from the origin on the vertical axis
      */
-    public ForestCell(int x, int y) {
-        super(x, y);
+    public ForestCell(int x, int y, TiledMapTileLayer tileLayer) {
+        super(x, y, tileLayer);
         this.age = 0;
     }
 
