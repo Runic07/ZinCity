@@ -39,4 +39,28 @@ public class ForestCell extends CityCell{
      * Ages this by one unit (unless it reached the max value (10))
      */
     public void increaseAge(){age = (age == 10) ? 10 : age+1;}
+
+    /*
+    //Suggestion for aging trees
+    private int plantingDay;
+
+    public ForestCell() {
+        super();
+        this.plantingDay = 0;
+    }
+
+    public ForestCell(int x, int y) {
+        super(x, y);
+        this.plantingDay = 0;
+    }
+
+    public ForestCell(int x, int y, int plantingDay) {
+        super(x, y);
+        this.plantingDay = plantingDay;
+    }
+
+    public int getPlantingDay() {return plantingDay;}
+    public void setPlantingDay(int plantingDay) {this.plantingDay = plantingDay;}
+    public int getAge(int now){return (now - plantingDay)/365;}
+    */
 }
