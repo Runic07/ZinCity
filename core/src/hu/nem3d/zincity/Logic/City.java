@@ -196,7 +196,7 @@ public class City {
 
         //spew info
         System.out.println("\nCurrent city satisfaction: " + satisfaction + "\nCurrent budget: " + budget + "\nCurrent tax coeff: " + taxCoefficient);
-        System.out.println("---------------------------------");*/
+        System.out.println("---------------------------------");
     }
 
 }
