@@ -46,7 +46,7 @@ public class StatUI {
             dataString = "null";
             tier = "null";
         }
-        else if(cell.getClass() == BuildingCell.class){
+        else if(cell instanceof BuildingCell){
             name = ((BuildingCell)cell).getName();
             dataString = "Fee: " + ((BuildingCell)cell).getMaintenanceFee();
             tier = "null";
@@ -82,6 +82,7 @@ public class StatUI {
         Table table = new Table(skin);
         table.background("dialog");
         table.top();
+        skin.getFont("commodore-64").getData().setScale(width/720f, height/480f);
 
         Label nameLabel = new Label( name, skin);
         nameLabel.setSize(width / 9, (float) ((height * 0.15) / 2));

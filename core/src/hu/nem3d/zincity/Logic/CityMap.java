@@ -14,7 +14,8 @@ import hu.nem3d.zincity.Misc.DistanceCalculator;
 import hu.nem3d.zincity.Misc.OpenSimplex2S;
 import hu.nem3d.zincity.Misc.TextureTiles;
 
-import java.util.*;
+import java.util.Random;
+
 
 /**
  * Responsible for all operations related to generating, and storing the game map.
@@ -27,6 +28,12 @@ public class CityMap {
     TiledMapTileSet tileSet; //contains TiledMapTile objects.
     Texture texture;
 
+    /**
+     * Generates a 30x20 map with random Simplex-noise, adds water, trees and grass.
+     * Generates map layers for buildings and base tiles.
+     *
+     *
+     */
     public CityMap() {
         FileHandle handle = Gdx.files.internal("texture.png");
         texture = new Texture(handle.path());

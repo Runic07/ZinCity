@@ -1,7 +1,9 @@
 package hu.nem3d.zincity.Misc;
 
-
-//list the tiles on the texture png in their respective order.
+/**
+ * Helper enum for easier defining the tiles associated with our tilemap.
+ * ordinal() values should be the ID-s of the tiles.
+ */
 public enum TextureTiles {
     GRASS,
     WATER,
