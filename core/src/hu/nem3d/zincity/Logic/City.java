@@ -95,7 +95,7 @@ public class City {
 
     }
     public void step(){ //a unit of time passes
-        System.out.println("Current citizen satisfactions: ");
+        /*System.out.println("Current citizen satisfactions: ");
         satisfaction = 0;
 
         for (Citizen citizen : citizens) {
@@ -123,11 +123,11 @@ public class City {
             }
 
         }
-        satisfaction = satisfaction / ((double) citizens.size());
+        satisfaction = satisfaction / ((double) citizens.size());*/
         /*TODO this is bugged. Satisfaction gets divided
          * by the size it had before. Another update fixes this.
         */
-
+/*
         TiledMapTileLayer buildingLayer = (TiledMapTileLayer) cityMap.getMap().getLayers().get(1);
         for (int i = 0; i < 30; i++){ //no forall here unfortunately
             for (int j = 0; j < 20; j++){
@@ -164,7 +164,7 @@ public class City {
 
         //spew info
         System.out.println("\nCurrent city satisfaction: " + satisfaction + "\nCurrent budget: " + budget + "\nCurrent tax coeff: " + taxCoefficient);
-        System.out.println("---------------------------------");
+        System.out.println("---------------------------------");*/
     }
 
 }

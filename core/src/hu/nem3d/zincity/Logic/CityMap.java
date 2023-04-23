@@ -10,6 +10,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileSet;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import hu.nem3d.zincity.Cell.*;
+import hu.nem3d.zincity.Misc.DistanceCalculator;
 import hu.nem3d.zincity.Misc.OpenSimplex2S;
 import hu.nem3d.zincity.Misc.TextureTiles;
 
@@ -25,6 +26,7 @@ public class CityMap {
     TiledMapTileLayer buildingLayer; //more layers can be added on demand
     TiledMapTileSet tileSet; //contains TiledMapTile objects.
     Texture texture;
+
     public CityMap() {
         FileHandle handle = Gdx.files.internal("texture.png");
         texture = new Texture(handle.path());
@@ -134,6 +136,7 @@ public class CityMap {
         map = new TiledMap();
         map.getLayers().add(baseLayer);
         map.getLayers().add(buildingLayer);
+
     }
     public TiledMap getMap() {
         return map;
@@ -152,6 +155,17 @@ public class CityMap {
     }
 
     /**
+     * Calculates the distance between 2 cells form the buildingLayer
+     * @param start The cell, where the calculation (and search) starts
+     * @param destination The cell, where the calculation (and search) ends
+     * @return The number of steps, that needs to be taken to reach the destination cell from the starting cell,
+     * if the two cells are not connected by RoadCell, this value is -1
+     */
+    public int distance(CityCell start, CityCell destination){
+        return DistanceCalculator.distance(buildingLayer, start, destination);
+    }
+
+    /**
      * Searches for the closest workplace location from a LivingCellZone (based on certain conditions)
      * @param home the cell, where the search begins from
      * @param isIndustrial If this is true, this searches for IndustrialZoneCell,
@@ -161,7 +175,7 @@ public class CityMap {
      * otherwise, it's null
      */
     public ZoneCell closestWorkplaceFrom(LivingZoneCell home, boolean isIndustrial, boolean mustBeAvailable) {
-        return (closestOfWorkplaceWithDistance(home,
+        return (DistanceCalculator.closestOfWorkplaceWithDistance(buildingLayer, home,
                 (isIndustrial ? IndustrialZoneCell.class : ServiceZoneCell.class), mustBeAvailable).getFirst());
     }
 
@@ -177,153 +191,9 @@ public class CityMap {
      *         if this couldn't find any workplaces.
      */
     public int shortestWorkplaceDistanceFrom(LivingZoneCell home, boolean isIndustrial, boolean mustBeAvailable) {
-        return (closestOfWorkplaceWithDistance(home,
+        return (DistanceCalculator.closestOfWorkplaceWithDistance(buildingLayer, home,
                 (isIndustrial ? IndustrialZoneCell.class : ServiceZoneCell.class), mustBeAvailable)).getSecond();
     }
 
-    /**
-     * Searches for the closest workplace location from a LivingCellZone (based on certain conditions), meanwhile, this
-     * counts the "steps" that this takes to reach that workplace CityCell
-     * @param home the cell, where the search begins from
-     * @param workplaceType the Class of the CityCell that this searches for
-     * @param mustBeAvailable If this true, this should check, if any ZoneCell, that this finds, is not full
-     * @return A tuple of the reached CityCell, that can qualify as a proper workplace (based on the conditions set in parameters),
-     * and the distance between the 2 CityCells, if there is no such workplace, this returns the tuple of (null, -1)
-     */
-    private Tuple<ZoneCell, Integer> closestOfWorkplaceWithDistance(LivingZoneCell home, Class<?> workplaceType,
-                                                                    boolean mustBeAvailable) {
 
-        //Setting up the distances matrix with -1 values, this will represent the unreachable tiles
-        int[][] distances = new int[buildingLayer.getWidth()][buildingLayer.getHeight()];
-        for(int i = 0; i < buildingLayer.getWidth(); ++i) {
-            Arrays.fill(distances[i], -1);
-        }
-
-        distances[home.getX()][home.getY()] = 0;
-
-        ZoneCell destination = null;
-
-        //Queue always has Citycells "sorted" by their distances in increasing order (It's standard FIFO queue.)
-        LinkedList<CityCell> queue = new LinkedList<>();
-        queue.add(home);
-
-        while(!queue.isEmpty()) {
-            CityCell current = queue.remove(0);
-            if(current.getClass() == workplaceType) {
-                destination = (ZoneCell) current;
-                if(mustBeAvailable) {
-                    if(!destination.isFull()){break;}
-                    else{destination = null;}
-                }else{break;}
-            }
-            queue.addAll(getGoodNeighbours(current, workplaceType, distances));
-        }
-
-        Integer distance = ((destination != null ) ? distances[destination.getX()][destination.getY()] : -1);
-        return (new Tuple<>(destination, distance));
-    }
-
-    /**
-     * Collects the adjacent CityCells, that has the type of Road or given type (as parameter), and calculates the
-     * distances between these CityCells and the starting cell
-     * @param me The CityCell, which serves as the origin of this search
-     * @param workplaceType The sought type
-     * @param distances The matrix, that contains which cell is how far from the starting point
-     * @return A list of proper CityCells, that are adjacent to this
-     */
-    private List<CityCell> getGoodNeighbours(CityCell me, Class<?> workplaceType, int[][] distances){
-        ArrayList<CityCell> result = new ArrayList<>();
-
-        int distNow = distances[me.getX()][me.getY()];
-
-        CityCell current;
-
-        if(isReachable(me.getX()+1, me.getY())) {
-            if(distances[me.getX()+1][me.getY()] == -1) {
-                current = (CityCell) buildingLayer.getCell(me.getX()+1, me.getY());
-                if(current.getClass() == RoadCell.class || current.getClass() == workplaceType) {
-                    distances[me.getX()+1][me.getY()] = distNow + 1;
-                    result.add(current);
-                }
-            }
-        }
-
-        if(isReachable(me.getX()-1, me.getY())) {
-            if(distances[me.getX()-1][me.getY()] == -1) {
-                current = (CityCell) buildingLayer.getCell(me.getX()-1, me.getY());
-                if(current.getClass() == RoadCell.class || current.getClass() == workplaceType) {
-                    distances[me.getX()-1][me.getY()] = distNow + 1;
-                    result.add(current);
-                }
-            }
-        }
-
-        if(isReachable(me.getX(), me.getY()+1)) {
-            if(distances[me.getX()][me.getY()+1] == -1) {
-                current = (CityCell) buildingLayer.getCell(me.getX(), me.getY()+1);
-                if(current.getClass() == RoadCell.class || current.getClass() == workplaceType) {
-                    distances[me.getX()][me.getY()+1] = distNow + 1;
-                    result.add(current);
-                }
-            }
-        }
-
-        if(isReachable(me.getX(), me.getY()-1)) {
-            if(distances[me.getX()][me.getY()-1] == -1) {
-                current = (CityCell) buildingLayer.getCell(me.getX(), me.getY()-1);
-                if(current.getClass() == RoadCell.class || current.getClass() == workplaceType) {
-                    distances[me.getX()][me.getY()-1] = distNow + 1;
-                    result.add(current);
-                }
-            }
-        }
-
-        return result;
-    }
-
-    /**
-     * Checks if the coordinates are on this map
-     * @param x The distance of this from the origin on the horizontal axis
-     * @param y  The distance of this from the origin on the vertical axis
-     * @return True, if the given coordinates are on this map
-     */
-    public boolean isReachable(int x, int y) {
-        return (x >= 0 && x < buildingLayer.getWidth() && y >= 0 && y < buildingLayer.getHeight());
-    }
-
-    /**
-     * Provides a class of 2 values combined, a tuple
-     * @param <T1> The type of the first value
-     * @param <T2> The type of the second value
-     */
-    private static class Tuple<T1, T2>{
-        private final T1 first;
-        private final T2 second;
-
-        /**
-         * Constructs a Tuple with the values of parameters
-         * @param first The first value of this
-         * @param second The second value of this
-         */
-        Tuple(T1 first, T2 second){
-            this.first = first;
-            this.second = second;
-        }
-
-        /**
-         * Gets the first value of this
-         * @return The first value of this
-         */
-        public T1 getFirst() {
-            return first;
-        }
-
-        /**
-         * Gets the second value of this
-         * @return The second value of this
-         */
-        public T2 getSecond() {
-            return second;
-        }
-    }
 }
