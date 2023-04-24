@@ -31,6 +31,8 @@ public enum TextureTiles {
     POWER_PLANT_SOUTHWEST,
     HOUSE_BASIC,
     INDUSTRY_BASIC,
-    SERVICE_BASIC
+    SERVICE_BASIC,
+
+    INTERSECTION
 
 }
