@@ -119,6 +119,13 @@ public class Builder {
                         cell = new LivingZoneCell(x,y,buildLayer,4 );
                         cell.setTile(tileSet.getTile(24));
                         buildLayer.setCell(x, y, cell);
+
+                        System.out.println("New LivingZoneCell on (" + x + "," + y + ").");
+                        System.out.println(cityMap.distance(cell, (CityCell) buildLayer.getCell(10, 10)));
+                        ZoneCell ind = cityMap.closestWorkplaceFrom((LivingZoneCell) cell, true, true);
+                        System.out.println(ind == null ? "There is no proper IndustrialZC!" : ("Closest IndustrialZC: " + ind.getX() + " " + ind.getY() + "."));
+                        ZoneCell ser = cityMap.closestWorkplaceFrom((LivingZoneCell) cell, false, true);
+                        System.out.println(ser == null ? "There is no proper ServiceZC!" : ("Closest ServiceZC: " + ser.getX() + " " + ser.getY() + "."));
                     } catch (CellException e) {
                         System.err.println("Can't build that there");
                     }
@@ -141,14 +148,6 @@ public class Builder {
                         }
                     }
                     buildLayer.setCell(x, y, cell);
-                    System.out.println("New LivingZoneCell on (" + x + "," + y + ").");
-                    System.out.println(cityMap.distance(cell, (CityCell) buildLayer.getCell(10, 10)));
-
-                    ZoneCell ind = cityMap.closestWorkplaceFrom((LivingZoneCell) cell, true, true);
-                    System.out.println(ind == null ? "There is no proper IndustrialZC!" : ("Closest IndustrialZC: " + ind.getX() + " " + ind.getY() + "."));
-                    ZoneCell ser = cityMap.closestWorkplaceFrom((LivingZoneCell) cell, false, true);
-                    System.out.println(ser == null ? "There is no proper ServiceZC!" : ("Closest ServiceZC: " + ser.getX() + " " + ser.getY() + "."));
-
                     break;
             }
         return cell;
