@@ -21,6 +21,7 @@ public class ForestCell extends CityCell{
     public ForestCell(int x, int y, TiledMapTileLayer tileLayer) {
         super(x, y, tileLayer);
         this.age = 0;
+        this.price = 5;
     }
 
     /**

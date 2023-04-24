@@ -16,6 +16,8 @@ public class ServiceZoneCell extends ZoneCell {
      */
     public ServiceZoneCell(int x, int y, TiledMapTileLayer tileLayer, int capacity) throws CellException {
         super(x, y, tileLayer, capacity);
+        this.price = 30;
+
     }
 }
 

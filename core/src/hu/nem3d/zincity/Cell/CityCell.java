@@ -21,6 +21,11 @@ public abstract class CityCell extends TiledMapTileLayer.Cell {
     protected boolean isElectrified = false;
     protected boolean isWired = false;
 
+    protected double upkeepCost;
+    protected double price;
+
+
+
     TiledMapTileLayer tileLayer; //in case the cell knows the tile layer it's located on.
 
 
@@ -74,6 +79,22 @@ public abstract class CityCell extends TiledMapTileLayer.Cell {
      * @param y The distance of this from the origin on the vertical axis
      */
     public void setY(int y) {this.y = y;}
+
+    public double getUpkeepCost() {
+        return upkeepCost;
+    }
+
+    public void setUpkeepCost(double upkeepCost) {
+        this.upkeepCost = upkeepCost;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
 
     /**
      * Returns true if this cell has wires
