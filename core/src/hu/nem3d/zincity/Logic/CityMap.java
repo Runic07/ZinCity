@@ -47,6 +47,7 @@ public class CityMap {
                 j++;
             }
             tileSet.putTile(item.ordinal(), new StaticTiledMapTile(new TextureRegion(texture, i*24, j*24, 24,24)));
+            System.out.println(item.ordinal());
             i++;
 
         }
