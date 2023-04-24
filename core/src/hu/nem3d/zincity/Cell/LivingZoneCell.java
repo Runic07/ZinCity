@@ -18,6 +18,8 @@ public class LivingZoneCell extends ZoneCell {
      */
     public LivingZoneCell(int x, int y, TiledMapTileLayer tileLayer, int capacity) throws CellException {
         super(x, y, tileLayer, capacity);
+        this.price = 20;
+
     }
 
 }

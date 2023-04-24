@@ -17,23 +17,23 @@ public abstract class BuildingCell extends CityCell {
     boolean isSimple;
     protected BuildingPart part;
     protected int range;
-    protected int maintenanceFee;
+    //protected int maintenanceFee; removed in favour of universal "upkeepCost" variable.
 
 
 
     /**
      * Constructs a standard instance of a BuildingCell, with values set to the values of the parameters
      * (If this is a multi-cell building, this constructs the other parts of the building)
-     * @param x The distance of this from the origin on the horizontal axis
-     * @param y The distance of this from the origin on the vertical axis
-     * @param range The maximum distance between this and a cell, that this can effect
-     * @param maintenanceFee The annual cost of maintaining this
+     *
+     * @param x        The distance of this from the origin on the horizontal axis
+     * @param y        The distance of this from the origin on the vertical axis
+     * @param range    The maximum distance between this and a cell, that this can effect
      * @param isSimple True, if it is a single-cell building, else it is false
      */
-    protected BuildingCell(int x, int y, int range, int maintenanceFee, boolean isSimple) {
+    protected BuildingCell(int x, int y, int range, boolean isSimple) {
         super(x, y);
         this.range = range;
-        this.maintenanceFee = maintenanceFee;
+
         this.isWired = true;
         if (!isSimple){
             this.part = BuildingPart.NorthWest;
@@ -52,7 +52,7 @@ public abstract class BuildingCell extends CityCell {
     protected BuildingCell(int x, int y, int range, int maintenanceFee, BuildingPart part) {
         super(x, y);
         this.range = range;
-        this.maintenanceFee = maintenanceFee;
+
         this.isWired = true;
         this.part = part;
     }
@@ -63,14 +63,6 @@ public abstract class BuildingCell extends CityCell {
      */
     public String getName(){
         return this.name;
-    }
-
-    /**
-     * Gets the maintenance fee of this
-     * @return the annual cost of maintaining this
-     */
-    public int getMaintenanceFee(){
-        return this.maintenanceFee;
     }
 
 

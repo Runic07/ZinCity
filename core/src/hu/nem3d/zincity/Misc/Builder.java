@@ -96,7 +96,7 @@ public class Builder {
      */
     public CityCell buildZone(CityCell cell){
             switch (buildCode) {
-                case (1):
+                case (1): //Industrial zone
                     try {
                         cell = new IndustrialZoneCell(x,y,buildLayer, 2);
                         cell.setTile(tileSet.getTile(25));
@@ -131,7 +131,7 @@ public class Builder {
                     }
                     break;
                 case(4):
-                    //TODO implement price and budget changes!
+
                     if(LivingZoneCell.class == cell.getClass()){
                         if(((LivingZoneCell) cell).levelUp(((LivingZoneCell) cell).getCapacity() * 2)) {
                             cell.setTile(tileSet.getTile(5 + ((LivingZoneCell) cell).getLevel() - 1 ));
@@ -150,6 +150,8 @@ public class Builder {
                     buildLayer.setCell(x, y, cell);
                     break;
             }
+            //PAY THE PRICE HAHAHAHA
+            this.city.budget -= cell.getPrice();
         return cell;
 
     }
@@ -243,6 +245,8 @@ public class Builder {
             }
         }
 
+        //PAY UP, KID
+        for (CityCell cityCell : returnCells){this.city.budget -= cell.getPrice();}
 
         return  returnCells;
     }
@@ -263,6 +267,10 @@ public class Builder {
                 }
                 break;
         }
+
+        //YOU BROKE?
+        this.city.budget -= cell.getPrice();
+
         return cell;
     }
 
@@ -325,7 +333,7 @@ public class Builder {
             }
             cell = new EmptyCell(x,y);
             cell.setTile((tileSet.getTile(0)));
-            buildLayer.setCell(x, y, cell);
+            buildLayer.setCell(x, y, cell); // <-------------------- I do not like this. -Jaksy
         return  returnCells;
     }
 

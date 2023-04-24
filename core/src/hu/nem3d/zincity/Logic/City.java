@@ -42,7 +42,7 @@ public class City {
     public City() {
         budget = 500;
         satisfaction = 0.0;
-        taxCoefficient = 0.8;
+        taxCoefficient = 1.0;
         baseTaxAmount = 50;
         cityMap = new CityMap();
         citizens = new CopyOnWriteArrayList<>();
@@ -131,7 +131,8 @@ public class City {
 
 
             citizen.setSatisfaction(
-                    citizen.getSatisfaction() + citizen.getSatisfaction() * 0.05 + //previous satisfaction added with small weight
+                    citizen.getSatisfaction() +
+                            citizen.getSatisfaction() * 0.05 + //previous satisfaction added with small weight
                             (1 / taxCoefficient - 1) * 0.05 //tax coeff added, scaled down
                     //TODO +distance from workplace coeff
                     //TODO +distance from the nearest industry coeff
@@ -165,23 +166,8 @@ public class City {
             for (int j = 0; j < 20; j++){
                 CityCell cell = (CityCell) buildingLayer.getCell(i,j);
 
-                //upkeep costs
-                if (cell.getClass() == LivingZoneCell.class){
-                    budget -=20;
+                budget -= cell.getUpkeepCost();
 
-                }
-                if (cell.getClass() == IndustrialZoneCell.class){
-                    budget -=40;
-
-                }
-                if (cell.getClass() == ServiceZoneCell.class){
-                    budget -=30;
-
-                }
-                if (cell.getClass() == RoadCell.class){
-                    budget -=5;
-
-                }
             }
 
         }
@@ -189,7 +175,7 @@ public class City {
 
 
         if (satisfaction > satisfactionUpperThreshold){
-            if (r.nextInt() % 20 == 0){
+            if (r.nextInt() % 5 == 0){
                 addCitizen();
             }
         }

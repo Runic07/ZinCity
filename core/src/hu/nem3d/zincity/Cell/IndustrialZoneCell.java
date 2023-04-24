@@ -18,5 +18,6 @@ public class IndustrialZoneCell extends ZoneCell {
     public IndustrialZoneCell(int x, int y, TiledMapTileLayer tileLayer,  int capacity) throws CellException {
 
         super(x, y, tileLayer, capacity);
+        this.price = 40;
     }
 }
