@@ -99,32 +99,29 @@ public class Builder {
                 case (1):
                     try {
                         cell = new IndustrialZoneCell(x,y,buildLayer, 2);
+                        cell.setTile(tileSet.getTile(8));
+                        buildLayer.setCell(x, y, cell);
                     } catch (CellException e) {
                         System.err.println("Can't build that there");
                     }
-                    cell.setTile(tileSet.getTile(8));
-
-                    buildLayer.setCell(x, y, cell);
                     break;
                 case (2):
                     try {
                         cell = new ServiceZoneCell(x,y,buildLayer,2);
+                        cell.setTile(tileSet.getTile(11));
+                        buildLayer.setCell(x, y, cell);
                     } catch (CellException e) {
                         System.err.println("Can't build that there");
                     }
-                    cell.setTile(tileSet.getTile(11));
-
-                    buildLayer.setCell(x, y, cell);
                     break;
                 case (3):
                     try {
                         cell = new LivingZoneCell(x,y,buildLayer,4 );
+                        cell.setTile(tileSet.getTile(5));
+                        buildLayer.setCell(x, y, cell);
                     } catch (CellException e) {
                         System.err.println("Can't build that there");
                     }
-                    cell.setTile(tileSet.getTile(5));
-
-                    buildLayer.setCell(x, y, cell);
                     break;
                 case(4):
                     //TODO implement price and budget changes!
