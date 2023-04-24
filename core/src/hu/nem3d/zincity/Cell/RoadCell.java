@@ -1,6 +1,7 @@
 package hu.nem3d.zincity.Cell;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import hu.nem3d.zincity.Misc.Direction;
 
 /**
  * Represents the cell, which citizen can travel on
@@ -17,8 +18,15 @@ public class RoadCell extends CityCell{
     public RoadCell(int x, int y, TiledMapTileLayer tileLayer) {
 
         super(x, y, tileLayer);
+
         this.upkeepCost = 1;
         this.price = 5;
+
+        if (this.getNeighbor(Direction.WEST) instanceof RoadCell || this.getNeighbor(Direction.EAST) instanceof RoadCell){
+            this.setRotation(1);
+
+        }
+
     }
 
 }
