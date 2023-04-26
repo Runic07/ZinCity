@@ -104,37 +104,13 @@ public class DistanceCalculator {
 
         int distNow = distances[me.getX()][me.getY()];
 
-        CityCell current;
-
-        if(isReachable(map, me.getX()+1, me.getY())) {
-            if(distances[me.getX()+1][me.getY()] == -1) {
-                distances[me.getX()+1][me.getY()] = distNow + 1;
-                result.add((CityCell) map.getCell(me.getX()+1, me.getY()));
+        for (Direction dir : Direction.values()) {
+            CityCell current = me.getNeighbor(dir);
+            if (current != null && distances[current.getX()][current.getY()] == -1) {
+                distances[current.getX()][current.getY()] = distNow + 1;
+                result.add((CityCell) map.getCell(current.getX(), current.getY()));
             }
         }
-
-        if(isReachable(map, me.getX()-1, me.getY())) {
-            if(distances[me.getX()-1][me.getY()] == -1) {
-                distances[me.getX()-1][me.getY()] = distNow + 1;
-                result.add((CityCell) map.getCell(me.getX()-1, me.getY()));
-            }
-        }
-
-        if(isReachable(map, me.getX(), me.getY()+1)) {
-            if(distances[me.getX()][me.getY()+1] == -1) {
-                distances[me.getX()][me.getY()+1] = distNow + 1;
-                result.add((CityCell) map.getCell(me.getX(), me.getY()+1));
-            }
-        }
-
-        if(isReachable(map, me.getX(), me.getY()-1)) {
-            if(distances[me.getX()][me.getY()-1] == -1) {
-                distances[me.getX()][me.getY()-1] = distNow + 1;
-                result.add((CityCell) map.getCell(me.getX(), me.getY()-1));
-
-            }
-        }
-
         return result;
     }
 
@@ -145,7 +121,7 @@ public class DistanceCalculator {
      * @param y  The distance of this from the origin on the vertical axis
      * @return True, if the given coordinates are on the chosen map
      */
-    public static boolean isReachable(TiledMapTileLayer map, int x, int y) {
+    public static boolean isReachable(TiledMapTileLayer map, int x, int y) { //currently unused, it may change later
         return (x >= 0 && x < map.getWidth() && y >= 0 && y < map.getHeight());
     }
 }

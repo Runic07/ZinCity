@@ -105,6 +105,7 @@ public class Builder {
                     cell.setTile(tileSet.getTile(8));
 
                     buildLayer.setCell(x, y, cell);
+                    //System.out.println("New IndustrialZoneCell on (" + x + "," + y + ").");
                     break;
                 case (2):
                     try {
@@ -115,6 +116,7 @@ public class Builder {
                     cell.setTile(tileSet.getTile(11));
 
                     buildLayer.setCell(x, y, cell);
+                    //System.out.println("New ServiceZoneCell on (" + x + "," + y + ").");
                     break;
                 case (3):
                     try {
@@ -125,6 +127,15 @@ public class Builder {
                     cell.setTile(tileSet.getTile(5));
 
                     buildLayer.setCell(x, y, cell);
+                    /*
+                    System.out.println("New LivingZoneCell on (" + x + "," + y + ").");
+                    System.out.println(cityMap.distance(cell, (CityCell) buildLayer.getCell(10, 10)));
+
+                    ZoneCell ind = cityMap.closestWorkplaceFrom((LivingZoneCell) cell, true, true);
+                    System.out.println(ind == null ? "There is no proper IndustrialZC!" : ("Closest IndustrialZC: " + ind.getX() + " " + ind.getY() + "."));
+                    ZoneCell ser = cityMap.closestWorkplaceFrom((LivingZoneCell) cell, false, true);
+                    System.out.println(ser == null ? "There is no proper ServiceZC!" : ("Closest ServiceZC: " + ser.getX() + " " + ser.getY() + "."));
+                    */
                     break;
                 case(4):
                     //TODO implement price and budget changes!
@@ -144,14 +155,6 @@ public class Builder {
                         }
                     }
                     buildLayer.setCell(x, y, cell);
-                    System.out.println("New LivingZoneCell on (" + x + "," + y + ").");
-                    System.out.println(cityMap.distance(cell, (CityCell) buildLayer.getCell(10, 10)));
-
-                    ZoneCell ind = cityMap.closestWorkplaceFrom((LivingZoneCell) cell, true, true);
-                    System.out.println(ind == null ? "There is no proper IndustrialZC!" : ("Closest IndustrialZC: " + ind.getX() + " " + ind.getY() + "."));
-                    ZoneCell ser = cityMap.closestWorkplaceFrom((LivingZoneCell) cell, false, true);
-                    System.out.println(ser == null ? "There is no proper ServiceZC!" : ("Closest ServiceZC: " + ser.getX() + " " + ser.getY() + "."));
-
                     break;
             }
         return cell;
