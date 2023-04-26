@@ -104,7 +104,7 @@ public class GameScreen implements Screen { //draft
     }
     @Override
     public void render(float delta) {
-        if(speed != 6000){
+        if(speed != 0){
             frameCounter++;
         }
         if (frameCounter > speed){

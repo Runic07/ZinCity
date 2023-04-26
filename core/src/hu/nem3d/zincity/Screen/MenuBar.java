@@ -99,6 +99,7 @@ public class MenuBar {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if(currId == 5 || currId == 6){
+                    stage.clear();
                     idTo = 4;
                 }
                 else{
@@ -120,8 +121,9 @@ public class MenuBar {
                 TextButton specialButton = new TextButton("Special", skin);
                 specialButton.setSize(width / 9, (float) ((height * 0.15) / 2));
 
-                TextButton statButton = new TextButton("Stats", skin);
-                statButton.setSize(width / 9, (float) ((height * 0.15) / 2));
+
+                TextButton speedButton = new TextButton("Speed", skin);
+                speedButton.setSize(width / 9, (float) ((height * 0.15) / 2));
 
                 TextButton moreButton = new TextButton("More", skin);
                 moreButton.setSize(width / 9, (float) ((height * 0.15) / 2));
@@ -141,12 +143,38 @@ public class MenuBar {
                         //System.out.println("Build");
                     }
                 });
-                statButton.addListener((new ClickListener() {
+
+                speedButton.addListener(new ClickListener() {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-                        idTo = 3;  //TODO call statScreen when clicked (ID set stays!)
+                        int curSpeed = screen.getSpeed();
+                        String speedmsg = "";
+                        switch (curSpeed){
+                            case(600):
+                                screen.setSpeed(300);
+                                speedmsg = "5 sec / day";
+                                break;
+                            case(300):
+                                screen.setSpeed(60);
+                                speedmsg = "1 sec / day";
+                                break;
+                            case(60):
+                                screen.setSpeed(0);
+                                speedmsg = "Paused";
+                                break;
+                            default:
+                                screen.setSpeed(600);
+                                speedmsg = "10 sec / day";
+                                break;
+                        }
+                        Dialog dialog = new Dialog("Speed", skin, "dialog");
+                        dialog.text("Current speed: " + speedmsg);
+                        dialog.button("OK", false);
+                        dialog.getBackground().setMinWidth(200);
+                        dialog.getBackground().setMinHeight(200);
+                        dialog.show(stage);
                     }
-                }));
+                });
 
                 moreButton.addListener(new ClickListener() {
                     @Override
@@ -162,7 +190,7 @@ public class MenuBar {
                 currTable.add(buildButton).spaceRight(10).expand().bottom().fill();
                 currTable.add(specialButton).spaceRight(10).expand().bottom().fill();
                 //currTable.add(statButton);
-                currTable.add(statButton).spaceRight(10).expand().bottom().fill();
+                currTable.add(speedButton).spaceRight(10).expand().bottom().fill();
                 currTable.add(moreButton).spaceRight(10).expand().bottom().fill();
                 break;
             case(1):
@@ -293,8 +321,7 @@ public class MenuBar {
                 TextButton deleteButton = new TextButton("Delete", skin);
                 deleteButton.setSize(width / 9, (float) ((height * 0.15) / 2));
 
-                TextButton speedButton = new TextButton("Speed", skin);
-                speedButton.setSize(width / 9, (float) ((height * 0.15) / 2));
+
 
                 networkButton.addListener(new ClickListener() {
                     @Override
@@ -306,47 +333,25 @@ public class MenuBar {
                 settingsButton.addListener(new ClickListener() {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-                    }
-                });
-                speedButton.addListener(new ClickListener() {
-                    @Override
-                    public void clicked(InputEvent event, float x, float y) {
-                        int curSpeed = screen.getSpeed();
-                        String speedmsg = "";
-                        switch (curSpeed){
-                            case(600):
-                                screen.setSpeed(300);
-                                speedmsg = "5 sec / day";
-                                break;
-                            case(300):
-                                screen.setSpeed(60);
-                                speedmsg = "1 sec / day";
-                                break;
-                            case(60):
-                                screen.setSpeed(6000);
-                                speedmsg = "Paused";
-                                break;
-                            default:
-                                screen.setSpeed(600);
-                                speedmsg = "10 sec / day";
-                                break;
-                        }
-                        Dialog dialog = new Dialog("Speed", skin, "dialog") {
-                            public void result(Object obj) {
-                                System.out.println("result " + obj);
-                                boolean quitMenu = (Boolean) obj;
-                                if (quitMenu) {
-                                    Gdx.app.exit();
-                                }
+                        stage.clear();
+                        SettingsScreen settings = new SettingsScreen(stage,city,screen);
+                        Table settingsTable = settings.settingsTable(width,height);
+                        TextButton backButton = new TextButton("Back", skin);
+                        backButton.addListener(new ClickListener() {
+                            @Override
+                            public void clicked(InputEvent event, float x, float y) {
+                                stage.clear();
+                                idTo = 0;
                             }
-                        };
-                        dialog.text("Current speed: " + speedmsg);
-                        dialog.button("OK", false);
-                        dialog.getBackground().setMinWidth(200);
-                        dialog.getBackground().setMinHeight(200);
-                        dialog.show(stage);
+                        });
+                        settingsTable.row();
+                        settingsTable.add(backButton);
+                        settingsTable.setBounds(0,(float) (height * 1.5 - (float) (height * 0.77 *1.5)), (float) (width * 1.5), (float) (height * 0.6 *1.5) );
+
+                        stage.addActor(settingsTable);
                     }
                 });
+
 
                 deleteButton.addListener(new ClickListener() {
                     @Override
@@ -357,7 +362,6 @@ public class MenuBar {
 
                 currTable.add(networkButton).spaceRight(10).expand().bottom().fill();
                 currTable.add(deleteButton).spaceRight(10).expand().bottom().fill();
-                currTable.add(speedButton).spaceRight(10).expand().bottom().fill();
                 currTable.add(settingsButton).spaceRight(10).expand().bottom().fill();
 
                 break;
