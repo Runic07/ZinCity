@@ -22,7 +22,7 @@ build:
 
   artifacts:
     paths:
-      - ./desktop/build
+      - $CI_PROJECT_DIR/desktop/build
     
 
   cache:
