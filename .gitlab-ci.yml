@@ -20,7 +20,7 @@ build:
   stage: build
   script: 
     - cd desktop
-    - ./gradlew dist
+    - gradle dist
 
   cache:
     key: "$CI_COMMIT_REF_NAME"
