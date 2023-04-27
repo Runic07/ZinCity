@@ -24,8 +24,6 @@ public abstract class CityCell extends TiledMapTileLayer.Cell {
     protected double upkeepCost;
     protected double price;
 
-
-
     TiledMapTileLayer tileLayer; //in case the cell knows the tile layer it's located on.
 
 
@@ -35,7 +33,6 @@ public abstract class CityCell extends TiledMapTileLayer.Cell {
      * @param y The distance of this from the origin on the vertical axis
      * @deprecated
      */
-
     public CityCell(int x, int y) {
         super();
         this.x = x;
@@ -48,7 +45,6 @@ public abstract class CityCell extends TiledMapTileLayer.Cell {
      * @param tileLayer the layer this cell is being constructed on.
      *
      */
-
     public CityCell(int x, int y, TiledMapTileLayer tileLayer){
         super();
         this.x = x;
@@ -134,7 +130,9 @@ public abstract class CityCell extends TiledMapTileLayer.Cell {
 
     }
 
-    //Result of merging the Position and the Tile classes from UML
+    public TiledMapTileLayer getTileLayer() {
+        return tileLayer;
+    }
 
     /**
      * Calculates the distance between two CityCells by air
