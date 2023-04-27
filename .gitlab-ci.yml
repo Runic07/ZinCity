@@ -29,7 +29,7 @@ build:
     key: "$CI_COMMIT_REF_NAME"
     policy: push
     paths:
-      - build
+      - ./desktop/build
       - .gradle
 
 test:
