@@ -18,9 +18,8 @@ before_script:
 
 build:
   stage: build
-  script: 
-    - cd desktop
-    - gradle dist
+  script: ./gradlew dist
+    
 
   cache:
     key: "$CI_COMMIT_REF_NAME"
