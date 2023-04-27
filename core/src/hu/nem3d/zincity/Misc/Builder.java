@@ -121,8 +121,8 @@ public class Builder {
                         buildLayer.setCell(x, y, cell);
 
                         System.out.println("New LivingZoneCell on (" + x + "," + y + ").");
-                        //System.out.print(DistanceCalculator.isConnected(cell, (CityCell) buildLayer.getCell(0,0))
-                        //        ? "Connected to (0,0)\t" : "\t");
+                        System.out.print(DistanceCalculator.isConnected(cell, (CityCell) buildLayer.getCell(0,0))
+                                ? "Connected to (0,0)\t" : "\t");
                         System.out.println(DistanceCalculator.distance(cell, (CityCell) buildLayer.getCell(0, 0)));
                     } catch (CellException e) {
                         System.err.println("Can't build that there");

@@ -45,7 +45,34 @@ public class DistanceCalculator {
         return distances[destination.getX()][destination.getY()];
     }
 
+    public static boolean isConnected(CityCell start, CityCell destination) {
+        if (start == null || destination == null){return false;}
 
+        TiledMapTileLayer map = start.getTileLayer();
+
+        boolean[][] visited = new boolean[map.getWidth()][map.getHeight()];
+
+        //Queue always has CityCells "sorted" by their distances in increasing order (It's standard FIFO queue.)
+        LinkedList<CityCell> queue = new LinkedList<>();
+        queue.add(start);
+
+        while(!queue.isEmpty()) {
+            CityCell current = queue.remove(0);
+            if(current == destination){
+                return true;
+            }
+            if(current == start || current.getClass() == RoadCell.class) {
+                for (Direction dir : Direction.values()) {
+                    CityCell neighbor = current.getNeighbor(dir);
+                    if (neighbor != null && !visited[neighbor.getX()][neighbor.getY()]) {
+                        visited[neighbor.getX()][neighbor.getY()] = true;
+                        queue.add(neighbor);
+                    }
+                }
+            }
+        }
+        return false;
+    }
 
     /**
      * Collects the adjacent CityCells and calculates the distances between these CityCells and the starting cell of distances matrix
