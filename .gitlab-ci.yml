@@ -19,6 +19,10 @@ before_script:
 build:
   stage: build
   script: gradle dist
+
+  artifacts:
+    paths:
+      - desktop/build
     
 
   cache:
