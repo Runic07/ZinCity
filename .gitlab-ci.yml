@@ -18,7 +18,7 @@ before_script:
 
 build:
   stage: build
-  script: gradle --build-cache assemble
+  script: ./desktop/gradle --build-cache dist
   cache:
     key: "$CI_COMMIT_REF_NAME"
     policy: push
