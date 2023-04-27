@@ -8,9 +8,9 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-public class DistanceCalculator {
+public final class DistanceCalculator {
 
-    public DistanceCalculator(){}
+    private DistanceCalculator(){}
 
     /**
      * Calculates the distance between 2 cells form the chosen map
@@ -45,6 +45,12 @@ public class DistanceCalculator {
         return distances[destination.getX()][destination.getY()];
     }
 
+    /**
+     * Checks if the two given CityCells are connected by a road (technically: sequence of RoadCells)
+     * @param start The cell, where the search starts
+     * @param destination The cell, that this method is trying to reach by travelling only on road
+     * @return True, if the two given cell are connected by road, otherwise false
+     */
     public static boolean isConnected(CityCell start, CityCell destination) {
         if (start == null || destination == null){return false;}
 
