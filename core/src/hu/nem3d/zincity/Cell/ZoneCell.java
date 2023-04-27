@@ -22,6 +22,7 @@ public abstract class ZoneCell extends CityCell{
 
     //I'm not quite sure, whether if it's the best choice for storing this data, but it ensures the uniqueness of each element
     protected HashSet<Direction> roadDirections = new HashSet<>();
+    //im not sure if this is even useful - jaksy
 
 
     /**
@@ -35,12 +36,7 @@ public abstract class ZoneCell extends CityCell{
         super(x, y, tileLayer);
         this.upkeepCost = 0;
 
-        if ((this.getNeighbor(Direction.NORTH) != null && this.getNeighbor(Direction.NORTH).getClass() == RoadCell.class ||
-                this.getNeighbor(Direction.SOUTH) != null && this.getNeighbor(Direction.SOUTH).getClass() == RoadCell.class ||
-                this.getNeighbor(Direction.EAST) != null && this.getNeighbor(Direction.EAST).getClass() == RoadCell.class ||
-                this.getNeighbor(Direction.WEST) != null && this.getNeighbor(Direction.WEST).getClass() == RoadCell.class) &&
-                tileLayer.getCell(x,y).getClass() == EmptyCell.class
-        )
+        if ((hasRoadNeighbor() && tileLayer.getCell(x,y).getClass() == EmptyCell.class))
         {
             this.isWired = true;
             this.capacity = capacity;
@@ -50,6 +46,12 @@ public abstract class ZoneCell extends CityCell{
         }
     }
 
+    private boolean hasRoadNeighbor(){
+        return (this.getNeighbor(Direction.NORTH) != null && this.getNeighbor(Direction.NORTH).getClass() == RoadCell.class ||
+                this.getNeighbor(Direction.SOUTH) != null && this.getNeighbor(Direction.SOUTH).getClass() == RoadCell.class ||
+                this.getNeighbor(Direction.EAST) != null && this.getNeighbor(Direction.EAST).getClass() == RoadCell.class ||
+                this.getNeighbor(Direction.WEST) != null && this.getNeighbor(Direction.WEST).getClass() == RoadCell.class);
+    }
     //Basic getters (may add/remove some (or add setters), if that will be necessary)
 
     /**
