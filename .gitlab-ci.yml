@@ -22,7 +22,7 @@ build:
 
   artifacts:
     paths:
-      - desktop/build
+      - ./desktop/build
     
 
   cache:
