@@ -27,6 +27,8 @@ public class TiledMapClickListener extends ClickListener {
     private int buildCode;
     ArrayList<CityCell> cells;
 
+    Builder builder;
+
     /**
      * Setting basic properties.
      * @param actor
@@ -34,7 +36,7 @@ public class TiledMapClickListener extends ClickListener {
      * @param city_
      * @param stage_
      */
-    public TiledMapClickListener(TiledMapActor actor, StatUI stat, City city_, CityStage stage_) {
+    public TiledMapClickListener(TiledMapActor actor, StatUI stat, City city_, CityStage stage_, Builder builder) {
         this.actor = actor;
         this.stats = stat;
         this.stage = stage_;
@@ -42,6 +44,7 @@ public class TiledMapClickListener extends ClickListener {
         this.buildCode = stage.getBuildCode();
         this.city = city_;
         cells = new ArrayList<>();
+        this.builder = builder;
     }
 
 
@@ -71,7 +74,10 @@ public class TiledMapClickListener extends ClickListener {
         this.buildCode = stage.getBuildCode();
 
         //System.out.println(UIid + " " + buildCode);
-        Builder builder = new Builder(UIid, buildCode, city, stage);
+        builder.setBuildCode(buildCode);
+        builder.setSelectedMenuId(UIid);
+        builder.setStage(stage);
+
         int cellX = actor.getCell().getX();
         int cellY = actor.getCell().getY();
         builder.build(cellX,cellY,city.getCityMap().getBuildingLayer());

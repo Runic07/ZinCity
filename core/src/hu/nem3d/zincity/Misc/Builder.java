@@ -17,7 +17,11 @@ import java.util.ArrayList;
  */
 public class Builder {
     private int selectedMenuId;
+    
+
     private int buildCode = 0;
+
+
     CityMap cityMap;
 
     City city;
@@ -54,23 +58,23 @@ public class Builder {
 
     /**
      * Setting default values.
-     * @param menuId
+     * @param menuId_
      * @param code_
      * @param city_
      */
-    public Builder(int menuId, int code_, City city_, CityStage stage_){
-        this.selectedMenuId = menuId;
+    public Builder(int menuId_, int code_, City city_){
+        this.selectedMenuId = menuId_;
         this.buildCode = code_;
         this.city = city_;
         cityMap = city.getCityMap();
         this.tileSet = cityMap.getTileSet();
         this.buildLayer = cityMap.getBuildingLayer();
-        this.stage = stage_;
         cells = new ArrayList<>();
     }
 
     /**
-     * We call the 4 different actions based on the UiId and after that we return the affected cells in an ArrayList.
+     * We call the 4 different actions based on the UiId and after that we set the affected cells in an ArrayList, the ArrayList is only for the CityStage to
+     * use, for map gen the buildlayer will be set and you don't need to bother with the ArrayList.
      * @return
      */
     public void build(int cellX, int cellY, TiledMapTileLayer layer) {
@@ -353,6 +357,17 @@ public class Builder {
 
     public void resetCells() {
         this.cells = new ArrayList<>();
+    }
+
+    public void setStage(CityStage stage) {
+        this.stage = stage;
+    }
+    public void setBuildCode(int buildCode) {
+        this.buildCode = buildCode;
+    }
+
+    public void setSelectedMenuId(int selectedMenuId) {
+        this.selectedMenuId = selectedMenuId;
     }
 
 }

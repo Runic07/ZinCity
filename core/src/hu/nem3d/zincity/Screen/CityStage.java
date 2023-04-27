@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import hu.nem3d.zincity.Cell.CityCell;
 import hu.nem3d.zincity.Logic.City;
 import hu.nem3d.zincity.Logic.CityMap;
+import hu.nem3d.zincity.Misc.Builder;
 
 import java.util.ArrayList;
 
@@ -30,6 +31,8 @@ public class CityStage extends Stage {
 
         private ArrayList<TiledMapActor> actors;
 
+        Builder builder;
+
     /**
      * Constructor sets the city (where the date is from), id which is the current UIs id which determines the actions that are doable, the stat is a StatUI
      * which is responsible for getting each cells stats.
@@ -37,7 +40,7 @@ public class CityStage extends Stage {
      * @param id
      * @param stat
      */
-        public CityStage(City city, int id, StatUI stat) {
+        public CityStage(City city, int id, StatUI stat, Builder builder_) {
             this.city = city;
             this.cityMap = city.getCityMap();
             this.stats = stat;
@@ -45,6 +48,7 @@ public class CityStage extends Stage {
             this.buildCode = 0;
             this.tiledMap = cityMap.getMap();
             this.actors = new ArrayList<>();
+            this.builder = builder_;
 
             /*MapLayer layer = tiledMap.getLayers().get(id);
             TiledMapTileLayer tiledLayer = (TiledMapTileLayer)layer;
@@ -88,7 +92,7 @@ public class CityStage extends Stage {
                     actor.setPosX(x);
                     actor.setPosY(y);
                     addActor(actor);
-                    EventListener eventListener = new TiledMapClickListener(actor, stats, city, this);
+                    EventListener eventListener = new TiledMapClickListener(actor, stats, city, this, builder);
                     actor.addListener(eventListener);
                     actors.add(actor);
                 }
