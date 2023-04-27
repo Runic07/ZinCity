@@ -2,13 +2,11 @@ package hu.nem3d.zincity.Misc;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileSet;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import hu.nem3d.zincity.Cell.*;
 import hu.nem3d.zincity.Logic.Citizen;
 import hu.nem3d.zincity.Logic.City;
 import hu.nem3d.zincity.Logic.CityMap;
 import hu.nem3d.zincity.Screen.CityStage;
-import hu.nem3d.zincity.Screen.TiledMapActor;
 
 import java.util.ArrayList;
 
@@ -17,7 +15,7 @@ import java.util.ArrayList;
  */
 public class Builder {
     private int selectedMenuId;
-    
+
 
     private int buildCode = 0;
 
@@ -78,11 +76,12 @@ public class Builder {
      * @return
      */
     public void build(int cellX, int cellY, TiledMapTileLayer layer) {
+        cells = new ArrayList<>();
         x = cellX;
         y = cellY;
         this.buildLayer = layer;
         CityCell cell = stage.getCell(x, y, layer);
-        System.out.println(x +" aaaa "+ y);
+        //System.out.println(x +" , "+ y);
         if (cell.getClass() != BlockedCell.class) {
             switch (selectedMenuId) {
                 case (1):
@@ -345,9 +344,11 @@ public class Builder {
                 }
 
             }
+            //System.out.println(returnCells);
             cell = new EmptyCell(x,y);
             cell.setTile((tileSet.getTile(0)));
-            buildLayer.setCell(x, y, cell); // <-------------------- I do not like this. -Jaksy
+            buildLayer.setCell(x, y, cell);
+            returnCells.add(cell);// <-------------------- I do not like this. -Jaksy
         return  returnCells;
     }
 

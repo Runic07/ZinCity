@@ -85,9 +85,9 @@ public class TiledMapClickListener extends ClickListener {
         cells = builder.getCells();
 
         if(cells.size() == 1) {
-            System.out.println(cells.get(0).getClass());
+            //System.out.println(cells.get(0).getClass());
             actor.setCell(cells.get(0));
-            System.out.println(actor.getCell().getClass());
+            //System.out.println(actor.getCell().getClass());
         }
 
         if(cells.size() > 2){
@@ -95,12 +95,13 @@ public class TiledMapClickListener extends ClickListener {
                 TiledMapActor actorTmp = (TiledMapActor) actors;
                 for(CityCell cellTmp : cells){
                     if(cellTmp.getX() == actorTmp.getPosX() && cellTmp.getY() == actorTmp.getPosY()){
+                        //System.out.println(cellTmp.getClass());
                         actorTmp.setCell(cellTmp);
+                        //System.out.println(actorTmp.getCell().getClass());
                     }
                 }
             }
         }
-        System.out.println(actor.getCell().getClass() + "  click listener");
 
         stats.isShown(actor.getCell());
         actor.getCell().statCall(stats);
