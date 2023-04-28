@@ -24,9 +24,9 @@ public class MainMenu implements Screen {
     TextureAtlas atlas;
     Skin skin;
     protected Stage stage;
-    private OrthographicCamera camera;
-    private Viewport viewport;
-    private SpriteBatch batch;
+    private final OrthographicCamera camera;
+    private final Viewport viewport;
+    private final SpriteBatch batch;
     public static Texture backgroundTexture;
     public static Sprite backgroundSprite;
 

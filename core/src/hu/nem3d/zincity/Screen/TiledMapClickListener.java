@@ -3,13 +3,10 @@ package hu.nem3d.zincity.Screen;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import hu.nem3d.zincity.Cell.ArenaCell;
 import hu.nem3d.zincity.Cell.CityCell;
-import hu.nem3d.zincity.Cell.EmptyCell;
-import hu.nem3d.zincity.Cell.GeneratorCell;
 import hu.nem3d.zincity.Logic.City;
-import hu.nem3d.zincity.Logic.CityMap;
 import hu.nem3d.zincity.Misc.Builder;
+
 import java.util.ArrayList;
 
 /**
@@ -17,13 +14,13 @@ import java.util.ArrayList;
  */
 public class TiledMapClickListener extends ClickListener {
 
-    private StatUI stats;
+    private final StatUI stats;
     private int UIid;
-    private City city;
+    private final City city;
 
-    private CityStage stage;
+    private final CityStage stage;
 
-    private TiledMapActor actor;
+    private final TiledMapActor actor;
     private int buildCode;
     ArrayList<CityCell> cells;
 

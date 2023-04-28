@@ -19,17 +19,17 @@ import java.util.ArrayList;
  */
 public class CityStage extends Stage {
 
-        private StatUI stats;
-        private TiledMap tiledMap;
-        private CityMap cityMap;
+        private final StatUI stats;
+        private final TiledMap tiledMap;
+        private final CityMap cityMap;
 
-        private City city;
+        private final City city;
 
         private int UIid;
 
         private int buildCode;
 
-        private ArrayList<TiledMapActor> actors;
+        private final ArrayList<TiledMapActor> actors;
 
         Builder builder;
 
@@ -112,10 +112,10 @@ public class CityStage extends Stage {
     }
 
     public TiledMapActor getActor(int x, int y){
-        for(int i = 0; i < actors.size(); i++){
-            if(actors.get(i).getPosY() == y && actors.get(i).getPosX() == x){
-                System.out.println( actors.get(i).getCell().getClass() + " getActor");
-                return actors.get(i);
+        for (TiledMapActor actor : actors) {
+            if (actor.getPosY() == y && actor.getPosX() == x) {
+                System.out.println(actor.getCell().getClass() + " getActor");
+                return actor;
             }
         }
         return null;

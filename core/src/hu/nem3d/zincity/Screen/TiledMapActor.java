@@ -12,9 +12,9 @@ import hu.nem3d.zincity.Logic.CityMap;
  */
 public class TiledMapActor extends Actor {
 
-    private CityMap tiledMap;
+    private final CityMap tiledMap;
 
-    private TiledMapTileLayer tiledLayer;
+    private final TiledMapTileLayer tiledLayer;
 
     private CityCell cell;
 
