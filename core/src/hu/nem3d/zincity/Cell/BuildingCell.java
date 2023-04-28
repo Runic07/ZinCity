@@ -46,7 +46,7 @@ public abstract class BuildingCell extends CityCell {
      *
      * @param part The specific part of the multi-cell building
      */
-    protected BuildingCell(int x, int y, TiledMapTileLayer tileLayer, BuildingPart part) throws CellException{
+    protected BuildingCell(int x, int y, TiledMapTileLayer tileLayer, BuildingPart part){
         super(x, y, tileLayer);
 
         this.isWired = true;
