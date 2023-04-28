@@ -105,8 +105,8 @@ public final class DistanceCalculator {
         int closestDist = Integer.MAX_VALUE;
 
 
-        for (int i = 0; i < layer.getHeight(); i++) {
-            for (int j = 0; j < layer.getWidth(); j++) {
+        for (int i = 0; i < layer.getWidth(); i++) {
+            for (int j = 0; j < layer.getHeight(); j++) {
                 if (layer.getCell(i,j) instanceof IndustrialZoneCell){
                     int dist = Math.abs(i - cell.getX()) + Math.abs(j - cell.getY());
                     if (dist < closestDist) {
