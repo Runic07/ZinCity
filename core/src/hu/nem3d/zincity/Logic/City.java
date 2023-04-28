@@ -5,6 +5,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileSet;
 import hu.nem3d.zincity.Cell.*;
+import hu.nem3d.zincity.Misc.DistanceCalculator;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -134,16 +135,17 @@ public class City {
             citizen.setSatisfaction(
                     citizen.getSatisfaction() +
                             citizen.getSatisfaction() * 0.05 + //previous satisfaction added with small weight
-                            (1 / taxCoefficient - 1) * 0.05 //tax coeff added, scaled down
-                    //TODO +distance from workplace coeff
-                    //TODO +distance from the nearest industry coeff
-
-
+                            (1 / taxCoefficient - 1) * 0.05 -//tax coeff added, scaled down
+                            ((double) DistanceCalculator.distance(citizen.getHome(), citizen.getWorkplace()) - 10.0) * 0.01 - //distance from workplace
+                            //bonus if <10 tile (linear)
+                            1.0 / (DistanceCalculator.nearestIndustrialDistance(citizen.getHome()) * 3) //distance from nearest industrial (hyperbolic)
 
             );
             System.out.print(citizen.getSatisfaction() + "\t");
 
             satisfaction += citizen.getSatisfaction();
+
+            satisfaction -= Math.abs(cityMap.IndustrialZoneCount() - cityMap.ServiceZoneCount()) * 0.01; //ratio of different workplaces penalty (linear)
 
             if (citizen.getSatisfaction() < satisfactionLowerThreshold){
                 if (r.nextInt() % 20 == 0){

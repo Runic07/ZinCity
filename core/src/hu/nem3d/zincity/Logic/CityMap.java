@@ -132,4 +132,30 @@ public class CityMap {
         return tileSet;
     }
 
+    public int ServiceZoneCount(){
+        int count = 0;
+        for (int i = 0; i < buildingLayer.getHeight(); i++) {
+            for (int j = 0; j < buildingLayer.getWidth(); j++) {
+                if (buildingLayer.getCell(i,j) instanceof ServiceZoneCell){
+                    count++;
+                }
+            }
+
+        }
+        return count;
+    }
+
+    public int IndustrialZoneCount(){
+        int count = 0;
+        for (int i = 0; i < buildingLayer.getHeight(); i++) {
+            for (int j = 0; j < buildingLayer.getWidth(); j++) {
+                if (buildingLayer.getCell(i,j) instanceof IndustrialZoneCell){
+                    count++;
+                }
+            }
+
+        }
+        return count;
+    }
+
 }

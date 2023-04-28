@@ -91,6 +91,37 @@ public final class DistanceCalculator {
     }
 
     /**
+     * Calculates the distance of the nearest Industrial cell
+     * @param cell cell that is calculated from
+     * @return
+     */
+
+    public static int nearestIndustrialDistance(CityCell cell){
+
+        if (cell instanceof IndustrialZoneCell){
+            return 0;
+        }
+        TiledMapTileLayer layer = cell.getTileLayer();
+        int closestDist = Integer.MAX_VALUE;
+
+
+        for (int i = 0; i < layer.getHeight(); i++) {
+            for (int j = 0; j < layer.getWidth(); j++) {
+                if (layer.getCell(i,j) instanceof IndustrialZoneCell){
+                    int dist = Math.abs(i - cell.getX()) + Math.abs(j - cell.getY());
+                    if (dist < closestDist) {
+                        closestDist = dist;
+
+                    }
+                }
+
+            }
+        }
+
+        return closestDist;
+    }
+
+    /**
      * Collects the adjacent CityCells and calculates the distances between these CityCells and the starting cell of distances matrix
      * @param map The 2D matrix, where this does the searching/calculations
      * @param me The CityCell, which serves as the origin of this search
