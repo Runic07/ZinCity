@@ -6,6 +6,8 @@ import hu.nem3d.zincity.Cell.*;
 import hu.nem3d.zincity.Logic.Citizen;
 import hu.nem3d.zincity.Logic.City;
 import hu.nem3d.zincity.Logic.CityMap;
+import hu.nem3d.zincity.Screen.CityStage;
+
 import java.util.ArrayList;
 
 /**
@@ -13,14 +15,22 @@ import java.util.ArrayList;
  */
 public class Builder {
     private int selectedMenuId;
+
+
     private int buildCode = 0;
+
+
     CityMap cityMap;
 
     City city;
 
+    private CityStage stage;
+
     private int x,y;
 
     TiledMapTileSet tileSet;
+
+    ArrayList<CityCell> cells;
 
     TiledMapTileLayer buildLayer;
     //TODO for all of the build...(cell) functions budget and fee calc and ifs but since city is here it is easy to do but no specs as of now.
@@ -46,28 +56,32 @@ public class Builder {
 
     /**
      * Setting default values.
-     * @param id
+     * @param menuId_
      * @param code_
      * @param city_
      */
-    public Builder(int id, int code_, City city_){
-        this.selectedMenuId = id;
+    public Builder(int menuId_, int code_, City city_){
+        this.selectedMenuId = menuId_;
         this.buildCode = code_;
         this.city = city_;
         cityMap = city.getCityMap();
         this.tileSet = cityMap.getTileSet();
         this.buildLayer = cityMap.getBuildingLayer();
+        cells = new ArrayList<>();
     }
 
     /**
-     * We call the 4 different actions based on the UiId and after that we return the affected cells in an ArrayList.
-     * @param cell
+     * We call the 4 different actions based on the UiId and after that we set the affected cells in an ArrayList, the ArrayList is only for the CityStage to
+     * use, for map gen the buildlayer will be set and you don't need to bother with the ArrayList.
      * @return
      */
-    public ArrayList<CityCell> build(CityCell cell) {
-        ArrayList<CityCell> cells = new ArrayList<>();
-        x = cell.getX();
-        y = cell.getY();
+    public void build(int cellX, int cellY, TiledMapTileLayer layer) {
+        cells = new ArrayList<>();
+        x = cellX;
+        y = cellY;
+        this.buildLayer = layer;
+        CityCell cell = stage.getCell(x, y, layer);
+        //System.out.println(x +" , "+ y);
         if (cell.getClass() != BlockedCell.class) {
             switch (selectedMenuId) {
                 case (1):
@@ -85,7 +99,7 @@ public class Builder {
             }
             cityMap.setBuildingLayer(buildLayer);
         }
-        return cells;
+
     }
 
     /**
@@ -94,7 +108,7 @@ public class Builder {
      * @param cell
      * @return
      */
-    public CityCell buildZone(CityCell cell){
+    private CityCell buildZone(CityCell cell){
             switch (buildCode) {
                 case (1): //Industrial zone
                     try {
@@ -165,7 +179,7 @@ public class Builder {
      * @return
      */
 
-    public ArrayList<CityCell> buildSpecial(CityCell cell){
+    private ArrayList<CityCell> buildSpecial(CityCell cell){
         ArrayList <CityCell> returnCells = new ArrayList<>();
         if(cell.getClass() == EmptyCell.class) {
             switch (buildCode) {
@@ -195,7 +209,6 @@ public class Builder {
                             for(int j = 0; j < 2; j++){
                                 BuildingCell.BuildingPart tmpPart = BuildingCell.BuildingPart.values()[partArena];
                                 partArena++;
-
                                 ArenaCell tmpCell = new ArenaCell(x+j,y+i,3, 100, tmpPart);
                                 tmpCell.setTile((tileSet.getTile(16 +tmpCell.getPart().ordinal())));
                                 buildLayer.setCell(x + j,y + i, tmpCell);
@@ -256,7 +269,7 @@ public class Builder {
      * @param cell
      * @return
      */
-    public CityCell buildNetwork(CityCell cell){
+    private CityCell buildNetwork(CityCell cell){
         switch (buildCode){
             case(2):
                 if(cell.getClass() == EmptyCell.class) {
@@ -331,10 +344,31 @@ public class Builder {
                 }
 
             }
+            //System.out.println(returnCells);
             cell = new EmptyCell(x,y);
             cell.setTile((tileSet.getTile(0)));
-            buildLayer.setCell(x, y, cell); // <-------------------- I do not like this. -Jaksy
+            buildLayer.setCell(x, y, cell);
+            returnCells.add(cell);// <-------------------- I do not like this. -Jaksy
         return  returnCells;
+    }
+
+    public ArrayList<CityCell> getCells() {
+        return cells;
+    }
+
+    public void resetCells() {
+        this.cells = new ArrayList<>();
+    }
+
+    public void setStage(CityStage stage) {
+        this.stage = stage;
+    }
+    public void setBuildCode(int buildCode) {
+        this.buildCode = buildCode;
+    }
+
+    public void setSelectedMenuId(int selectedMenuId) {
+        this.selectedMenuId = selectedMenuId;
     }
 
 }

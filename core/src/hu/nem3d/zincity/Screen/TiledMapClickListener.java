@@ -25,6 +25,9 @@ public class TiledMapClickListener extends ClickListener {
 
     private TiledMapActor actor;
     private int buildCode;
+    ArrayList<CityCell> cells;
+
+    Builder builder;
 
     /**
      * Setting basic properties.
@@ -33,14 +36,17 @@ public class TiledMapClickListener extends ClickListener {
      * @param city_
      * @param stage_
      */
-    public TiledMapClickListener(TiledMapActor actor, StatUI stat, City city_, CityStage stage_) {
+    public TiledMapClickListener(TiledMapActor actor, StatUI stat, City city_, CityStage stage_, Builder builder) {
         this.actor = actor;
         this.stats = stat;
         this.stage = stage_;
         this.UIid = stage.getUIid();
         this.buildCode = stage.getBuildCode();
         this.city = city_;
+        cells = new ArrayList<>();
+        this.builder = builder;
     }
+
 
     /**
      * Handling a click.
@@ -57,8 +63,6 @@ public class TiledMapClickListener extends ClickListener {
     @Override
     public void clicked(InputEvent event, float x, float y) {
 
-        ArrayList<CityCell> cells = new ArrayList<>();
-
         //System.out.println(cell + " has been clicked. " + cell.getX() +" "+ cell.getY() + " x:" + x + " y: " + y + " ");
         this.UIid = stage.getUIid();
         if(UIid == 7){
@@ -70,12 +74,20 @@ public class TiledMapClickListener extends ClickListener {
         this.buildCode = stage.getBuildCode();
 
         //System.out.println(UIid + " " + buildCode);
-        Builder builder = new Builder(UIid, buildCode, city);
-        cells =  builder.build(actor.getCell());
+        builder.setBuildCode(buildCode);
+        builder.setSelectedMenuId(UIid);
+        builder.setStage(stage);
+
+        int cellX = actor.getCell().getX();
+        int cellY = actor.getCell().getY();
+        builder.build(cellX,cellY,city.getCityMap().getBuildingLayer());
+
+        cells = builder.getCells();
+
         if(cells.size() == 1) {
-            System.out.println(cells.get(0).getClass());
+            //System.out.println(cells.get(0).getClass());
             actor.setCell(cells.get(0));
-            System.out.println(actor.getCell().getClass());
+            //System.out.println(actor.getCell().getClass());
         }
 
         if(cells.size() > 2){
@@ -83,15 +95,17 @@ public class TiledMapClickListener extends ClickListener {
                 TiledMapActor actorTmp = (TiledMapActor) actors;
                 for(CityCell cellTmp : cells){
                     if(cellTmp.getX() == actorTmp.getPosX() && cellTmp.getY() == actorTmp.getPosY()){
+                        //System.out.println(cellTmp.getClass());
                         actorTmp.setCell(cellTmp);
+                        //System.out.println(actorTmp.getCell().getClass());
                     }
                 }
             }
         }
-        //System.out.println(actor.getCell().getClass());
 
         stats.isShown(actor.getCell());
         actor.getCell().statCall(stats);
         actor.setCell(actor.getCell());
+        builder.resetCells();
     }
 }
