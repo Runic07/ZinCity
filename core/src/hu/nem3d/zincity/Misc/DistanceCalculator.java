@@ -8,8 +8,14 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Provides some useful methods for checking if the connection, distance between two CityCells
+ */
 public final class DistanceCalculator {
 
+    /**
+     * Private constructor, that prevents the class of having any instances, because this only consists of static methods
+     */
     private DistanceCalculator(){}
 
     /**
@@ -21,6 +27,7 @@ public final class DistanceCalculator {
      */
     public static int distance(CityCell start, CityCell destination) {
         if(start == null || destination == null){return -1;}
+        if(start == destination){return 0;}
 
         TiledMapTileLayer map = start.getTileLayer();
 
@@ -37,12 +44,15 @@ public final class DistanceCalculator {
 
         while(!queue.isEmpty()) {
             CityCell current = queue.remove(0);
+            if(current == destination){
+                return distances[destination.getX()][destination.getY()];
+            }
             if(current.getClass() == RoadCell.class) {
                 queue.addAll(getGoodNeighbours(map, current, distances));
             }
         }
 
-        return distances[destination.getX()][destination.getY()];
+        return -1;
     }
 
     /**
@@ -114,7 +124,6 @@ public final class DistanceCalculator {
      * @param mustBeAvailable If this true, this should check, if any ZoneCell, that this finds, is not full
      * @return A tuple of the reached CityCell, that can qualify as a proper workplace (based on the conditions set in parameters),
      * and the distance between the 2 CityCells, if there is no such workplace, this returns the tuple of (null, -1)
-     */
     private static Tuple<ZoneCell, Integer> closestOfWorkplaceWithDistance(TiledMapTileLayer map, LivingZoneCell home,
                                                                            Class<?> workplaceType, boolean mustBeAvailable) {
 
@@ -148,5 +157,5 @@ public final class DistanceCalculator {
 
         Integer distance = ((destination != null ) ? distances[destination.getX()][destination.getY()] : -1);
         return (new Tuple<>(destination, distance));
-    }
+    }*/
 }
