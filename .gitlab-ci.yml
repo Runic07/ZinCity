@@ -12,6 +12,8 @@
 
 image: gradle:alpine
 
+
+
 before_script:
   - GRADLE_USER_HOME="$(pwd)/.gradle"
   - export GRADLE_USER_HOME
@@ -19,6 +21,9 @@ before_script:
 build:
   stage: build
   script: gradle dist
+  only:
+    refs:
+      - master
 
   artifacts:
     paths:
