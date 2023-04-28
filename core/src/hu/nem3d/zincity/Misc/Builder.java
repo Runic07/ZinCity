@@ -181,7 +181,7 @@ public class Builder {
                         cell = new PoliceCell(x,y,buildLayer);
                         cell.setTile((tileSet.getTile(14)));
                     } catch (CellException e) {
-
+                        System.err.println("Can't build that there");
                     }
 
                     break;
@@ -190,7 +190,7 @@ public class Builder {
                         cell = new FireStationCell(x, y,buildLayer);
                         cell.setTile((tileSet.getTile(15)));
                     } catch (CellException e) {
-
+                        System.err.println("Can't build that there");
                     }
 
                     break;
@@ -198,7 +198,7 @@ public class Builder {
                     boolean isFree = true;
                     for(int i = 0; i > -2; i-- ){
                         for(int j = 0; j < 2; j++){
-                            if(x+j < 0 || x+j > 29 || y + i < 0 || y - i > 19){
+                            if(x+j < 0 || x+j > 30 || y + i < 0 || y - i > 20){
                                 isFree = false;
                             }
                             else if(buildLayer.getCell(x + j, y + i).getClass() != EmptyCell.class){
@@ -217,11 +217,10 @@ public class Builder {
                                     tmpCell = new ArenaCell(x+j,y+i,buildLayer, tmpPart);
                                     tmpCell.setTile((tileSet.getTile(16 +tmpCell.getPart().ordinal())));
                                     buildLayer.setCell(x + j,y + i, tmpCell);
+                                    returnCells.add(tmpCell);
                                 } catch (CellException e) {
-
+                                    System.err.println("Can't build that there");
                                 }
-
-                                returnCells.add(tmpCell);
                             }
                         }
                     }
@@ -230,7 +229,7 @@ public class Builder {
                     boolean isFreeGen = true;
                     for(int i = 0; i > -2; i-- ){
                         for(int j = 0; j < 2; j++){
-                            if(x + j < 0 || x + j > 29 || y + i < 0 || y - i > 19){
+                            if(x + j < 0 || x + j > 30 || y - i < 0 || y - i > 20){
                                 isFreeGen = false;
                             }
                             else if(buildLayer.getCell(x + j, y + i).getClass() != EmptyCell.class){
@@ -247,14 +246,15 @@ public class Builder {
 
                                 GeneratorCell tmpCell = null;
                                 try {
-                                    tmpCell = new GeneratorCell(x+j,y+i,buildLayer, tmpPart);
+                                    tmpCell = new GeneratorCell(x+j,y + i,buildLayer, tmpPart);
                                     tmpCell.setTile((tileSet.getTile(20 +tmpCell.getPart().ordinal())));
                                     buildLayer.setCell(x + j,y + i, tmpCell);
+                                    returnCells.add(tmpCell);
                                 } catch (CellException e) {
-
+                                    System.err.println("Can't build that there");
                                 }
 
-                                returnCells.add(tmpCell);
+
                             }
                         }
                     }
