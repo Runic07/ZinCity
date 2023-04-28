@@ -1,6 +1,8 @@
 package hu.nem3d.zincity.Cell;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import hu.nem3d.zincity.Misc.CellException;
+import hu.nem3d.zincity.Misc.Direction;
 
 /**
  * Provides base class for building cell tiles with various effects.
@@ -16,7 +18,7 @@ public abstract class BuildingCell extends CityCell {
         NorthWest, NorthEast, SouthWest, SouthEast
     }
     protected String name;  //Need for stats --Newton
-    boolean isSimple;
+
     protected BuildingPart part;
     protected int range;
     //protected int maintenanceFee; removed in favour of universal "upkeepCost" variable.
@@ -27,11 +29,13 @@ public abstract class BuildingCell extends CityCell {
      * Constructs a standard instance of a BuildingCell, with values set to the values of the parameters
      * **/
 
-    protected BuildingCell(int x, int y, TiledMapTileLayer tileLayer) {
+    protected BuildingCell(int x, int y, TiledMapTileLayer tileLayer) throws CellException {
         super(x, y, tileLayer);
-        isSimple = true; //not sure why we need this
-        this.isWired = true;
 
+        this.isWired = true;
+        if (!hasRoadNeighbor()){
+            throw new CellException("Can't build that there");
+        }
     }
 
     /**
@@ -42,11 +46,12 @@ public abstract class BuildingCell extends CityCell {
      *
      * @param part The specific part of the multi-cell building
      */
-    protected BuildingCell(int x, int y, TiledMapTileLayer tileLayer, BuildingPart part) {
+    protected BuildingCell(int x, int y, TiledMapTileLayer tileLayer, BuildingPart part){
         super(x, y, tileLayer);
-        isSimple = false; //not sure why we need this
+
         this.isWired = true;
         this.part = part;
+
     }
 
     /**
@@ -58,14 +63,19 @@ public abstract class BuildingCell extends CityCell {
     }
 
 
-    public void setPart(BuildingPart part_){
-        if(!isSimple){
-            this.part = part_;
-        }
 
-    }
     public BuildingPart getPart() {
         return part;
+    }
+
+    private boolean hasRoadNeighbor(){
+
+            return (this.getNeighbor(Direction.NORTH) != null && this.getNeighbor(Direction.NORTH).getClass() == RoadCell.class ||
+                    this.getNeighbor(Direction.SOUTH) != null && this.getNeighbor(Direction.SOUTH).getClass() == RoadCell.class ||
+                    this.getNeighbor(Direction.EAST) != null && this.getNeighbor(Direction.EAST).getClass() == RoadCell.class ||
+                    this.getNeighbor(Direction.WEST) != null && this.getNeighbor(Direction.WEST).getClass() == RoadCell.class);
+
+
     }
 }
 

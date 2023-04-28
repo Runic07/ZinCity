@@ -177,12 +177,22 @@ public class Builder {
         if(cell.getClass() == EmptyCell.class) {
             switch (buildCode) {
                 case(1):
-                    cell = new PoliceCell(x,y,buildLayer);
-                    cell.setTile((tileSet.getTile(14)));
+                    try {
+                        cell = new PoliceCell(x,y,buildLayer);
+                        cell.setTile((tileSet.getTile(14)));
+                    } catch (CellException e) {
+
+                    }
+
                     break;
                 case(2):
-                    cell = new FireStationCell(x, y,buildLayer);
-                    cell.setTile((tileSet.getTile(15)));
+                    try {
+                        cell = new FireStationCell(x, y,buildLayer);
+                        cell.setTile((tileSet.getTile(15)));
+                    } catch (CellException e) {
+
+                    }
+
                     break;
                 case(3):
                     boolean isFree = true;
@@ -202,9 +212,15 @@ public class Builder {
                             for(int j = 0; j < 2; j++){
                                 BuildingCell.BuildingPart tmpPart = BuildingCell.BuildingPart.values()[partArena];
                                 partArena++;
-                                ArenaCell tmpCell = new ArenaCell(x+j,y+i,buildLayer, tmpPart);
-                                tmpCell.setTile((tileSet.getTile(16 +tmpCell.getPart().ordinal())));
-                                buildLayer.setCell(x + j,y + i, tmpCell);
+                                ArenaCell tmpCell = null;
+                                try {
+                                    tmpCell = new ArenaCell(x+j,y+i,buildLayer, tmpPart);
+                                    tmpCell.setTile((tileSet.getTile(16 +tmpCell.getPart().ordinal())));
+                                    buildLayer.setCell(x + j,y + i, tmpCell);
+                                } catch (CellException e) {
+
+                                }
+
                                 returnCells.add(tmpCell);
                             }
                         }
@@ -229,9 +245,15 @@ public class Builder {
                                 BuildingCell.BuildingPart tmpPart = BuildingCell.BuildingPart.values()[partGen];
                                 partGen++;
 
-                                GeneratorCell tmpCell = new GeneratorCell(x+j,y+i,buildLayer, tmpPart);
-                                tmpCell.setTile((tileSet.getTile(20 +tmpCell.getPart().ordinal())));
-                                buildLayer.setCell(x + j,y + i, tmpCell);
+                                GeneratorCell tmpCell = null;
+                                try {
+                                    tmpCell = new GeneratorCell(x+j,y+i,buildLayer, tmpPart);
+                                    tmpCell.setTile((tileSet.getTile(20 +tmpCell.getPart().ordinal())));
+                                    buildLayer.setCell(x + j,y + i, tmpCell);
+                                } catch (CellException e) {
+
+                                }
+
                                 returnCells.add(tmpCell);
                             }
                         }
