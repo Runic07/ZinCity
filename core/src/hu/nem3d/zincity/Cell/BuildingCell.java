@@ -51,9 +51,7 @@ public abstract class BuildingCell extends CityCell {
 
         this.isWired = true;
         this.part = part;
-        if (!hasRoadNeighbor()){
-            throw new CellException("Can't build that here");
-        }
+
     }
 
     /**
@@ -70,7 +68,7 @@ public abstract class BuildingCell extends CityCell {
         return part;
     }
 
-    private boolean hasRoadNeighbor(){ //i know it is stupid, but builder class takes care of the rest.
+    private boolean hasRoadNeighbor(){
 
             return (this.getNeighbor(Direction.NORTH) != null && this.getNeighbor(Direction.NORTH).getClass() == RoadCell.class ||
                     this.getNeighbor(Direction.SOUTH) != null && this.getNeighbor(Direction.SOUTH).getClass() == RoadCell.class ||
