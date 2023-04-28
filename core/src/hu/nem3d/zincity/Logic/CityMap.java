@@ -10,7 +10,6 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileSet;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import hu.nem3d.zincity.Cell.*;
-import hu.nem3d.zincity.Misc.DistanceCalculator;
 import hu.nem3d.zincity.Misc.OpenSimplex2S;
 import hu.nem3d.zincity.Misc.TextureTiles;
 
@@ -132,47 +131,5 @@ public class CityMap {
     public TiledMapTileSet getTileSet() {
         return tileSet;
     }
-
-    /**
-     * Calculates the distance between 2 cells form the buildingLayer
-     * @param start The cell, where the calculation (and search) starts
-     * @param destination The cell, where the calculation (and search) ends
-     * @return The number of steps, that needs to be taken to reach the destination cell from the starting cell,
-     * if the two cells are not connected by RoadCell, this value is -1
-     */
-    public int distance(CityCell start, CityCell destination){
-        return DistanceCalculator.distance(buildingLayer, start, destination);
-    }
-
-    /**
-     * Searches for the closest workplace location from a LivingCellZone (based on certain conditions)
-     * @param home the cell, where the search begins from
-     * @param isIndustrial If this is true, this searches for IndustrialZoneCell,
-     *                     otherwise this searches for ServiceZoneCell
-     * @param mustBeAvailable If this true, this should check, if any ZoneCell, that this finds, is not full
-     * @return The closest ZoneCell, that qualifies as proper workplace (based on the conditions, set in parameters), if there is any,
-     * otherwise, it's null
-     */
-    public ZoneCell closestWorkplaceFrom(LivingZoneCell home, boolean isIndustrial, boolean mustBeAvailable) {
-        return (DistanceCalculator.closestOfWorkplaceWithDistance(buildingLayer, home,
-                (isIndustrial ? IndustrialZoneCell.class : ServiceZoneCell.class), mustBeAvailable).getFirst());
-    }
-
-    /**
-     * Searches for the shortest distance between the given LivingZoneCell and a ZoneCell,
-     * that qualifies as a workplace (based on certain conditions)
-     * @param home the cell, where the search begins from
-     * @param isIndustrial If this is true, this searches for IndustrialZoneCell,
-     *                     otherwise this searches for ServiceZoneCell
-     * @param mustBeAvailable If this true, this should check, if any ZoneCell, that this finds, is not full
-     * @return The number of the "steps" taken between the 2 CityCells. That is more, than 0, if there is a
-     *         proper workplace (based on the necessary qualification, and the set conditions). That is -1,
-     *         if this couldn't find any workplaces.
-     */
-    public int shortestWorkplaceDistanceFrom(LivingZoneCell home, boolean isIndustrial, boolean mustBeAvailable) {
-        return (DistanceCalculator.closestOfWorkplaceWithDistance(buildingLayer, home,
-                (isIndustrial ? IndustrialZoneCell.class : ServiceZoneCell.class), mustBeAvailable)).getSecond();
-    }
-
 
 }
