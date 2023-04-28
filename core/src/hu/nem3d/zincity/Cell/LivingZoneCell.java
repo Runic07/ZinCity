@@ -14,12 +14,12 @@ public class LivingZoneCell extends ZoneCell {
      * Constructs an LivingZoneCell with coordinates and capacity set from parameters
      * @param x The distance of this from the origin on the horizontal axis
      * @param y The distance of this from the origin on the vertical axis
-     * @param capacity The maximum number of occupants this zone can haves
-     */
-    public LivingZoneCell(int x, int y, TiledMapTileLayer tileLayer, int capacity) throws CellException {
-        super(x, y, tileLayer, capacity);
-        this.price = 20;
 
+     */
+    public LivingZoneCell(int x, int y, TiledMapTileLayer tileLayer) throws CellException {
+        super(x, y, tileLayer);
+        this.price = 20;
+        this.capacity = 4;
     }
 
 }

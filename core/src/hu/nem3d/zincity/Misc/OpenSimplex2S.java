@@ -573,11 +573,11 @@ public class OpenSimplex2S {
      * Lookup Tables & Gradients
      */
 
-    private static float[] GRADIENTS_2D;
-    private static float[] GRADIENTS_3D;
-    private static float[] GRADIENTS_4D;
-    private static int[] LOOKUP_4D_A;
-    private static LatticeVertex4D[] LOOKUP_4D_B;
+    private static final float[] GRADIENTS_2D;
+    private static final float[] GRADIENTS_3D;
+    private static final float[] GRADIENTS_4D;
+    private static final int[] LOOKUP_4D_A;
+    private static final LatticeVertex4D[] LOOKUP_4D_B;
     static {
 
         GRADIENTS_2D = new float[N_GRADS_2D * 2];

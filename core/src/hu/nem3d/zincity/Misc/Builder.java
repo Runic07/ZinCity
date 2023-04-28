@@ -17,7 +17,7 @@ public class Builder {
     private int selectedMenuId;
 
 
-    private int buildCode = 0;
+    private int buildCode;
 
 
     CityMap cityMap;
@@ -73,7 +73,7 @@ public class Builder {
     /**
      * We call the 4 different actions based on the UiId and after that we set the affected cells in an ArrayList, the ArrayList is only for the CityStage to
      * use, for map gen the buildlayer will be set and you don't need to bother with the ArrayList.
-     * @return
+     *
      */
     public void build(int cellX, int cellY, TiledMapTileLayer layer) {
         cells = new ArrayList<>();
@@ -112,7 +112,7 @@ public class Builder {
             switch (buildCode) {
                 case (1): //Industrial zone
                     try {
-                        cell = new IndustrialZoneCell(x,y,buildLayer, 2);
+                        cell = new IndustrialZoneCell(x,y,buildLayer);
                         cell.setTile(tileSet.getTile(25));
                         buildLayer.setCell(x, y, cell);
                     } catch (CellException e) {
@@ -121,7 +121,7 @@ public class Builder {
                     break;
                 case (2):
                     try {
-                        cell = new ServiceZoneCell(x,y,buildLayer,2);
+                        cell = new ServiceZoneCell(x,y,buildLayer);
                         cell.setTile(tileSet.getTile(26));
                         buildLayer.setCell(x, y, cell);
                     } catch (CellException e) {
@@ -130,7 +130,7 @@ public class Builder {
                     break;
                 case (3):
                     try {
-                        cell = new LivingZoneCell(x,y,buildLayer,4 );
+                        cell = new LivingZoneCell(x,y,buildLayer);
                         cell.setTile(tileSet.getTile(24));
                         buildLayer.setCell(x, y, cell);
 
@@ -184,11 +184,11 @@ public class Builder {
         if(cell.getClass() == EmptyCell.class) {
             switch (buildCode) {
                 case(1):
-                    cell = new PoliceCell(x,y,2,100);
+                    cell = new PoliceCell(x,y,buildLayer);
                     cell.setTile((tileSet.getTile(14)));
                     break;
                 case(2):
-                    cell = new FireStationCell(x, y,2,100);
+                    cell = new FireStationCell(x, y,buildLayer);
                     cell.setTile((tileSet.getTile(15)));
                     break;
                 case(3):
@@ -209,7 +209,7 @@ public class Builder {
                             for(int j = 0; j < 2; j++){
                                 BuildingCell.BuildingPart tmpPart = BuildingCell.BuildingPart.values()[partArena];
                                 partArena++;
-                                ArenaCell tmpCell = new ArenaCell(x+j,y+i,3, 100, tmpPart);
+                                ArenaCell tmpCell = new ArenaCell(x+j,y+i,buildLayer, tmpPart);
                                 tmpCell.setTile((tileSet.getTile(16 +tmpCell.getPart().ordinal())));
                                 buildLayer.setCell(x + j,y + i, tmpCell);
                                 returnCells.add(tmpCell);
@@ -236,7 +236,7 @@ public class Builder {
                                 BuildingCell.BuildingPart tmpPart = BuildingCell.BuildingPart.values()[partGen];
                                 partGen++;
 
-                                GeneratorCell tmpCell = new GeneratorCell(x+j,y+i,3, 100, tmpPart);
+                                GeneratorCell tmpCell = new GeneratorCell(x+j,y+i,buildLayer, tmpPart);
                                 tmpCell.setTile((tileSet.getTile(20 +tmpCell.getPart().ordinal())));
                                 buildLayer.setCell(x + j,y + i, tmpCell);
                                 returnCells.add(tmpCell);
@@ -270,15 +270,13 @@ public class Builder {
      * @return
      */
     private CityCell buildNetwork(CityCell cell){
-        switch (buildCode){
-            case(2):
-                if(cell.getClass() == EmptyCell.class) {
-                    cell = new RoadCell(x,y, buildLayer);
-                    cell.setTile((tileSet.getTile(4)));
+        if (buildCode == 2) {
+            if (cell.getClass() == EmptyCell.class) {
+                cell = new RoadCell(x, y, buildLayer);
+                cell.setTile((tileSet.getTile(4)));
 
-                    buildLayer.setCell(x, y, cell);
-                }
-                break;
+                buildLayer.setCell(x, y, cell);
+            }
         }
 
         //YOU BROKE?
@@ -302,7 +300,7 @@ public class Builder {
          if(cell.getClass() == LivingZoneCell.class){         //TODO implement conflicting delete here in if --> example: cell.ConflictDelete in if statement
                 for (Citizen citizen : city.citizens) {
                     if(citizen.getHome().getX() == x && citizen.getHome().getY() == y){
-                        citizen.getWorkplace().removeOccupant(citizen);
+                        citizen.getWorkplace().removeOccupant();
                         citizen.setWorkplace(null);
                         citizen.setHome(null);
                         city.citizens.remove(citizen);
@@ -312,7 +310,7 @@ public class Builder {
             else if(cell.getClass() == ServiceZoneCell.class || cell.getClass() == IndustrialZoneCell.class){
                 for (Citizen citizen : city.citizens) {
                     if(citizen.getWorkplace().getX() == x && citizen.getWorkplace().getY() == y){
-                        citizen.getWorkplace().removeOccupant(citizen);
+                        citizen.getWorkplace().removeOccupant();
                         citizen.setWorkplace(null);
                     }
                 }
@@ -336,7 +334,7 @@ public class Builder {
 
                 for(int i = 0; i > -2; i-- ){
                     for(int j = 0; j < 2; j++){
-                        EmptyCell tmpCell = new EmptyCell(x+j,y+i);
+                        EmptyCell tmpCell = new EmptyCell(x+j,y+i, buildLayer);
                         tmpCell.setTile((tileSet.getTile(0)));
                         buildLayer.setCell(x + j,y + i, tmpCell);
                         returnCells.add(tmpCell);
@@ -345,7 +343,7 @@ public class Builder {
 
             }
             //System.out.println(returnCells);
-            cell = new EmptyCell(x,y);
+            cell = new EmptyCell(x,y, buildLayer);
             cell.setTile((tileSet.getTile(0)));
             buildLayer.setCell(x, y, cell);
             returnCells.add(cell);// <-------------------- I do not like this. -Jaksy

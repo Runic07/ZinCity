@@ -23,15 +23,15 @@ public class MenuBar {
 
     private  int currId = 0;
     private int idTo = 0;
-    private TextureAtlas atlas;
-    private Skin skin;
+    private final TextureAtlas atlas;
+    private final Skin skin;
 
     private Table currTable;
     private Table statTable;
 
-    private Stage stage;
+    private final Stage stage;
 
-    private GameScreen screen;
+    private final GameScreen screen;
 
     /**
      * Constructor sets the skin and TextureAtlas and skin that the UI uses, stage is a Stage where the UI is on as an actor and the city provides the data.

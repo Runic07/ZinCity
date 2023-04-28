@@ -36,7 +36,7 @@ public class GameScreen implements Screen { //draft
 
     protected Stage statStage;
     private Viewport viewport;
-    private SpriteBatch batch;
+    private final SpriteBatch batch;
 
     private int speed;
     int uiId = 0;
@@ -45,7 +45,7 @@ public class GameScreen implements Screen { //draft
     OrthographicCamera UICamera;
     MenuBar menuBar;
 
-    private Builder builder;
+    private final Builder builder;
 
     float screenWidth = Gdx.graphics.getWidth();
     float screenHeight = Gdx.graphics.getHeight();

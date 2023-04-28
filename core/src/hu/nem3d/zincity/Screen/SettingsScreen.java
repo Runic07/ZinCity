@@ -12,12 +12,12 @@ import hu.nem3d.zincity.Logic.City;
 
 
 public class SettingsScreen {
-    private City city;
-    private TextureAtlas atlas;
-    private Skin skin;
+    private final City city;
+    private final TextureAtlas atlas;
+    private final Skin skin;
 
-    private GameScreen screen;
-    private Stage stage;
+    private final GameScreen screen;
+    private final Stage stage;
 
     public SettingsScreen(Stage stage_, City city_, GameScreen screen_) {
         atlas = new TextureAtlas(Gdx.files.internal("PlaceHolderMenu\\uiskin.atlas"));
@@ -80,7 +80,7 @@ public class SettingsScreen {
             public void clicked(InputEvent event, float x, float y) {
                 String input = taxInput.getText();
                 try {
-                    double newTax = Double.valueOf(input);
+                    double newTax = Double.parseDouble(input);
                     if(newTax < 0){
                         Dialog dialog = new Dialog("Warning", skin, "dialog");
                         dialog.text("Incorrect number");
