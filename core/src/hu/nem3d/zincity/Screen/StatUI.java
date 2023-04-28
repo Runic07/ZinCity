@@ -16,8 +16,8 @@ public class StatUI {
     private String name;
     private String dataString;
     private String tier;
-    private TextureAtlas atlas;
-    private Skin skin;
+    private final TextureAtlas atlas;
+    private final Skin skin;
 
     public int x, y;
     public StatUI(){
@@ -27,7 +27,7 @@ public class StatUI {
         atlas = new TextureAtlas(Gdx.files.internal("PlaceHolderMenu\\uiskin.atlas"));
         skin = new Skin(Gdx.files.internal("PlaceHolderMenu\\uiskin.json"), atlas);
         shown = false;
-    };
+    }
 
     /**
      * Based on cell returns it stats value which are later made into a table.
@@ -55,7 +55,7 @@ public class StatUI {
         }
         else if(cell instanceof BuildingCell){
             name = ((BuildingCell)cell).getName();
-            dataString = "Fee: " + ((BuildingCell)cell).getUpkeepCost();
+            dataString = "Fee: " + cell.getUpkeepCost();
             tier = "null";
             if(cell.getClass() == ArenaCell.class || cell.getClass() == GeneratorCell.class){
                 tier = "Part: " + ((BuildingCell) cell).getPart();
@@ -111,11 +111,11 @@ public class StatUI {
         tierLabel.setSize(width / 9, (float) ((height * 0.15) / 2));
 
         table.add(nameLabel);
-        if(dataString != "null"){
+        if(!dataString.equals("null")){
             table.row();
             table.add(dataLabel);
         }
-        if(tier != "null"){
+        if(!tier.equals("null")){
             table.row();
             table.add(tierLabel);
         }

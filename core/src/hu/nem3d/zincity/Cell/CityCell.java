@@ -27,22 +27,12 @@ public abstract class CityCell extends TiledMapTileLayer.Cell {
     TiledMapTileLayer tileLayer; //in case the cell knows the tile layer it's located on.
 
 
-    /**
-     * Constructs a CityCell with parameters set as the coordinates
-     * @param x The distance of this from the origin on the horizontal axis
-     * @param y The distance of this from the origin on the vertical axis
-     * @deprecated
-     */
-    public CityCell(int x, int y) {
-        super();
-        this.x = x;
-        this.y = y;
-    }
+
     /**
      * Constructs a CityCell
      * @param x The distance of this from the origin on the horizontal axis
      * @param y The distance of this from the origin on the vertical axis
-     * @param tileLayer the layer this cell is being constructed on.
+     * @param tileLayer the layer this cell is being constructed on. Always add the correct layer!
      *
      */
     public CityCell(int x, int y, TiledMapTileLayer tileLayer){

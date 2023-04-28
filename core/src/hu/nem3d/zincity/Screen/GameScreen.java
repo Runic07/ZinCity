@@ -15,6 +15,7 @@ import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import hu.nem3d.zincity.Logic.City;
 import hu.nem3d.zincity.Logic.CityMap;
+import hu.nem3d.zincity.Misc.Builder;
 
 /**
  * GameScreen is the class that handles the UI elements and the render of the Map
@@ -35,7 +36,7 @@ public class GameScreen implements Screen { //draft
 
     protected Stage statStage;
     private Viewport viewport;
-    private SpriteBatch batch;
+    private final SpriteBatch batch;
 
     private int speed;
     int uiId = 0;
@@ -43,6 +44,8 @@ public class GameScreen implements Screen { //draft
     Table statTableUI;
     OrthographicCamera UICamera;
     MenuBar menuBar;
+
+    private final Builder builder;
 
     float screenWidth = Gdx.graphics.getWidth();
     float screenHeight = Gdx.graphics.getHeight();
@@ -57,13 +60,14 @@ public class GameScreen implements Screen { //draft
     public GameScreen(){
         city = new City();
 
+        builder = new Builder(0,0,city);
         //render map
         float unitScale = 1 / 24f;
         mapRenderer = new OrthogonalTiledMapRenderer(city.getCityMap().getMap(), unitScale);
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 30, 20);
         mapRenderer.setView(camera);
-        cityStage = new CityStage(city, 0, stat);
+        cityStage = new CityStage(city, 0, stat, builder);
 
         //MenuBar rendering
         UICamera = new OrthographicCamera();
@@ -104,7 +108,7 @@ public class GameScreen implements Screen { //draft
     }
     @Override
     public void render(float delta) {
-        if(speed != 6000){
+        if(speed != 0){
             frameCounter++;
         }
         if (frameCounter > speed){
@@ -155,7 +159,7 @@ public class GameScreen implements Screen { //draft
     @Override
     public void resize(int width, int height) {
         mapRenderer.setView(camera);
-        cityStage = new CityStage(city, uiId, stat);
+        cityStage = new CityStage(city, uiId, stat, builder);
 
 
         screenWidth = width;

@@ -3,6 +3,7 @@ package hu.nem3d.zincity.Logic;
 
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.maps.tiled.TiledMapTileSet;
 import hu.nem3d.zincity.Cell.*;
 
 import java.util.ArrayList;
@@ -165,8 +166,25 @@ public class City {
         for (int i = 0; i < 30; i++){ //no forall here unfortunately
             for (int j = 0; j < 20; j++){
                 CityCell cell = (CityCell) buildingLayer.getCell(i,j);
-
                 budget -= cell.getUpkeepCost();
+
+                if(buildingLayer.getCell(i,j) instanceof ZoneCell
+                   && ((ZoneCell) buildingLayer.getCell(i,j)).getLevel() == 1
+                   && ((ZoneCell) buildingLayer.getCell(i,j)).getOccupants() >= ((ZoneCell) buildingLayer.getCell(i,j)).getCapacity() / 2) {
+
+                        Object zoneType = buildingLayer.getCell(i,j).getClass();
+                        TiledMapTileSet tileSet = cityMap.getTileSet();
+
+                        if(LivingZoneCell.class == zoneType){
+                                cell.setTile(tileSet.getTile(5 ));
+                        }
+                        else if(ServiceZoneCell.class == zoneType){
+                                cell.setTile(tileSet.getTile(11 ));
+                        }
+                        else if(IndustrialZoneCell.class == zoneType){
+                                cell.setTile(tileSet.getTile(8));
+                        }
+                }
 
             }
 

@@ -5,8 +5,8 @@ import hu.nem3d.zincity.Logic.Citizen;
 import hu.nem3d.zincity.Misc.CellException;
 import hu.nem3d.zincity.Misc.Direction;
 
-import java.util.HashSet;
-import java.util.LinkedList;
+
+
 
 /**
  * Provides base class for Zone type cell tiles.
@@ -20,36 +20,35 @@ public abstract class ZoneCell extends CityCell{
 
     protected int occupants;
 
-    //I'm not quite sure, whether if it's the best choice for storing this data, but it ensures the uniqueness of each element
-    protected HashSet<Direction> roadDirections = new HashSet<>();
+
 
 
     /**
      * Constructs an ZoneCell with coordinates and capacity set from parameters
      * @param x The distance of this from the origin on the horizontal axis
      * @param y The distance of this from the origin on the vertical axis
-     * @param capacity The maximum number of occupants this zone can haves
+
      */
 
-    protected ZoneCell(int x, int y, TiledMapTileLayer tileLayer, int capacity) throws CellException {
+    protected ZoneCell(int x, int y, TiledMapTileLayer tileLayer) throws CellException {
         super(x, y, tileLayer);
         this.upkeepCost = 0;
 
-        if ((this.getNeighbor(Direction.NORTH) != null && this.getNeighbor(Direction.NORTH).getClass() == RoadCell.class ||
-                this.getNeighbor(Direction.SOUTH) != null && this.getNeighbor(Direction.SOUTH).getClass() == RoadCell.class ||
-                this.getNeighbor(Direction.EAST) != null && this.getNeighbor(Direction.EAST).getClass() == RoadCell.class ||
-                this.getNeighbor(Direction.WEST) != null && this.getNeighbor(Direction.WEST).getClass() == RoadCell.class) &&
-                tileLayer.getCell(x,y).getClass() == EmptyCell.class
-        )
+
+        if (!hasRoadNeighbor() || (tileLayer.getCell(x,y).getClass() != EmptyCell.class))
         {
-            this.isWired = true;
-            this.capacity = capacity;
+
+            throw new CellException("Building failed - no road neighbors, or non-empty cell");
         }
-        else{
-            throw new CellException("Building failed - no road neighbors");
-        }
+
     }
 
+    private boolean hasRoadNeighbor(){
+        return (this.getNeighbor(Direction.NORTH) != null && this.getNeighbor(Direction.NORTH).getClass() == RoadCell.class ||
+                this.getNeighbor(Direction.SOUTH) != null && this.getNeighbor(Direction.SOUTH).getClass() == RoadCell.class ||
+                this.getNeighbor(Direction.EAST) != null && this.getNeighbor(Direction.EAST).getClass() == RoadCell.class ||
+                this.getNeighbor(Direction.WEST) != null && this.getNeighbor(Direction.WEST).getClass() == RoadCell.class);
+    }
     //Basic getters (may add/remove some (or add setters), if that will be necessary)
 
     /**
@@ -64,18 +63,6 @@ public abstract class ZoneCell extends CityCell{
      */
     public int getOccupants(){return occupants;}
 
-    /**
-     * Changes the number of occupants of this to value of the parameter (if it is less than the capacity)
-     * @param occ The number of occupants this will have
-     * @return True, if this action is successful
-     */
-    public boolean setOccupants(int occ){
-        if(occ <= capacity && occ >= 0){
-            this.occupants = occupants;
-            return true;
-        }
-        return false;
-    }
 
     /**
      * Gets the current level of this ZoneCell
@@ -90,30 +77,6 @@ public abstract class ZoneCell extends CityCell{
      */
     public boolean isFull() {return capacity == occupants;}
 
-    /**
-     * Returns the set that contains the directions which this ZoneCell has access to a RoadCell
-     * @return The HashSet that contains the directions which this ZoneCell has access to a RoadCell
-     */
-    public HashSet<Direction> getRoadDirections() {return roadDirections;}
-
-    //Methods revolving around roadDirections
-    /**
-     * Adds a direction to the set of directions
-     * @param dir The direction of the RoadCell, this gained access to
-     * @return True, if this action is successful
-     */
-    public boolean addDirection(Direction dir){
-        return roadDirections.add(dir);
-    }
-
-    /**
-     * Removes a direction from the set of directions
-     * @param dir The direction of the RoadCell, this lost access to
-     * @return True, if this action is successful
-     */
-    public boolean removeDirection(Direction dir){
-        return roadDirections.remove(dir);
-    }
 
     //Methods revolving around the moving of citizens
     /**
@@ -131,10 +94,9 @@ public abstract class ZoneCell extends CityCell{
 
     /**
      * Decreases occupant count by one
-     * @param occ The Citizen that left this
      * @return The current amount of occupants of this
      */
-    public int removeOccupant(Citizen occ){
+    public int removeOccupant(){
         return --occupants;
     }
     /*

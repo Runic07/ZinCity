@@ -1,17 +1,14 @@
 package hu.nem3d.zincity.Cell;
 
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+
 public class FireStationCell extends BuildingCell{
-    public FireStationCell(int x, int y, int range, int maintenanceFee) {
-        super(x, y, range, false);
+    public FireStationCell(int x, int y, TiledMapTileLayer tileLayer) {
+        super(x, y, tileLayer);
         this.name = "Fire station";
         this.price = 20;
         this.upkeepCost = 5;
+        this.range = 15;
     }
 
-    public FireStationCell(int x, int y, int range, int maintenanceFee, BuildingPart part) {
-        super(x, y, range, maintenanceFee, part);
-        this.name = "Fire station";
-        this.price = 20;
-        this.upkeepCost = 5;
-    }
 }

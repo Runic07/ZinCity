@@ -4,11 +4,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import hu.nem3d.zincity.Cell.CityCell;
 import hu.nem3d.zincity.Logic.City;
 import hu.nem3d.zincity.Logic.CityMap;
+import hu.nem3d.zincity.Misc.Builder;
 
 import java.util.ArrayList;
 
@@ -17,15 +19,19 @@ import java.util.ArrayList;
  */
 public class CityStage extends Stage {
 
-        private StatUI stats;
-        private TiledMap tiledMap;
-        private CityMap cityMap;
+        private final StatUI stats;
+        private final TiledMap tiledMap;
+        private final CityMap cityMap;
 
-        private City city;
+        private final City city;
 
         private int UIid;
 
         private int buildCode;
+
+        private final ArrayList<TiledMapActor> actors;
+
+        Builder builder;
 
     /**
      * Constructor sets the city (where the date is from), id which is the current UIs id which determines the actions that are doable, the stat is a StatUI
@@ -34,13 +40,15 @@ public class CityStage extends Stage {
      * @param id
      * @param stat
      */
-        public CityStage(City city, int id, StatUI stat) {
+        public CityStage(City city, int id, StatUI stat, Builder builder_) {
             this.city = city;
             this.cityMap = city.getCityMap();
             this.stats = stat;
             this.UIid = id;
             this.buildCode = 0;
             this.tiledMap = cityMap.getMap();
+            this.actors = new ArrayList<>();
+            this.builder = builder_;
 
             /*MapLayer layer = tiledMap.getLayers().get(id);
             TiledMapTileLayer tiledLayer = (TiledMapTileLayer)layer;
@@ -84,8 +92,9 @@ public class CityStage extends Stage {
                     actor.setPosX(x);
                     actor.setPosY(y);
                     addActor(actor);
-                    EventListener eventListener = new TiledMapClickListener(actor, stats, city, this);
+                    EventListener eventListener = new TiledMapClickListener(actor, stats, city, this, builder);
                     actor.addListener(eventListener);
+                    actors.add(actor);
                 }
             }
         }
@@ -97,5 +106,20 @@ public class CityStage extends Stage {
     public int getBuildCode() {
         return buildCode;
     }
+
+    public CityCell getCell(int x, int y, TiledMapTileLayer tiledLayer){
+        return  (CityCell) tiledLayer.getCell(x, y);
+    }
+
+    public TiledMapActor getActor(int x, int y){
+        for (TiledMapActor actor : actors) {
+            if (actor.getPosY() == y && actor.getPosX() == x) {
+                System.out.println(actor.getCell().getClass() + " getActor");
+                return actor;
+            }
+        }
+        return null;
+    }
+
 
 }
