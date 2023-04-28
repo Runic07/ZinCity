@@ -1,5 +1,7 @@
 package hu.nem3d.zincity.Cell;
 
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+
 /**
  * Provides base class for building cell tiles with various effects.
  * @see com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell
@@ -23,36 +25,26 @@ public abstract class BuildingCell extends CityCell {
 
     /**
      * Constructs a standard instance of a BuildingCell, with values set to the values of the parameters
-     * (If this is a multi-cell building, this constructs the other parts of the building)
-     *
-     * @param x        The distance of this from the origin on the horizontal axis
-     * @param y        The distance of this from the origin on the vertical axis
-     * @param range    The maximum distance between this and a cell, that this can effect
-     * @param isSimple True, if it is a single-cell building, else it is false
-     */
-    protected BuildingCell(int x, int y, int range, boolean isSimple) {
-        super(x, y);
-        this.range = range;
+     * **/
 
+    protected BuildingCell(int x, int y, TiledMapTileLayer tileLayer) {
+        super(x, y, tileLayer);
+        isSimple = true; //not sure why we need this
         this.isWired = true;
-        if (!isSimple){
-            this.part = BuildingPart.NorthWest;
-            //TODO call build method for other parts
-        }
+
     }
 
     /**
      * Constructs a specific part of a building, with values set to the values of the parameters
      * @param x The distance of this from the origin on the horizontal axis
      * @param y The distance of this from the origin on the vertical axis
-     * @param range The maximum distance between this and a cell, that this can effect
-     * @param maintenanceFee The annual cost of maintaining this
+
+     *
      * @param part The specific part of the multi-cell building
      */
-    protected BuildingCell(int x, int y, int range, int maintenanceFee, BuildingPart part) {
-        super(x, y);
-        this.range = range;
-
+    protected BuildingCell(int x, int y, TiledMapTileLayer tileLayer, BuildingPart part) {
+        super(x, y, tileLayer);
+        isSimple = false; //not sure why we need this
         this.isWired = true;
         this.part = part;
     }
