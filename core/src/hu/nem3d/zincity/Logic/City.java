@@ -48,14 +48,11 @@ public class City {
         baseTaxAmount = 50;
         cityMap = new CityMap();
         citizens = new CopyOnWriteArrayList<>();
-
         for (int i = 0; i < 4; i++) {
             if (addCitizen()) {
                 System.out.println("Added starter citizen");
             }
         }
-
-
     }
 
     /**

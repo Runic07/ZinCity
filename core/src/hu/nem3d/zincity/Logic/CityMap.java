@@ -107,63 +107,40 @@ public class CityMap {
 
 
 
-
             }
         }
         //generate beginner city
+        boolean isStarterCityGenerated = false;
+        while (!isStarterCityGenerated){
+            int x = r.nextInt(3,27);
+            int y = r.nextInt(3,17);
+            if (buildingLayer.getCell(x, y) == null && baseLayer.getCell(x,y) instanceof EmptyCell){ //TODO this is never entered!
 
-        int x = r.nextInt(5,25);
-        int y = r.nextInt(5,15);
+                //clears a 5*3 area
+                for (i = -2; i <= 2; i++){
+                    for (j = -1; j <=1; j++){
+                        baseLayer.setCell(i + x,j + y,new EmptyCell(i+ x,j + y,baseLayer));
+                    }
+
+                    buildingLayer.setCell(i,y,new RoadCell(i,y,buildingLayer));
+                }
+                try{
+                    buildingLayer.setCell(x+1, y, new LivingZoneCell(x+1, y, buildingLayer));
+                    buildingLayer.setCell(x+2, y, new LivingZoneCell(x+1, y, buildingLayer));
+                    buildingLayer.setCell(x, y-1, new ServiceZoneCell(x, y-1, buildingLayer));
+                    buildingLayer.setCell(x, y+1, new IndustrialZoneCell(x, y+1, buildingLayer));
+
+                    isStarterCityGenerated = true;
+                } catch (Exception e){}
 
 
-            //clears a 5*3 area
-        for (i = -2; i <= 2; i++){
-            /*
-            for (j = -1; j <=1; j++){
-                buildingLayer.setCell(i + x,j + y,new EmptyCell(i+ x,j + y,buildingLayer));
-                System.err.println("asd");
+
             }
-            */
-            baseLayer.setCell(x+i, y, new EmptyCell(x +i,y,baseLayer));
 
-            buildingLayer.setCell(x+i, y, new RoadCell(x +i,y,buildingLayer)); //this is straight up bugged
-            //in the debugger, the tile exists as it should
-            //but on the screen it doesnt show up
-
-
-            //baseLayer.setCell(x+i,y,new EmptyCell(x+i,y,baseLayer));
-            //buildingLayer.setCell(x+i,y,new RoadCell(x+i,y,buildingLayer));
-
+            if (x == 3){
+                isStarterCityGenerated = true;
+            }
         }
-        try{
-
-            buildingLayer.setCell(x, y+1, new LivingZoneCell(x, y+1, buildingLayer));
-        } catch (Exception e){System.err.println("Coluldnt build");}
-        try{
-
-            buildingLayer.setCell(x+1, y+1, new LivingZoneCell(x+1, y+1, buildingLayer));
-        } catch (Exception e){System.err.println("Coluldnt build");}
-        try{
-
-            buildingLayer.setCell(x, y-1, new ServiceZoneCell(x, y-1, buildingLayer));
-        } catch (Exception e){System.err.println("Coluldnt build");}
-        try{
-
-            buildingLayer.setCell(x+1, y-1, new IndustrialZoneCell(x+1, y-1, buildingLayer));
-        } catch (Exception e){System.err.println("Coluldnt build");}
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
         map = new TiledMap();
