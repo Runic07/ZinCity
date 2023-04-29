@@ -78,8 +78,7 @@ public class City {
                 TiledMapTileLayer.Cell cell = tl.getCell(i,j);
 
                 //find home
-                //TODO extra feature: choose in a smart way
-
+                //TODO extra feature: choose randomly from available homes
                 if (cell.getClass() == LivingZoneCell.class && !(((ZoneCell) cell).isFull()) && !foundHome){
 
                     //cast is only needed in theory, to get the associated methods. should not actually change the class.

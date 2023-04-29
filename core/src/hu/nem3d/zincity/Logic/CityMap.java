@@ -109,38 +109,6 @@ public class CityMap {
 
             }
         }
-        //generate beginner city
-        boolean isStarterCityGenerated = false;
-        while (!isStarterCityGenerated){
-            int x = r.nextInt(3,27);
-            int y = r.nextInt(3,17);
-            if (buildingLayer.getCell(x, y) == null && baseLayer.getCell(x,y) instanceof EmptyCell){ //TODO this is never entered!
-
-                //clears a 5*3 area
-                for (i = -2; i <= 2; i++){
-                    for (j = -1; j <=1; j++){
-                        baseLayer.setCell(i + x,j + y,new EmptyCell(i+ x,j + y,baseLayer));
-                    }
-
-                    buildingLayer.setCell(i,y,new RoadCell(i,y,buildingLayer));
-                }
-                try{
-                    buildingLayer.setCell(x+1, y, new LivingZoneCell(x+1, y, buildingLayer));
-                    buildingLayer.setCell(x+2, y, new LivingZoneCell(x+1, y, buildingLayer));
-                    buildingLayer.setCell(x, y-1, new ServiceZoneCell(x, y-1, buildingLayer));
-                    buildingLayer.setCell(x, y+1, new IndustrialZoneCell(x, y+1, buildingLayer));
-
-                    isStarterCityGenerated = true;
-                } catch (Exception e){}
-
-
-
-            }
-
-            if (x == 3){
-                isStarterCityGenerated = true;
-            }
-        }
 
 
         map = new TiledMap();
@@ -166,8 +134,8 @@ public class CityMap {
 
     public int ServiceZoneCount(){
         int count = 0;
-        for (int i = 0; i < buildingLayer.getWidth(); i++) {
-            for (int j = 0; j < buildingLayer.getHeight(); j++) {
+        for (int i = 0; i < buildingLayer.getHeight(); i++) {
+            for (int j = 0; j < buildingLayer.getWidth(); j++) {
                 if (buildingLayer.getCell(i,j) instanceof ServiceZoneCell){
                     count++;
                 }
@@ -179,8 +147,8 @@ public class CityMap {
 
     public int IndustrialZoneCount(){
         int count = 0;
-        for (int i = 0; i < buildingLayer.getWidth(); i++) {
-            for (int j = 0; j < buildingLayer.getHeight(); j++) {
+        for (int i = 0; i < buildingLayer.getHeight(); i++) {
+            for (int j = 0; j < buildingLayer.getWidth(); j++) {
                 if (buildingLayer.getCell(i,j) instanceof IndustrialZoneCell){
                     count++;
                 }
