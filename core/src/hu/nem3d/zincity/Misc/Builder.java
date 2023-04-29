@@ -19,7 +19,6 @@ public class Builder {
 
     private int buildCode;
 
-
     CityMap cityMap;
 
     City city;
@@ -50,7 +49,7 @@ public class Builder {
         ->code = 5 --> forest
      UIid = 5 --> networks/connections
         ->code = 1 --> electricity cables
-        ->code = 1 --> roads
+        ->code = 2 --> roads
      UIid = 6 --> delete
      */
 
@@ -64,9 +63,11 @@ public class Builder {
         this.selectedMenuId = menuId_;
         this.buildCode = code_;
         this.city = city_;
-        cityMap = city.getCityMap();
-        this.tileSet = cityMap.getTileSet();
-        this.buildLayer = cityMap.getBuildingLayer();
+        if(city !=null) {
+            cityMap = city.getCityMap();
+            this.tileSet = cityMap.getTileSet();
+            this.buildLayer = cityMap.getBuildingLayer();
+        }
         cells = new ArrayList<>();
     }
 
@@ -80,7 +81,7 @@ public class Builder {
         x = cellX;
         y = cellY;
         this.buildLayer = layer;
-        CityCell cell = stage.getCell(x, y, layer);
+        CityCell cell = (CityCell) buildLayer.getCell(x, y);
         //System.out.println(x +" , "+ y);
         if (cell.getClass() != BlockedCell.class) {
             switch (selectedMenuId) {
@@ -158,7 +159,9 @@ public class Builder {
                     break;
             }
             //PAY THE PRICE HAHAHAHA
+        if(city != null) {
             this.city.budget -= cell.getPrice();
+        }
         return cell;
 
     }
@@ -274,7 +277,11 @@ public class Builder {
         }
 
         //PAY UP, KID
-        for (CityCell cityCell : returnCells){this.city.budget -= cell.getPrice();}
+        if(city != null) {
+            for (CityCell cityCell : returnCells) {
+                this.city.budget -= cell.getPrice();
+            }
+        }
 
         return  returnCells;
     }
@@ -295,7 +302,10 @@ public class Builder {
         }
 
         //YOU BROKE?
-        this.city.budget -= cell.getPrice();
+        if(city != null){
+            this.city.budget -= cell.getPrice();
+        }
+
 
         return cell;
     }
@@ -384,4 +394,72 @@ public class Builder {
         this.selectedMenuId = selectedMenuId;
     }
 
+    public void setCityMap(CityMap cityMap) {
+        this.cityMap = cityMap;
+        this.tileSet = cityMap.getTileSet();
+        this.buildLayer = cityMap.getBuildingLayer();
+    }
+
+    /**
+     * Sets buildcoden and selectedMenuId based on name
+     * industrial,service,living,upgrade,police,fire,arena,generator,forest,cable,road,delete
+     * @param name
+     */
+
+    public void buildWhat(String name){
+        //name.toLowerCase();
+        switch (name){
+            case("industrial"):
+                selectedMenuId = 1;
+                buildCode = 1;
+                break;
+            case("service"):
+                selectedMenuId = 1;
+                buildCode = 2;
+                break;
+            case("living"):
+                selectedMenuId = 1;
+                buildCode = 3;
+                break;
+            case("upgrade"):
+                selectedMenuId = 1;
+                buildCode = 4;
+                break;
+            case("police"):
+                selectedMenuId = 2;
+                buildCode = 1;
+                break;
+            case("fire"):
+                selectedMenuId = 2;
+                buildCode = 2;
+                break;
+            case("arena"):
+                selectedMenuId = 2;
+                buildCode = 3;
+                break;
+            case("generator"):
+                selectedMenuId = 2;
+                buildCode = 4;
+                break;
+            case("forest"):
+                selectedMenuId = 2;
+                buildCode = 5;
+                break;
+            case("cable"):
+                selectedMenuId = 5;
+                buildCode = 1;
+                break;
+            case("road"):
+                selectedMenuId = 5;
+                buildCode = 2;
+                break;
+            case("delete"):
+                selectedMenuId = 6;
+                buildCode = 0;
+                break;
+            default:
+                selectedMenuId = 0;
+                buildCode = 0;
+        }
+    }
 }
