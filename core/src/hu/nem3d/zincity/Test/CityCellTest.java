@@ -25,7 +25,7 @@ public class CityCellTest {
     }
 
     @Test
-    public void testNeigbor(){
+    public void testNeighbor(){
         TiledMapTileLayer map = new TiledMapTileLayer(2,2,1,1);
         CityCell cell = new EmptyCell(0, 1, map);
         map.setCell(0, 1, cell);
