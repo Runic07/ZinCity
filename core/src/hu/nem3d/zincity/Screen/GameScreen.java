@@ -58,7 +58,7 @@ public class GameScreen implements Screen { //draft
      * ViewPort is 1.5* of the normal screen because of resolution and placement problems.
      */
     public GameScreen(){
-        city = new City();
+        city = new City(false);
 
         builder = new Builder(0,0,city);
         //render map

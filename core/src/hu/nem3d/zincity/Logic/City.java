@@ -41,12 +41,12 @@ public class City {
         this.cityMap = cityMap;
     }
 
-    public City() {
+    public City(boolean isForTest) {
         budget = 500;
         satisfaction = 0.0;
         taxCoefficient = 1.0;
         baseTaxAmount = 50;
-        cityMap = new CityMap();
+        cityMap = (isForTest ? new CityMap(0) : new CityMap());
         citizens = new CopyOnWriteArrayList<>();
         for (int i = 0; i < 4; i++) {
             if (addCitizen()) {
