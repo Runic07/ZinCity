@@ -114,6 +114,7 @@ public abstract class BuildingCell extends CityCell {
      * @return True, if the range of this is equal to, or smaller, than the distance by air between this and the given cell
      */
     public boolean isInRange(CityCell cell){
+        if(cell == null){return false;}
         return (range >= this.auraRadiusSize(cell));
     }
 
