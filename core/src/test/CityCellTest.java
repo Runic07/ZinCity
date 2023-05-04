@@ -9,6 +9,10 @@ import static org.junit.Assert.*;
 public class CityCellTest {
 
     @Test
+    public void testFail(){
+        fail("Test fail");
+    }
+    @Test
     public void testIsWired(){
         try {
             TiledMapTileLayer map = new TiledMapTileLayer(2,2,1,1);
