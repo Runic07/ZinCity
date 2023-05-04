@@ -116,24 +116,6 @@ public class CityMap {
         map.getLayers().add(buildingLayer);
     }
 
-    /**
-     * Temporary solution: this is a constructor of CityMap, used only for testing
-     * @param forTest The parameter that differentiate this and the standard constructor
-     */
-    public CityMap(int forTest){
-        baseLayer = new TiledMapTileLayer(30,20,24,24);
-        buildingLayer = new TiledMapTileLayer(30,20,24,24);
-        for (int i = 0; i < 30; i++) {
-            for (int j = 0; j < 20; j++) {
-                baseLayer.setCell(i, j, new EmptyCell(i, j, baseLayer));
-                buildingLayer.setCell(i, j, new EmptyCell(i, j, buildingLayer));
-            }
-        }
-        map = new TiledMap();
-        map.getLayers().add(baseLayer);
-        map.getLayers().add(buildingLayer);
-    }
-
     public TiledMap getMap() {
         return map;
     }
