@@ -116,8 +116,8 @@ public class CityMap {
         //rendering is still bugged here
         boolean starterCityGenerated = false;
         while(!starterCityGenerated){
-            i = r.nextInt(2,29);
-            j = r.nextInt(2, 19);
+            i = r.nextInt(5,25);
+            j = r.nextInt(5, 15);
             if ( //
 
                     buildingLayer.getCell(i+1,j-1) instanceof EmptyCell &&
