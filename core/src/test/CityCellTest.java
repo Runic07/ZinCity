@@ -2,16 +2,20 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import hu.nem3d.zincity.Cell.*;
 import hu.nem3d.zincity.Misc.CellException;
 import hu.nem3d.zincity.Misc.Direction;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
 public class CityCellTest {
-
+    @Ignore
     @Test
+    //Use this to test the job runner
     public void testFail(){
+
         fail("Test fail");
     }
+
     @Test
     public void testIsWired(){
         try {
