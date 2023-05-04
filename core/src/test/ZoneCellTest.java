@@ -1,5 +1,3 @@
-package hu.nem3d.zincity.Test;
-
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import hu.nem3d.zincity.Cell.EmptyCell;
 import hu.nem3d.zincity.Cell.LivingZoneCell;
