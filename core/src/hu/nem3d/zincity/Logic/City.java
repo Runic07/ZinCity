@@ -5,6 +5,8 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileSet;
 import hu.nem3d.zincity.Cell.*;
+import hu.nem3d.zincity.Misc.BuildingEffect;
+import hu.nem3d.zincity.Misc.Direction;
 import hu.nem3d.zincity.Misc.DistanceCalculator;
 
 import java.util.ArrayList;
@@ -131,9 +133,19 @@ public class City {
         for (Citizen citizen : citizens) {
             budget += baseTaxAmount * taxCoefficient;
 
+            //TODO rework bonuses caused by effects
+            double effectBonus = (citizen.getHome().getEffects().contains(BuildingEffect.Arena) ? 0 : 0.05)
+                    + (citizen.getWorkplace().getEffects().contains(BuildingEffect.Arena) ? 0 : 0.05)
+                    + (citizen.getHome().getEffects().contains(BuildingEffect.Police) ? 0 : 0.05);
+            for (Direction dir : Direction.values()){
+                CityCell neighbor = citizen.getHome().getNeighbor(dir);
+                if(neighbor != null && neighbor.getEffects().contains(BuildingEffect.Police)){
+                    effectBonus += 0.01;
+                }
+            }
 
             citizen.setSatisfaction(
-                    citizen.getSatisfaction() +
+                    citizen.getSatisfaction() + effectBonus +
                             citizen.getSatisfaction() * 0.05 + //previous satisfaction added with small weight
                             (1 / taxCoefficient - 1) * 0.05 -//tax coeff added, scaled down
                             ((double) DistanceCalculator.distance(citizen.getHome(), citizen.getWorkplace()) - 10.0) * 0.01 - //distance from workplace
@@ -191,8 +203,6 @@ public class City {
             }
 
         }
-
-
 
         if (satisfaction > satisfactionUpperThreshold){
             if (r.nextInt() % 5 == 0){

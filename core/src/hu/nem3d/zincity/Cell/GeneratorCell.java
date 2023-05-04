@@ -1,6 +1,7 @@
 package hu.nem3d.zincity.Cell;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import hu.nem3d.zincity.Misc.BuildingEffect;
 import hu.nem3d.zincity.Misc.CellException;
 
 public class GeneratorCell extends BuildingCell {
@@ -9,6 +10,12 @@ public class GeneratorCell extends BuildingCell {
         super(x, y, tileLayer, part);
         this.name = "Generator";
         this.price = 20;
+        this.range = 0;
         this.upkeepCost = 7.5;
+    }
+
+    @Override
+    public BuildingEffect getMyEffect() {
+        return null;
     }
 }

@@ -1,8 +1,11 @@
 package hu.nem3d.zincity.Cell;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import hu.nem3d.zincity.Misc.BuildingEffect;
 import hu.nem3d.zincity.Misc.Direction;
 import hu.nem3d.zincity.Screen.StatUI;
+
+import java.util.HashSet;
 
 /**
  * Provides base class for cell tiles.
@@ -26,6 +29,8 @@ public abstract class CityCell extends TiledMapTileLayer.Cell {
 
     TiledMapTileLayer tileLayer; //in case the cell knows the tile layer it's located on.
 
+    HashSet<BuildingEffect> effects = new HashSet<>();
+
 
 
     /**
@@ -40,6 +45,8 @@ public abstract class CityCell extends TiledMapTileLayer.Cell {
         this.x = x;
         this.y = y;
         this.tileLayer = tileLayer; //this way, the cell can locate tiles adjacent to itself.
+
+        collectEffects();
     }
 
     /**
@@ -66,18 +73,34 @@ public abstract class CityCell extends TiledMapTileLayer.Cell {
      */
     public void setY(int y) {this.y = y;}
 
+    /**
+     * Gets the annual upkeep cost of this
+     * @return The annual cost of this
+     */
     public double getUpkeepCost() {
         return upkeepCost;
     }
 
+    /**
+     * Sets the annual upkeep cost of this
+     * @param upkeepCost The annual cost of this to be set
+     */
     public void setUpkeepCost(double upkeepCost) {
         this.upkeepCost = upkeepCost;
     }
 
+    /**
+     * Gets the one-time build cost of this
+     * @return The one-time build cost of this
+     */
     public double getPrice() {
         return price;
     }
 
+    /**
+     * Sets the one-time build cost of this
+     * @param price The one-time build cost of this to be set
+     */
     public void setPrice(double price) {
         this.price = price;
     }
@@ -117,11 +140,40 @@ public abstract class CityCell extends TiledMapTileLayer.Cell {
             isElectrified = false;
             return true;
         }
-
     }
 
+    /**
+     * Gets the tileLayer of this
+     * @return the tileLayer of this
+     */
     public TiledMapTileLayer getTileLayer() {
         return tileLayer;
+    }
+
+    /**
+     * Adding an effect to the effects set
+     * @param effect The BuildingEffect that is to be added
+     * @return True, if this action is successful, otherwise false
+     */
+    public boolean addEffect(BuildingEffect effect){
+        return effects.add(effect);
+    }
+
+    /**
+     * Removes an effect from an effects set
+     * @param effect The BuildingEffect that is to be removed
+     * @return True, if this action is successful, otherwise false
+     */
+    public boolean removeEffect(BuildingEffect effect){
+        return effects.remove(effect);
+    }
+
+    /**
+     * Gets the set of the effects of this
+     * @return the HashSet of effects of this
+     */
+    public HashSet<BuildingEffect> getEffects(){
+        return effects;
     }
 
     /**
@@ -155,10 +207,21 @@ public abstract class CityCell extends TiledMapTileLayer.Cell {
             default: return null;
 
         }
-
-
     }
 
-
-
+    /**
+     * Helper method, that searches for and adds all the effects that nearby buildings has on this
+     */
+    private void collectEffects(){
+        for (int i = 0; i < tileLayer.getWidth(); i++) {
+            for (int j = 0; j < tileLayer.getHeight(); j++) {
+                if(tileLayer.getCell(i, j) instanceof BuildingCell){
+                    BuildingCell building = (BuildingCell) tileLayer.getCell(i, j);
+                    if(building.isInRange(this)){
+                        addEffect(building.getMyEffect());
+                    }
+                }
+            }
+        }
+    }
 }
