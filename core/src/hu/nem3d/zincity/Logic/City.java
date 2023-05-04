@@ -134,9 +134,9 @@ public class City {
             budget += baseTaxAmount * taxCoefficient;
 
             //TODO rework bonuses caused by effects
-            double effectBonus = (citizen.getHome().getEffects().contains(BuildingEffect.Arena) ? 0 : 0.05)
-                    + (citizen.getWorkplace().getEffects().contains(BuildingEffect.Arena) ? 0 : 0.05)
-                    + (citizen.getHome().getEffects().contains(BuildingEffect.Police) ? 0 : 0.05);
+            double effectBonus = (citizen.getHome().getEffects().contains(BuildingEffect.Arena) ? 0.05 : 0.0)
+                    + (citizen.getWorkplace().getEffects().contains(BuildingEffect.Arena) ? 0.05 : 0.0)
+                    + (citizen.getHome().getEffects().contains(BuildingEffect.Police) ? 0.05 : 0.0);
             for (Direction dir : Direction.values()){
                 CityCell neighbor = citizen.getHome().getNeighbor(dir);
                 if(neighbor != null && neighbor.getEffects().contains(BuildingEffect.Police)){
