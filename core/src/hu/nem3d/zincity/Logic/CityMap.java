@@ -114,8 +114,8 @@ public class CityMap {
         map = new TiledMap();
         map.getLayers().add(baseLayer);
         map.getLayers().add(buildingLayer);
-
     }
+
     public TiledMap getMap() {
         return map;
     }

@@ -27,13 +27,10 @@ public abstract class ZoneCell extends CityCell{
      * Constructs an ZoneCell with coordinates and capacity set from parameters
      * @param x The distance of this from the origin on the horizontal axis
      * @param y The distance of this from the origin on the vertical axis
-
      */
-
     protected ZoneCell(int x, int y, TiledMapTileLayer tileLayer) throws CellException {
         super(x, y, tileLayer);
         this.upkeepCost = 0;
-
 
         if (!hasRoadNeighbor() || (tileLayer.getCell(x,y).getClass() != EmptyCell.class))
         {
