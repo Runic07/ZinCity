@@ -13,12 +13,25 @@ public class ArenaCell extends BuildingCell {
         this.price = 50;
         this.upkeepCost = 20;
 
-        spreadEffect(this, (cell) -> (cell.getClass() == LivingZoneCell.class
-                        || cell.getClass() == IndustrialZoneCell.class || cell.getClass() == ServiceZoneCell.class));
+        spreadEffect();
     }
 
     @Override
     public BuildingEffect getMyEffect() {
         return BuildingEffect.Arena;
+    }
+
+    @Override
+    protected void spreadEffect() {
+        for (int i = Math.max(0, x-range); i < Math.min(tileLayer.getWidth(), x+range); i++) {
+            for (int j = Math.max(0, y-range); j < Math.min(tileLayer.getHeight(), y+range); j++) {
+                CityCell cell = (CityCell)tileLayer.getCell(i, j);
+                if(isInRange(cell) && (cell.getClass() == LivingZoneCell.class
+                        || cell.getClass() == IndustrialZoneCell.class || cell.getClass() == ServiceZoneCell.class)){
+                    cell.addEffect(getMyEffect());
+                    //System.out.println(this.getClass().getSimpleName() + " effects " + cell.getX() + " " + cell.getY());
+                }
+            }
+        }
     }
 }

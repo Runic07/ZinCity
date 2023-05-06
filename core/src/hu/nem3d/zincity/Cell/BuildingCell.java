@@ -119,17 +119,15 @@ public abstract class BuildingCell extends CityCell {
     }
 
     /**
-     * Spreads the effect of the given building to every cell, that is in range of given building and accepted by the given condition
-     * @param building The building that spreads its effect
-     * @param condition The condition, that filters the cells in range
+     * Spreads the effect of this building to every cell, that is in range
      */
-    protected static void spreadEffect(BuildingCell building, Predicate<CityCell> condition){
-        TiledMapTileLayer map = building.getTileLayer();
-        for (int i = 0; i < map.getWidth(); i++) {
-            for (int j = 0; j < map.getHeight(); j++) {
-                CityCell cell = (CityCell)map.getCell(i, j);
-                if(building.isInRange(cell) && condition.test(cell)){
-                    cell.addEffect(building.getMyEffect());
+    protected void spreadEffect(){
+        for (int i = Math.max(0, x-range); i < Math.min(tileLayer.getWidth(), x+range); i++) {
+            for (int j = Math.max(0, y-range); j < Math.min(tileLayer.getHeight(), y+range); j++) {
+                CityCell cell = (CityCell)tileLayer.getCell(i, j);
+                if(isInRange(cell)){
+                    cell.addEffect(getMyEffect());
+                    //System.out.println(this.getClass().getSimpleName() + " effects " + cell.getX() + " " + cell.getY());
                 }
             }
         }
