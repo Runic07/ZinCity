@@ -121,7 +121,7 @@ public class GameScreen implements Screen { //draft
         cityStage.draw();
 
         cityStage.setBuildProperties(menuBar.getBuildCode(),uiId);
-        if(menuBar.getIdTo() != uiId){
+        if(menuBar.getIdTo() != uiId || menuBar.reRenderSpeed()){
             if(uiId == 2 || uiId == 1){
                 stage.clear();
             }

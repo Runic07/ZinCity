@@ -10,6 +10,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import hu.nem3d.zincity.Cell.*;
 import hu.nem3d.zincity.Logic.City;
 
+import java.text.DecimalFormat;
+
 
 public class SettingsScreen {
     private final City city;
@@ -72,13 +74,23 @@ public class SettingsScreen {
 
         Label tax = new Label("Current tax coefficient: " + city.taxCoefficient ,skin);
         Label taxSubmitText = new Label("Input new tax coefficient here: ",skin);
-        final TextField taxInput = new TextField("", skin);
+        final Slider slider = new Slider(0.5f, 1.5f, 0.1f, false, skin);
+
+        Container<Slider> container=new Container<Slider>(slider);
+        container.setTransform(true);   // for enabling scaling and rotation
+        container.setScale(3);  //scale according to your requirement
+
+
         TextButton submitButton = new TextButton("Submit",skin);
 
         submitButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                String input = taxInput.getText();
+
+                DecimalFormat df = new DecimalFormat("#.##");
+
+                 String input = df.format(slider.getVisualValue());
+
                 try {
                     double newTax = Double.parseDouble(input);
                     if(newTax < 0){
@@ -91,13 +103,6 @@ public class SettingsScreen {
                     }
                     else{
                         city.taxCoefficient = newTax;
-                        Dialog dialog = new Dialog("Warning", skin, "dialog") {
-                        };
-                        dialog.text("The new tax coefficient is :" + city.taxCoefficient);
-                        dialog.button("OK", false);
-                        dialog.getBackground().setMinWidth(200);
-                        dialog.getBackground().setMinHeight(200);
-                        dialog.show(stage);
                     }
                 }
                 catch(NumberFormatException e) {
@@ -108,7 +113,6 @@ public class SettingsScreen {
                     dialog.getBackground().setMinHeight(200);
                     dialog.show(stage);
                 }
-
             }
         });
 
@@ -139,7 +143,10 @@ public class SettingsScreen {
         settings.row();
         settings.add(taxSubmitText);
         settings.row();
-        settings.add(taxInput);
+        settings.row();
+        settings.row();
+        settings.add(container);
+        settings.row();
         settings.row();
         settings.add(submitButton);
         settings.row();
