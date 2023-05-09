@@ -76,9 +76,9 @@ public class SettingsScreen {
         Label taxSubmitText = new Label("Input new tax coefficient here: ",skin);
         final Slider slider = new Slider(0.5f, 1.5f, 0.1f, false, skin);
 
-        Container<Slider> container=new Container<Slider>(slider);
-        container.setTransform(true);   // for enabling scaling and rotation
-        container.setScale(3);  //scale according to your requirement
+        Container<Slider> container = new Container<Slider>(slider);
+        container.setTransform(true);
+        container.setScale(2);
 
 
         TextButton submitButton = new TextButton("Submit",skin);
@@ -126,6 +126,7 @@ public class SettingsScreen {
                     //TODO save file
             }
         });
+        Label empty = new Label("", skin);
 
         settings.add(title);
         settings.row();
@@ -143,10 +144,9 @@ public class SettingsScreen {
         settings.row();
         settings.add(taxSubmitText);
         settings.row();
+        settings.add(empty);
         settings.row();
-        settings.row();
-        settings.add(container);
-        settings.row();
+        settings.add(container).expandX();
         settings.row();
         settings.add(submitButton);
         settings.row();
