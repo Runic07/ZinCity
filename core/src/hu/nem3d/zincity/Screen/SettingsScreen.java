@@ -94,6 +94,7 @@ public class SettingsScreen {
                 DecimalFormat df = new DecimalFormat("#.##");
 
                  String input = df.format(slider.getVisualValue());
+                 input.replace(",",".");
                  System.out.println(input);
 
                 try {
