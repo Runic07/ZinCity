@@ -3,12 +3,16 @@ package hu.nem3d.zincity.Screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import hu.nem3d.zincity.Cell.*;
 import hu.nem3d.zincity.Logic.City;
+
+import java.text.DecimalFormat;
 
 
 public class SettingsScreen {
@@ -72,13 +76,27 @@ public class SettingsScreen {
 
         Label tax = new Label("Current tax coefficient: " + city.taxCoefficient ,skin);
         Label taxSubmitText = new Label("Input new tax coefficient here: ",skin);
-        final TextField taxInput = new TextField("", skin);
+        final Slider slider = new Slider(0.5f, 1.5f, 0.1f, false, skin);
+
+        slider.setValue((float) city.taxCoefficient);
+
+        Container<Slider> container = new Container<Slider>(slider);
+        container.setTransform(true);
+        container.setScale(width/720, height/480);
+
+
         TextButton submitButton = new TextButton("Submit",skin);
 
         submitButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                String input = taxInput.getText();
+
+                DecimalFormat df = new DecimalFormat("#.##");
+
+                 String input = df.format(slider.getVisualValue());
+                 input = input.replace(",",".");
+                 System.out.println(input);
+
                 try {
                     double newTax = Double.parseDouble(input);
                     if(newTax < 0){
@@ -91,13 +109,6 @@ public class SettingsScreen {
                     }
                     else{
                         city.taxCoefficient = newTax;
-                        Dialog dialog = new Dialog("Warning", skin, "dialog") {
-                        };
-                        dialog.text("The new tax coefficient is :" + city.taxCoefficient);
-                        dialog.button("OK", false);
-                        dialog.getBackground().setMinWidth(200);
-                        dialog.getBackground().setMinHeight(200);
-                        dialog.show(stage);
                     }
                 }
                 catch(NumberFormatException e) {
@@ -108,7 +119,6 @@ public class SettingsScreen {
                     dialog.getBackground().setMinHeight(200);
                     dialog.show(stage);
                 }
-
             }
         });
 
@@ -122,6 +132,7 @@ public class SettingsScreen {
                     //TODO save file
             }
         });
+        Label empty = new Label("", skin);
 
         settings.add(title);
         settings.row();
@@ -139,7 +150,9 @@ public class SettingsScreen {
         settings.row();
         settings.add(taxSubmitText);
         settings.row();
-        settings.add(taxInput);
+        settings.add(empty);
+        settings.row();
+        settings.add(container).expandX();
         settings.row();
         settings.add(submitButton);
         settings.row();

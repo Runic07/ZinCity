@@ -38,6 +38,7 @@ public class CityMap {
 
         FileHandle handle = Gdx.files.internal("texture.png");
         texture = new Texture(handle.path());
+        Builder builder = new Builder(0,0,null);
 
         //create the tileset
         tileSet = new TiledMapTileSet();
