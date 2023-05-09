@@ -3,9 +3,11 @@ package hu.nem3d.zincity.Screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import hu.nem3d.zincity.Cell.*;
 import hu.nem3d.zincity.Logic.City;
@@ -76,9 +78,11 @@ public class SettingsScreen {
         Label taxSubmitText = new Label("Input new tax coefficient here: ",skin);
         final Slider slider = new Slider(0.5f, 1.5f, 0.1f, false, skin);
 
+        slider.setValue((float) city.taxCoefficient);
+
         Container<Slider> container = new Container<Slider>(slider);
         container.setTransform(true);
-        container.setScale(2);
+        container.setScale(width/720, height/480);
 
 
         TextButton submitButton = new TextButton("Submit",skin);
