@@ -151,16 +151,16 @@ public class CityMap {
                     buildingLayer.getCell(i - 1, j).setTile((tileSet.getTile(4)));
 
                     buildingLayer.setCell(i + 1, j - 1, new LivingZoneCell(i + 1, j - 1, buildingLayer));
-                    buildingLayer.getCell(i + 1, j - 1).setTile((tileSet.getTile(5)));
+                    buildingLayer.getCell(i + 1, j - 1).setTile((tileSet.getTile(24)));
 
                     buildingLayer.setCell(i + 1, j + 1, new LivingZoneCell(i + 1, j + 1, buildingLayer));
-                    buildingLayer.getCell(i + 1, j + 1).setTile((tileSet.getTile(5)));
+                    buildingLayer.getCell(i + 1, j + 1).setTile((tileSet.getTile(24)));
 
                     buildingLayer.setCell(i - 1, j - 1, new ServiceZoneCell(i - 1, j - 1, buildingLayer));
-                    buildingLayer.getCell(i - 1, j - 1).setTile((tileSet.getTile(11)));
+                    buildingLayer.getCell(i - 1, j - 1).setTile((tileSet.getTile(26)));
 
                     buildingLayer.setCell(i - 1, j + 1, new IndustrialZoneCell(i - 1, j + 1, buildingLayer));
-                    buildingLayer.getCell(i - 1, j + 1).setTile((tileSet.getTile(8)));
+                    buildingLayer.getCell(i - 1, j + 1).setTile((tileSet.getTile(25)));
 
                 } catch (CellException e) {
                     System.err.println("failed building starter city");
