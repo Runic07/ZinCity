@@ -136,18 +136,31 @@ public class CityMap {
                 try {
 
                     buildingLayer.setCell(i + 1, j, new RoadCell(i + 1, j, buildingLayer));
+                    buildingLayer.getCell(i + 1, j).setTile((tileSet.getTile(4)));
+
                     buildingLayer.setCell(i, j - 1, new RoadCell(i, j - 1, buildingLayer));
+                    buildingLayer.getCell(i, j - 1).setTile((tileSet.getTile(4)));
+
                     buildingLayer.setCell(i, j, new RoadCell(i, j, buildingLayer));
+                    buildingLayer.getCell(i, j).setTile((tileSet.getTile(4)));
+
                     buildingLayer.setCell(i, j + 1, new RoadCell(i, j + 1, buildingLayer));
+                    buildingLayer.getCell(i, j + 1).setTile((tileSet.getTile(4)));
+
                     buildingLayer.setCell(i - 1, j, new RoadCell(i - 1, j, buildingLayer));
+                    buildingLayer.getCell(i - 1, j).setTile((tileSet.getTile(4)));
 
                     buildingLayer.setCell(i + 1, j - 1, new LivingZoneCell(i + 1, j - 1, buildingLayer));
+                    buildingLayer.getCell(i + 1, j - 1).setTile((tileSet.getTile(5)));
 
                     buildingLayer.setCell(i + 1, j + 1, new LivingZoneCell(i + 1, j + 1, buildingLayer));
+                    buildingLayer.getCell(i + 1, j + 1).setTile((tileSet.getTile(5)));
 
                     buildingLayer.setCell(i - 1, j - 1, new ServiceZoneCell(i - 1, j - 1, buildingLayer));
+                    buildingLayer.getCell(i - 1, j - 1).setTile((tileSet.getTile(11)));
 
                     buildingLayer.setCell(i - 1, j + 1, new IndustrialZoneCell(i - 1, j + 1, buildingLayer));
+                    buildingLayer.getCell(i - 1, j + 1).setTile((tileSet.getTile(8)));
 
                 } catch (CellException e) {
                     System.err.println("failed building starter city");
