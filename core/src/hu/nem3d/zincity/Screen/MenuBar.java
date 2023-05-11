@@ -73,7 +73,7 @@ public class MenuBar {
         currTable.background("dialog");
         //Set alignment of contents in the table.
         currTable.top();
-        skin.getFont("commodore-64").getData().setScale(width/720f, height/480f);
+        skin.getFont("commodore-64").getData().setScale(width/720f+Float.MIN_VALUE, height/480f+Float.MIN_VALUE);
 
         TextButton exitButton = new TextButton("Exit", skin);
         exitButton.setSize(width / 9, (float) ((height * 0.15) / 2));
@@ -423,7 +423,7 @@ public class MenuBar {
         //Set alignment of contents in the table.
         statTable.top();
 
-        skin.getFont("commodore-64").getData().setScale(width/720f, height/480f);
+        skin.getFont("commodore-64").getData().setScale(width/720f+Float.MIN_VALUE, height/480f+Float.MIN_VALUE);
 
         DecimalFormat df = new DecimalFormat("###.#");
 

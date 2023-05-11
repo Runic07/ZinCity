@@ -34,7 +34,7 @@ public class SettingsScreen {
     public Table settingsTable(final float width, final float height){
         Table settings = new Table(skin);
         settings.background("dialog");
-        skin.getFont("commodore-64").getData().setScale(width/720f, height/480f);
+        skin.getFont("commodore-64").getData().setScale(width/720f+Float.MIN_VALUE, height/480f+Float.MIN_VALUE);
 
         TiledMapTileLayer buildingLayer = (TiledMapTileLayer) city.getCityMap().getMap().getLayers().get(1);
         int industrialCount = 0;
