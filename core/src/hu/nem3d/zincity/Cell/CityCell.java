@@ -4,6 +4,8 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import hu.nem3d.zincity.Misc.Direction;
 import hu.nem3d.zincity.Screen.StatUI;
 
+import java.util.ArrayList;
+
 /**
  * Provides base class for cell tiles.
  * @see com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell
@@ -157,6 +159,25 @@ public abstract class CityCell extends TiledMapTileLayer.Cell {
         }
 
 
+    }
+
+    /**
+     * Returns neighbors 1 cell away.
+     * @return ArrayList containing the cells
+     */
+    public ArrayList<CityCell> getImmediateNeighbors(){
+        ArrayList<CityCell> l = new ArrayList<CityCell>();
+
+        l.add(this.getNeighbor(Direction.NORTH));
+        l.add(this.getNeighbor(Direction.NORTH).getNeighbor(Direction.EAST));
+        l.add(this.getNeighbor(Direction.NORTH).getNeighbor(Direction.WEST));
+        l.add(this.getNeighbor(Direction.EAST));
+        l.add(this.getNeighbor(Direction.WEST));
+        l.add(this.getNeighbor(Direction.SOUTH));
+        l.add(this.getNeighbor(Direction.SOUTH).getNeighbor(Direction.EAST));
+        l.add(this.getNeighbor(Direction.SOUTH).getNeighbor(Direction.WEST));
+
+        return l;
     }
 
 

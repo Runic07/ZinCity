@@ -1,6 +1,7 @@
 package hu.nem3d.zincity.Logic;
 
 
+import com.badlogic.gdx.graphics.g3d.particles.ParticleSorter;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileSet;
 import hu.nem3d.zincity.Cell.*;
@@ -129,14 +130,21 @@ public class City {
         for (Citizen citizen : citizens) {
             budget += baseTaxAmount * taxCoefficient;
 
-
+            double forestSatisfactionBonus = 0.0;
+            for (CityCell c: citizen.getHome().getImmediateNeighbors()
+                 ) {
+                if (c instanceof ForestCell){
+                    forestSatisfactionBonus+=((ForestCell) c).getAge() * 0.005;
+                }
+            }
             citizen.setSatisfaction(
                     citizen.getSatisfaction() +
                             citizen.getSatisfaction() * 0.05 + //previous satisfaction added with small weight
                             (1 / taxCoefficient - 1) * 0.05 -//tax coeff added, scaled down
                             ((double) DistanceCalculator.distance(citizen.getHome(), citizen.getWorkplace()) - 10.0) * 0.01 - //distance from workplace
                             //bonus if <10 tile (linear)
-                            1.0 / (DistanceCalculator.nearestIndustrialDistance(citizen.getHome()) * 3) //distance from nearest industrial (hyperbolic)
+                            1.0 / (DistanceCalculator.nearestIndustrialDistance(citizen.getHome()) * 3) + //distance from nearest industrial (hyperbolic)
+                            forestSatisfactionBonus
 
             );
             System.out.print(citizen.getSatisfaction() + "\t");
