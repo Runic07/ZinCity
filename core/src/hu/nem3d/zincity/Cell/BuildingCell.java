@@ -5,9 +5,6 @@ import hu.nem3d.zincity.Misc.BuildingEffect;
 import hu.nem3d.zincity.Misc.CellException;
 import hu.nem3d.zincity.Misc.Direction;
 
-import java.util.ArrayList;
-import java.util.function.Predicate;
-
 /**
  * Provides base class for building cell tiles with various effects.
  * @see com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell
@@ -122,12 +119,42 @@ public abstract class BuildingCell extends CityCell {
      * Spreads the effect of this building to every cell, that is in range
      */
     protected void spreadEffect(){
-        for (int i = Math.max(0, x-range); i < Math.min(tileLayer.getWidth(), x+range); i++) {
-            for (int j = Math.max(0, y-range); j < Math.min(tileLayer.getHeight(), y+range); j++) {
+        for (int i = Math.max(0, x-range); i <= Math.min(tileLayer.getWidth()-1, x+range); i++) {
+            for (int j = Math.max(0, y-range); j <= Math.min(tileLayer.getHeight()-1, y+range); j++) {
                 CityCell cell = (CityCell)tileLayer.getCell(i, j);
                 if(isInRange(cell)){
                     cell.addEffect(getMyEffect());
-                    //System.out.println(this.getClass().getSimpleName() + " effects " + cell.getX() + " " + cell.getY());
+                    //System.out.println(this.getClass().getSimpleName() + " effects " + i + " " + j);
+                }
+            }
+        }
+    }
+
+    /**
+     * Removes the effect of this BuildingCell
+     * (It is like spreadEffect method, but backwards)
+     */
+    public void removeSpreadEffect(){
+        for (int i = Math.max(0, x-range); i <= Math.min(tileLayer.getWidth()-1, x+range); i++) {
+            for (int j = Math.max(0, y-range); j <= Math.min(tileLayer.getHeight()-1, y+range); j++) {
+                CityCell cell = (CityCell)tileLayer.getCell(i, j);
+                if(isInRange(cell)){
+                    cell.removeEffect(getMyEffect());
+                    //System.out.println(this.getClass().getSimpleName() + " removed effects from " + i + " " + j);
+                }
+            }
+        }
+    }
+
+    /**
+     * Activates the spreading of effects of buildings, that have the same type as this do
+     */
+    public void spreadSiblingsEffects(){
+        for (int i = Math.max(0, x-(range*2)); i <= Math.min(tileLayer.getWidth()-1, x+(range*2)); i++) {
+            for (int j = Math.max(0, y-(range*2)); j <= Math.min(tileLayer.getHeight()-1, y+(range*2)); j++) {
+                CityCell cell = (CityCell)tileLayer.getCell(i, j);
+                if(cell.getClass() == this.getClass() && !(i == x && j == y)){
+                    ((BuildingCell)cell).spreadEffect();
                 }
             }
         }

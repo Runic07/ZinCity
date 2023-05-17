@@ -17,7 +17,7 @@ public class GeneratorCell extends BuildingCell {
         this.range = 0;
         this.upkeepCost = 7.5;
 
-        spreadEffect();
+        if(part == BuildingPart.SouthEast){ spreadEffect();}
     }
 
     @Override
@@ -35,8 +35,8 @@ public class GeneratorCell extends BuildingCell {
 
         while(!queue.isEmpty()) {
             CityCell current = queue.remove(0);
-            if(!current.isElectrified() && current.setElectrified(true)) {
-                //System.out.println("Electrified: " + current.getX() + " " + current.getY());
+            if(current.setElectrified(true)) {
+                System.out.println("Electrified: " + current.getX() + " " + current.getY());
                 Arrays.stream(Direction.values())
                         .map(current::getNeighbor)
                         .filter((neighbor) -> (neighbor != null && !visited[neighbor.getX()][neighbor.getY()]))
@@ -44,6 +44,44 @@ public class GeneratorCell extends BuildingCell {
                             visited[cell.getX()][cell.getY()] = true;
                             queue.add(cell);
                         });
+            }
+        }
+    }
+
+    @Override
+    public void removeSpreadEffect() {
+        if(part == BuildingPart.SouthEast){
+            boolean[][] visited = new boolean[tileLayer.getWidth()][tileLayer.getHeight()];
+
+            visited[x][y] = true;
+            LinkedList<CityCell> queue = new LinkedList<>();
+            queue.add(this);
+
+            while(!queue.isEmpty()) {
+                CityCell current = queue.remove(0);
+                if(current.isWired() && current.setElectrified(false)) {
+                    Arrays.stream(Direction.values())
+                            .map(current::getNeighbor)
+                            .filter((neighbor) -> (neighbor != null && !visited[neighbor.getX()][neighbor.getY()]))
+                            .forEach((cell) -> {
+                                visited[cell.getX()][cell.getY()] = true;
+                                queue.add(cell);
+                            });
+                }
+            }
+        }
+    }
+
+    @Override
+    public void spreadSiblingsEffects() {
+        for (int i = 0; i < tileLayer.getWidth(); i++) {
+            for (int j = 0; j < tileLayer.getHeight(); j++) {
+                if(tileLayer.getCell(i, j).getClass() == GeneratorCell.class && !(i == x && j == y)){
+                    GeneratorCell cell = (GeneratorCell) tileLayer.getCell(i, j);
+                    if(cell.getPart() == BuildingPart.SouthEast){
+                        cell.spreadEffect();
+                    }
+                }
             }
         }
     }

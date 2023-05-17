@@ -331,35 +331,42 @@ public class Builder {
                 }
             }
 
-
-            if(cell.getClass() == ArenaCell.class || cell.getClass() == GeneratorCell.class){
-                int partValue = ((BuildingCell) cell).getPart().ordinal();
-                switch (partValue){
-                    case(1):
-                        x = x - 1;
-                        break;
-                    case(2):
-                        y = y + 1;
-                        break;
-                    case(3):
-                        x = x - 1;
-                        y = y + 1;
-                        break;
-                }
-
-                for(int i = 0; i > -2; i-- ){
-                    for(int j = 0; j < 2; j++){
-                        EmptyCell tmpCell = new EmptyCell(x+j,y+i, buildLayer);
-                        tmpCell.setTile((tileSet.getTile(0)));
-                        buildLayer.setCell(x + j,y + i, tmpCell);
-                        returnCells.add(tmpCell);
+            if(cell instanceof  BuildingCell){
+                if(cell.getClass() == ArenaCell.class || cell.getClass() == GeneratorCell.class){
+                    int partValue = ((BuildingCell) cell).getPart().ordinal();
+                    switch (partValue){
+                        case(1):
+                            x = x - 1;
+                            break;
+                        case(2):
+                            y = y + 1;
+                            break;
+                        case(3):
+                            x = x - 1;
+                            y = y + 1;
+                            break;
                     }
-                }
 
+                    for(int i = 0; i > -2; i-- ){
+                        for(int j = 0; j < 2; j++){
+                            ((BuildingCell)buildLayer.getCell(x+j, y+i)).removeSpreadEffect();
+                            EmptyCell tmpCell = new EmptyCell(x+j,y+i, buildLayer);
+                            tmpCell.setTile((tileSet.getTile(0)));
+                            tmpCell.setWired(((CityCell)buildLayer.getCell(x + j,y + i)).isWired());
+                            buildLayer.setCell(x + j,y + i, tmpCell);
+                            returnCells.add(tmpCell);
+                        }
+                    }
+                }else{
+                    ((BuildingCell)cell).removeSpreadEffect();
+                }
+                ((BuildingCell)cell).spreadSiblingsEffects();
             }
+
             //System.out.println(returnCells);
             cell = new EmptyCell(x,y, buildLayer);
             cell.setTile((tileSet.getTile(0)));
+            cell.setWired(((CityCell)buildLayer.getCell(x, y)).isWired());
             buildLayer.setCell(x, y, cell);
             returnCells.add(cell);// <-------------------- I do not like this. -Jaksy
         return  returnCells;

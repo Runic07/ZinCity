@@ -34,101 +34,75 @@ public class CityMap {
      *
      */
     public CityMap() {
-        try {
-            FileHandle handle = Gdx.files.internal("texture.png");
-            texture = new Texture(handle.path());
+        FileHandle handle = Gdx.files.internal("texture.png");
+        texture = new Texture(handle.path());
 
-            //create the tileset
-            tileSet = new TiledMapTileSet();
-            int i = 0, j = 0;
-            for (TextureTiles item : TextureTiles.values()) {
-                if (i > 9){ //since there are 10 columns in the texture file.
-                    i = 0;
-                    j++;
-                }
-                tileSet.putTile(item.ordinal(), new StaticTiledMapTile(new TextureRegion(texture, i*24, j*24, 24,24)));
-                i++;
-
+        //create the tileset
+        tileSet = new TiledMapTileSet();
+        int i = 0, j = 0;
+        for (TextureTiles item : TextureTiles.values()) {
+            if (i > 9){ //since there are 10 columns in the texture file.
+                i = 0;
+                j++;
             }
-
-            //create the layer
-            baseLayer = new TiledMapTileLayer(30,20,24,24);
-            buildingLayer = new TiledMapTileLayer(30,20,24,24);
-
-            Random r = new Random();
-            long seedWater = r.nextLong();
-            long seedTrees = r.nextLong();
-            for ( i = 0; i < 30; i++) {
-                for ( j = 0; j < 20; j++) {
-                    boolean isEmpty = false;
-                    if (OpenSimplex2S.noise2(seedWater, i*0.05, j*0.05) > -0.3){ //change these threshold values to modify world gen
-                        CityCell cell = new EmptyCell(i,j, baseLayer);
-                        cell.setTile(tileSet.getTile(0));
-                        cell.setX(i);
-                        cell.setY(j);
-                        baseLayer.setCell(i, j, cell);
-                        isEmpty = true;
-                    }
-                    else{
-                        CityCell cell = new BlockedCell(i,j,baseLayer, "");
-                        cell.setTile(tileSet.getTile(1));
-                        cell.setX(i);
-                        cell.setY(j);
-                        baseLayer.setCell(i, j, cell);
-                    }
-
-                    if (OpenSimplex2S.noise2(seedTrees, i*0.05, j*0.05) > 0.7  ){
-                        //add dense forest
-                        CityCell cell = new ForestCell(i,j, buildingLayer);
-                        cell.setTile((tileSet.getTile(3)));
-                        cell.setX(i);
-                        cell.setY(j);
-                        buildingLayer.setCell(i,j,cell);
-                    }
-                    else if (OpenSimplex2S.noise2(seedTrees, i*0.05, j*0.05) > 0.6){
-                        //add sparse forest
-                        CityCell cell = new ForestCell(i,j, buildingLayer);
-                        cell.setTile((tileSet.getTile(2)));
-                        cell.setX(i);
-                        cell.setY(j);
-                        buildingLayer.setCell(i,j,cell);
-                    }
-                    else if(isEmpty){
-                        CityCell cell = new EmptyCell(i,j,buildingLayer);
-                        cell.setX(i);
-                        cell.setY(j);
-                        buildingLayer.setCell(i, j, cell);
-                    }
-                    else{
-                        CityCell cell = new BlockedCell(i,j,buildingLayer, "");
-                        cell.setX(i);
-                        cell.setY(j);
-                        buildingLayer.setCell(i, j, cell);
-                    }
-                }
-            }
-
-            map = new TiledMap();
-            map.getLayers().add(baseLayer);
-            map.getLayers().add(buildingLayer);
-
-        } catch (NullPointerException e) {
-
-            baseLayer = new TiledMapTileLayer(30,20,24,24);
-            buildingLayer = new TiledMapTileLayer(30,20,24,24);
-
-
-            for (int i = 0; i < 30; i++) {
-                for (int j = 0; j < 20; j++) {
-                    baseLayer.setCell(i, j, new EmptyCell(i,j, baseLayer));
-                    buildingLayer.setCell(i, j, new EmptyCell(i,j, buildingLayer));
-                }
-            }
-
-            map = new TiledMap();
-            map.getLayers().add(baseLayer);
-            map.getLayers().add(buildingLayer);
+            tileSet.putTile(item.ordinal(), new StaticTiledMapTile(new TextureRegion(texture, i*24, j*24, 24,24)));
+            i++;
         }
+
+        //create the layer
+        baseLayer = new TiledMapTileLayer(30,20,24,24);
+        buildingLayer = new TiledMapTileLayer(30,20,24,24);
+
+        Random r = new Random();
+        long seedWater = r.nextLong();
+        long seedTrees = r.nextLong();
+        for ( i = 0; i < 30; i++) {
+            for (j = 0; j < 20; j++) {
+                boolean isEmpty = false;
+                if (OpenSimplex2S.noise2(seedWater, i * 0.05, j * 0.05) > -0.3) { //change these threshold values to modify world gen
+                    CityCell cell = new EmptyCell(i, j, baseLayer);
+                    cell.setTile(tileSet.getTile(0));
+                    cell.setX(i);
+                    cell.setY(j);
+                    baseLayer.setCell(i, j, cell);
+                    isEmpty = true;
+                } else {
+                    CityCell cell = new BlockedCell(i, j, baseLayer, "");
+                    cell.setTile(tileSet.getTile(1));
+                    cell.setX(i);
+                    cell.setY(j);
+                    baseLayer.setCell(i, j, cell);
+                }
+                if (OpenSimplex2S.noise2(seedTrees, i * 0.05, j * 0.05) > 0.7) {
+                    //add dense forest
+                    CityCell cell = new ForestCell(i, j, buildingLayer);
+                    cell.setTile((tileSet.getTile(3)));
+                    cell.setX(i);
+                    cell.setY(j);
+                    buildingLayer.setCell(i, j, cell);
+                } else if (OpenSimplex2S.noise2(seedTrees, i * 0.05, j * 0.05) > 0.6) {
+                    //add sparse forest
+                    CityCell cell = new ForestCell(i, j, buildingLayer);
+                    cell.setTile((tileSet.getTile(2)));
+                    cell.setX(i);
+                    cell.setY(j);
+                    buildingLayer.setCell(i, j, cell);
+                } else if (isEmpty) {
+                    CityCell cell = new EmptyCell(i, j, buildingLayer);
+                    cell.setX(i);
+                    cell.setY(j);
+                    buildingLayer.setCell(i, j, cell);
+                } else {
+                    CityCell cell = new BlockedCell(i, j, buildingLayer, "");
+                    cell.setX(i);
+                    cell.setY(j);
+                    buildingLayer.setCell(i, j, cell);
+                }
+            }
+        }
+        map = new TiledMap();
+        map.getLayers().add(baseLayer);
+        map.getLayers().add(buildingLayer);
     }
 
     public TiledMap getMap() {

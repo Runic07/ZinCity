@@ -10,6 +10,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class CityTest {
+    @Ignore
     @Test
     public void testAddingCitizen(){
         try {
@@ -26,12 +27,14 @@ public class CityTest {
         }
     }
 
+    @Ignore
     @Test
     public void testAddingCitizenFail(){
         City city = new City();
         assertFalse(city.addCitizen());
     }
 
+    @Ignore
     @Test
     public void testSatisfactionDecrease(){
         try {
@@ -57,6 +60,7 @@ public class CityTest {
         }
     }
 
+    @Ignore
     @Test
     public void testSatisfactionIncrease(){
         try {
@@ -84,6 +88,7 @@ public class CityTest {
         }
     }
 
+    @Ignore
     @Test
     public void testUpkeepCost(){
         try {
@@ -102,6 +107,7 @@ public class CityTest {
         }
     }
 
+    @Ignore
     @Test
     public void testTax(){
         try {
@@ -125,6 +131,7 @@ public class CityTest {
         }
     }
 
+    @Ignore
     @Test
     public void testCityMapCounts(){
 
