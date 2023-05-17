@@ -50,7 +50,7 @@ public class Builder {
         ->code = 5 --> forest
      UIid = 5 --> networks/connections
         ->code = 1 --> electricity cables
-        ->code = 1 --> roads
+        ->code = 2 --> roads
      UIid = 6 --> delete
      */
 
@@ -285,6 +285,12 @@ public class Builder {
      * @return
      */
     private CityCell buildNetwork(CityCell cell){
+        if (buildCode == 1) {
+            if(!cell.isWired()){
+                cell.setWired(true);
+                this.city.budget -= 10; //TODO think about a better wire price
+            }
+        }
         if (buildCode == 2) {
             if (cell.getClass() == EmptyCell.class) {
                 cell = new RoadCell(x, y, buildLayer);
@@ -292,10 +298,10 @@ public class Builder {
 
                 buildLayer.setCell(x, y, cell);
             }
-        }
 
-        //YOU BROKE?
-        this.city.budget -= cell.getPrice();
+            //YOU BROKE?
+            this.city.budget -= cell.getPrice();
+        }
 
         return cell;
     }
