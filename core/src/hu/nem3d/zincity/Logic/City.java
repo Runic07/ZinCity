@@ -1,13 +1,11 @@
 package hu.nem3d.zincity.Logic;
 
 
-import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileSet;
 import hu.nem3d.zincity.Cell.*;
 import hu.nem3d.zincity.Misc.DistanceCalculator;
 
-import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -186,6 +184,12 @@ public class City {
                         else if(IndustrialZoneCell.class == zoneType){
                                 cell.setTile(tileSet.getTile(8));
                         }
+                }
+                if (cell instanceof ForestCell){
+                    boolean isUpdated = ((ForestCell) cell).randomGrow();
+                    if (isUpdated && ((ForestCell) cell).getAge() == 10){
+                       cell.setTile(cityMap.tileSet.getTile(3));
+                    }
                 }
 
             }

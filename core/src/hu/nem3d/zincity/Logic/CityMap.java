@@ -32,7 +32,6 @@ public class CityMap {
      * Generates a 30x20 map with random Simplex-noise, adds water, trees and grass.
      * Generates map layers for buildings and base tiles.
      *
-     *
      */
     public CityMap() {
 
@@ -81,18 +80,20 @@ public class CityMap {
 
                 if (OpenSimplex2S.noise2(seedTrees, i*0.05, j*0.05) > 0.7  ){
                     //add dense forest
-                    CityCell cell = new ForestCell(i,j, buildingLayer);
+                    ForestCell cell = new ForestCell(i,j, buildingLayer);
                     cell.setTile((tileSet.getTile(3)));
                     cell.setX(i);
                     cell.setY(j);
+                    cell.setAge(10);
                     buildingLayer.setCell(i,j,cell);
                 }
                 else if (OpenSimplex2S.noise2(seedTrees, i*0.05, j*0.05) > 0.6){
                     //add sparse forest
-                    CityCell cell = new ForestCell(i,j, buildingLayer);
+                    ForestCell cell = new ForestCell(i,j, buildingLayer);
                     cell.setTile((tileSet.getTile(2)));
                     cell.setX(i);
                     cell.setY(j);
+                    cell.setAge(r.nextInt(0,5));
                     buildingLayer.setCell(i,j,cell);
                 }
                 else if(isEmpty){
