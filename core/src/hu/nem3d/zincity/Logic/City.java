@@ -149,6 +149,8 @@ public class City {
 
             if (citizen.getSatisfaction() < satisfactionLowerThreshold){
                 if (r.nextInt() % 20 == 0){
+                    citizen.getHome().removeOccupant();
+                    citizen.getWorkplace().removeOccupant();
                     citizens.remove(citizen);
 
                 }
