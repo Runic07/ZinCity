@@ -26,6 +26,7 @@ public class CityMap {
     TiledMapTileLayer buildingLayer; //more layers can be added on demand
     TiledMapTileSet tileSet; //contains TiledMapTile objects.
     Texture texture;
+    TiledMapTileLayer effectsLayer;
 
     Builder builder;
     /**
@@ -56,6 +57,7 @@ public class CityMap {
         //create the layer
         baseLayer = new TiledMapTileLayer(30,20,24,24);
         buildingLayer = new TiledMapTileLayer(30,20,24,24);
+        effectsLayer = new TiledMapTileLayer(30,20,24,24);
 
         Random r = new Random();
         long seedWater = r.nextLong();
@@ -171,10 +173,18 @@ public class CityMap {
 
         }
 
+        for ( i = 0; i < 30; i++) {
+            for ( j = 0; j < 20; j++) {
+                effectsLayer.setCell(i,j, new TiledMapTileLayer.Cell());
+                effectsLayer.getCell(i,j).setTile(tileSet.getTile(29));
+            }
+        }
+
 
         map = new TiledMap();
         map.getLayers().add(baseLayer);
         map.getLayers().add(buildingLayer);
+        map.getLayers().add(effectsLayer);
     }
 
     public TiledMap getMap() {
@@ -183,6 +193,10 @@ public class CityMap {
 
     public TiledMapTileLayer getBuildingLayer() {
         return buildingLayer;
+    }
+
+    public TiledMapTileLayer getEffectsLayer() {
+        return effectsLayer;
     }
 
     public void setBuildingLayer(TiledMapTileLayer buildingLayer) {
