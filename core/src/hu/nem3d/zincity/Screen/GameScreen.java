@@ -50,6 +50,8 @@ public class GameScreen implements Screen { //draft
     float screenWidth = Gdx.graphics.getWidth();
     float screenHeight = Gdx.graphics.getHeight();
 
+    boolean gameOver;
+
 
     int frameCounter = 0; //not permanent, find a better solution to pass the time!
 
@@ -59,6 +61,7 @@ public class GameScreen implements Screen { //draft
      */
     public GameScreen(){
         city = new City();
+        gameOver = false;
 
         builder = new Builder(0,0,city);
         //render map
@@ -108,6 +111,12 @@ public class GameScreen implements Screen { //draft
     }
     @Override
     public void render(float delta) {
+        if(city.citizens.size() == 0 && !gameOver) {
+            statStage.clear();
+            cityStage.clear();
+            menuBar.isGameOver();
+            gameOver = true;
+        }
         if(speed != 0){
             frameCounter++;
         }

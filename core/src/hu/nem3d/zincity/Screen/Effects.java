@@ -11,7 +11,7 @@ public class Effects {
         map = map_;
     }
 
-    public void setFire(int x, int y){
+    public void setOnFire(int x, int y){
         map.getEffectsLayer().getCell(x,y).setTile(map.getTileSet().getTile(28));
     }
 
