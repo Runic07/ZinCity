@@ -24,8 +24,8 @@ public class CityMap {
     TiledMapTileLayer baseLayer; //contains Cell objects that point to TiledMapTile objects
 
     TiledMapTileLayer buildingLayer; //more layers can be added on demand
-    TiledMapTileSet tileSet; //contains TiledMapTile objects.
-    Texture texture;
+    transient TiledMapTileSet tileSet; //contains TiledMapTile objects.
+    transient Texture texture;
 
     Builder builder;
     /**

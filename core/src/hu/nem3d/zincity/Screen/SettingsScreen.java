@@ -1,16 +1,17 @@
 package hu.nem3d.zincity.Screen;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Json;
 import hu.nem3d.zincity.Cell.*;
 import hu.nem3d.zincity.Logic.City;
+import hu.nem3d.zincity.Misc.CitySerializer;
 
 import java.text.DecimalFormat;
 
@@ -129,7 +130,22 @@ public class SettingsScreen {
         saveButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                    //TODO save file
+
+                Json json = new Json();
+
+
+                json.setSerializer(City.class, new CitySerializer());
+
+                try{
+
+
+                    System.out.println(json.toJson(city));
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+
+
+
             }
         });
         Label empty = new Label("", skin);
