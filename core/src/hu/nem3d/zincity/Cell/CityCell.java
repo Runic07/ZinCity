@@ -124,21 +124,27 @@ public abstract class CityCell extends TiledMapTileLayer.Cell {
     public boolean isElectrified() {return isElectrified;}
 
     /**
-     * Changes the value of isElectrified to the value of the parameter (if this has wires)
+     * Changes the value of isElectrified to the value of the parameter (if this has wires),
+     * and calls this method on each of its neighbors (in some sort of recursive way),
+     * on which is present, wired, and not has the same value as the parameter
      * @param elect The value, which isElectrified will be set to (if it has wires)
-     * @return True, if this action is successful
+     * @return True, if this action is successful on this cell
      */
-    public boolean setElectrified(boolean elect) {
-        if(elect){
-            if (isWired){  //Electricity requires wires to flow through
-                isElectrified = true;
-                return true;
-            }else{
-                return false;
+    public boolean electrify(boolean elect) {
+        if(isWired){ //Electricity requires wires to flow through (electrified can't be true, without isWired)
+            isElectrified = elect;
+            System.out.println("Electricity is " + elect + " at " + getClass().getSimpleName() + " on " + x + " " + y);
+
+            //Electrifying neighbors
+            for(Direction dir : Direction.values()){
+                CityCell neighbor = getNeighbor(dir);
+                if(neighbor != null && neighbor.isWired() && neighbor.isElectrified() != elect){
+                    neighbor.electrify(elect);
+                }
             }
-        }else{
-            isElectrified = false;
             return true;
+        }else{
+            return false;
         }
     }
 

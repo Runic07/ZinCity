@@ -9,6 +9,7 @@ import hu.nem3d.zincity.Logic.CityMap;
 import hu.nem3d.zincity.Screen.CityStage;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * This handles the changes in a cell due to user input. Later in the code you can see which UiId and buildCode combinations refer to which action.
@@ -288,6 +289,11 @@ public class Builder {
         if (buildCode == 1) {
             if(!cell.isWired()){
                 cell.setWired(true);
+                final CityCell cellcopy = cell;
+                if(Arrays.stream(Direction.values())
+                        .anyMatch((dir) -> cellcopy.getNeighbor(dir) != null && cellcopy.getNeighbor(dir).isElectrified())){
+                    cell.electrify(true);
+                }
                 this.city.budget -= 10; //TODO think about a better wire price
             }
         }

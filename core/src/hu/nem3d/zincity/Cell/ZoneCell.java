@@ -31,6 +31,7 @@ public abstract class ZoneCell extends CityCell{
     protected ZoneCell(int x, int y, TiledMapTileLayer tileLayer) throws CellException {
         super(x, y, tileLayer);
         this.upkeepCost = 0;
+        this.isWired = true;
 
         if (!hasRoadNeighbor() || (tileLayer.getCell(x,y).getClass() != EmptyCell.class))
         {

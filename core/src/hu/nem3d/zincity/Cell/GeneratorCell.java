@@ -17,7 +17,7 @@ public class GeneratorCell extends BuildingCell {
         this.range = 0;
         this.upkeepCost = 7.5;
 
-        if(part == BuildingPart.SouthEast){ spreadEffect();}
+        spreadEffect();
     }
 
     @Override
@@ -27,49 +27,14 @@ public class GeneratorCell extends BuildingCell {
 
     @Override
     protected void spreadEffect() {
-        boolean[][] visited = new boolean[tileLayer.getWidth()][tileLayer.getHeight()];
-
-        visited[x][y] = true;
-        LinkedList<CityCell> queue = new LinkedList<>();
-        queue.add(this);
-
-        while(!queue.isEmpty()) {
-            CityCell current = queue.remove(0);
-            if(current.setElectrified(true)) {
-                System.out.println("Electrified: " + current.getX() + " " + current.getY());
-                Arrays.stream(Direction.values())
-                        .map(current::getNeighbor)
-                        .filter((neighbor) -> (neighbor != null && !visited[neighbor.getX()][neighbor.getY()]))
-                        .forEach((cell) -> {
-                            visited[cell.getX()][cell.getY()] = true;
-                            queue.add(cell);
-                        });
-            }
+        if (part == BuildingPart.SouthEast) {
+            electrify(true);
         }
     }
 
     @Override
     public void removeSpreadEffect() {
-        if(part == BuildingPart.SouthEast){
-            boolean[][] visited = new boolean[tileLayer.getWidth()][tileLayer.getHeight()];
-
-            visited[x][y] = true;
-            LinkedList<CityCell> queue = new LinkedList<>();
-            queue.add(this);
-
-            while(!queue.isEmpty()) {
-                CityCell current = queue.remove(0);
-                if(current.isWired() && current.setElectrified(false)) {
-                    Arrays.stream(Direction.values())
-                            .map(current::getNeighbor)
-                            .filter((neighbor) -> (neighbor != null && !visited[neighbor.getX()][neighbor.getY()]))
-                            .forEach((cell) -> {
-                                visited[cell.getX()][cell.getY()] = true;
-                                queue.add(cell);
-                            });
-                }
-            }
-        }
+        electrify(false);
     }
 
     @Override
