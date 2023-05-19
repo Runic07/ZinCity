@@ -17,7 +17,6 @@ import java.util.Arrays;
 public class Builder {
     private int selectedMenuId;
 
-
     private int buildCode;
 
     CityMap cityMap;
@@ -416,7 +415,7 @@ public class Builder {
         }
 
         /**
-         * Sets buildcoden and selectedMenuId based on name
+         * Sets buildcode and selectedMenuId based on name
          * industrial,service,living,upgrade,police,fire,arena,generator,forest,cable,road,delete
          * @param name
          */

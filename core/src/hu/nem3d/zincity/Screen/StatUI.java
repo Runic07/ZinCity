@@ -107,13 +107,13 @@ public class StatUI {
         skin.getFont("commodore-64").getData().setScale(width/720f+Float.MIN_VALUE, height/480f+Float.MIN_VALUE);
 
         Label nameLabel = new Label( name, skin);
-        nameLabel.setSize(width / 9, (float) ((height * 0.15) / 2));
+        nameLabel.setSize(width +Float.MIN_VALUE / 9, (float) ((height +Float.MIN_VALUE * 0.15) / 2));
 
         Label dataLabel = new Label( dataString, skin);
-        dataLabel.setSize(width / 9, (float) ((height * 0.15) / 2));
+        dataLabel.setSize(width +Float.MIN_VALUE / 9, (float) ((height +Float.MIN_VALUE * 0.15) / 2));
 
         Label tierLabel = new Label(tier, skin);
-        tierLabel.setSize(width / 9, (float) ((height * 0.15) / 2));
+        tierLabel.setSize(width +Float.MIN_VALUE  / 9, (float) ((height +Float.MIN_VALUE * 0.15) / 2));
 
         table.add(nameLabel);
         if(!dataString.equals("null")){
