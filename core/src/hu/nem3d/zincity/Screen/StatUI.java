@@ -53,6 +53,11 @@ public class StatUI {
             dataString = "null";
             tier = "null";
         }
+        else if(cell.getClass() == PowerLineCell.class){
+            name = "Power Line";
+            dataString = "null";
+            tier = "null";
+        }
         else if(cell instanceof BuildingCell){
             name = ((BuildingCell)cell).getName();
             dataString = "Fee: " + cell.getUpkeepCost();

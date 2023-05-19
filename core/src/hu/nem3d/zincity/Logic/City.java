@@ -6,6 +6,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileSet;
 import hu.nem3d.zincity.Cell.*;
 import hu.nem3d.zincity.Misc.DistanceCalculator;
+import hu.nem3d.zincity.Screen.Effects;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -30,6 +31,8 @@ public class City {
     public final double satisfactionUpperThreshold = 0.2; //above this number, it's possible to receive new inhabitants
     public final double satisfactionLowerThreshold = -0.8; //below this, a citizen may flee.
 
+    public Effects effects;
+
     Random r = new Random();
     CityMap cityMap; //generates and stores the map
 
@@ -48,6 +51,7 @@ public class City {
         baseTaxAmount = 50;
         cityMap = new CityMap();
         citizens = new CopyOnWriteArrayList<>();
+        effects = new Effects(cityMap);
         for (int i = 0; i < 4; i++) {
             if (addCitizen()) {
                 System.out.println("Added starter citizen");
@@ -121,12 +125,12 @@ public class City {
      * Main game loop method. Ideally gets called every n-th frame in the screen implementation.
      * Responsible for moving the game forward a discrete time amount.
      * Updates every tile, and every citizen.
-     *
      */
     public void step(){ //a unit of time passes
         System.out.println("Current citizen satisfactions: ");
         System.out.println(citizens.toString());
         satisfaction = 0;
+        int fireFighters = 3;  //how many fires can you put out in one step (it should be based on the fireDep count and how near it is but whatever for now)
 
         for (Citizen citizen : citizens) {
             budget += baseTaxAmount * taxCoefficient;
@@ -187,6 +191,28 @@ public class City {
                                 cell.setTile(tileSet.getTile(8));
                         }
                 }
+                if(cell.getOnFire()){ //this is for the neighbours that are not rendered when its neighbour sets them on fire
+                    effects.setOnFire(i,j);
+                }
+
+                if(buildingLayer.getCell(i,j).getClass() != EmptyCell.class
+                   && buildingLayer.getCell(i,j).getClass() != BlockedCell.class
+                   && buildingLayer.getCell(i,j).getClass() != RoadCell.class
+                   && buildingLayer.getCell(i,j).getClass() != PowerLineCell.class
+                   && buildingLayer.getCell(i,j).getClass() != FireStationCell.class){
+                    if(r.nextInt(100) <= 5){
+                        effects.setOnFire(i,j);
+                        ((CityCell) buildingLayer.getCell(i,j)).burning();
+                    }
+                }
+
+                if(((CityCell) buildingLayer.getCell(i,j)).getOnFireFor() >= 1 && fireFighters > 0 ){
+                    fireFighters--;
+                    ((CityCell) buildingLayer.getCell(i,j)).setFire(false);
+                    effects.putOutFire(i,j);
+
+                }
+
 
             }
 

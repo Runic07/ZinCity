@@ -2,7 +2,10 @@ package hu.nem3d.zincity.Cell;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import hu.nem3d.zincity.Misc.Direction;
+import hu.nem3d.zincity.Screen.Effects;
 import hu.nem3d.zincity.Screen.StatUI;
+
+import java.util.ArrayList;
 
 /**
  * Provides base class for cell tiles.
@@ -24,6 +27,9 @@ public abstract class CityCell extends TiledMapTileLayer.Cell {
     protected double upkeepCost;
     protected double price;
 
+    protected boolean onFire = false;
+    protected int onFireFor;
+
     TiledMapTileLayer tileLayer; //in case the cell knows the tile layer it's located on.
 
 
@@ -40,6 +46,7 @@ public abstract class CityCell extends TiledMapTileLayer.Cell {
         this.x = x;
         this.y = y;
         this.tileLayer = tileLayer; //this way, the cell can locate tiles adjacent to itself.
+        this.onFireFor = 0;
     }
 
     /**
@@ -153,10 +160,50 @@ public abstract class CityCell extends TiledMapTileLayer.Cell {
             case SOUTH: return (CityCell) tileLayer.getCell(x, y-1 );
             case WEST : return (CityCell) tileLayer.getCell(x-1, y );
             default: return null;
-
         }
 
+    }
 
+    public void burning(){
+
+        ArrayList<Class> nonoZones = new ArrayList<>();
+
+        nonoZones.add(EmptyCell.class);
+        nonoZones.add(BlockedCell.class);
+        nonoZones.add(RoadCell.class);
+        nonoZones.add(PowerLineCell.class);
+        nonoZones.add(FireStationCell.class);
+
+        if(onFireFor > 5){  //if it was burning for more than 5 turns, spread the fire
+            if( getNeighbor(Direction.NORTH)!= null && !nonoZones.contains(getNeighbor(Direction.NORTH).getClass())){
+                getNeighbor(Direction.NORTH).setFire(true);
+            }
+            if(getNeighbor(Direction.WEST)!= null && !nonoZones.contains(getNeighbor(Direction.WEST).getClass())){
+                getNeighbor(Direction.WEST).setFire(true);
+            }
+            if(getNeighbor(Direction.SOUTH)!= null && !nonoZones.contains(getNeighbor(Direction.SOUTH).getClass())){
+                getNeighbor(Direction.SOUTH).setFire(true);
+            }
+            if(getNeighbor(Direction.EAST)!= null && !nonoZones.contains(getNeighbor(Direction.EAST).getClass())){
+                getNeighbor(Direction.EAST).setFire(true);
+            }
+        }
+        onFireFor++;
+    }
+
+    public int getOnFireFor(){
+        return onFireFor;
+    }
+
+
+    public void setFire(boolean fire){
+        onFire = fire;
+        if(!onFire){
+            onFireFor = 0;
+        }
+    }
+    public boolean getOnFire(){
+        return onFire;
     }
 
 

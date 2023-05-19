@@ -34,6 +34,7 @@ public enum TextureTiles {
     SERVICE_BASIC,
     INTERSECTION,
     FIRE,
+    POWER_LINE,
     EMPTY
 
 }

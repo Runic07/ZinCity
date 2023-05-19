@@ -14,6 +14,9 @@ import hu.nem3d.zincity.Logic.City;
 
 import java.text.DecimalFormat;
 
+/**
+ * Settings screen adn its utilities
+ */
 
 public class SettingsScreen {
     private final City city;

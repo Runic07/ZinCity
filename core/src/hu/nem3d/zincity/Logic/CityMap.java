@@ -176,7 +176,7 @@ public class CityMap {
         for ( i = 0; i < 30; i++) {
             for ( j = 0; j < 20; j++) {
                 effectsLayer.setCell(i,j, new TiledMapTileLayer.Cell());
-                effectsLayer.getCell(i,j).setTile(tileSet.getTile(29));
+                effectsLayer.getCell(i,j).setTile(tileSet.getTile(30));
             }
         }
 

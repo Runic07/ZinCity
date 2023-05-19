@@ -9,6 +9,7 @@ import hu.nem3d.zincity.Logic.CityMap;
 import hu.nem3d.zincity.Screen.CityStage;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * This handles the changes in a cell due to user input. Later in the code you can see which UiId and buildCode combinations refer to which action.
@@ -284,12 +285,21 @@ public class Builder {
         }
 
         /**
-         * Builds a road or a poweLine !!!still needs more implementation!!!.
+         * Builds a road or a powerLine !!!still needs more implementation!!!.
          *
          * @param cell
          * @return
          */
         private CityCell buildNetwork (CityCell cell){
+            if (buildCode == 1) {
+                if (cell.getClass() == EmptyCell.class) {
+                    cell = new PowerLineCell(x, y, buildLayer);
+                    cell.setTile((tileSet.getTile(29)));
+                    buildLayer.setCell(x, y, cell);
+                }
+
+
+            }
             if (buildCode == 2) {
                 if (cell.getClass() == EmptyCell.class) {
                     cell = new RoadCell(x, y, buildLayer);
