@@ -9,6 +9,7 @@ import hu.nem3d.zincity.Misc.DistanceCalculator;
 import hu.nem3d.zincity.Screen.Effects;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -31,7 +32,9 @@ public class City {
     public final double satisfactionUpperThreshold = 0.2; //above this number, it's possible to receive new inhabitants
     public final double satisfactionLowerThreshold = -0.8; //below this, a citizen may flee.
 
-    public Effects effects;
+    private Effects effects;
+
+    private LinkedList<CityCell> fireOrder;  //in which order to put out the fire
 
     Random r = new Random();
     CityMap cityMap; //generates and stores the map
@@ -52,6 +55,7 @@ public class City {
         cityMap = new CityMap();
         citizens = new CopyOnWriteArrayList<>();
         effects = new Effects(cityMap);
+        fireOrder = new LinkedList<>();
         for (int i = 0; i < 4; i++) {
             if (addCitizen()) {
                 System.out.println("Added starter citizen");
@@ -193,6 +197,7 @@ public class City {
                 }
                 if(cell.getOnFire()){ //this is for the neighbours that are not rendered when its neighbour sets them on fire
                     effects.setOnFire(i,j);
+                    fireOrder.add(((CityCell) buildingLayer.getCell(i,j)));
                 }
 
                 if(buildingLayer.getCell(i,j).getClass() != EmptyCell.class
@@ -200,22 +205,27 @@ public class City {
                    && buildingLayer.getCell(i,j).getClass() != RoadCell.class
                    && buildingLayer.getCell(i,j).getClass() != PowerLineCell.class
                    && buildingLayer.getCell(i,j).getClass() != FireStationCell.class){
-                    if(r.nextInt(100) <= 5){
+                    if(r.nextInt(100) <= 2){
                         effects.setOnFire(i,j);
-                        ((CityCell) buildingLayer.getCell(i,j)).burning();
+                        fireOrder.add(((CityCell) buildingLayer.getCell(i,j)));
                     }
-                }
-
-                if(((CityCell) buildingLayer.getCell(i,j)).getOnFireFor() >= 1 && fireFighters > 0 ){
-                    fireFighters--;
-                    ((CityCell) buildingLayer.getCell(i,j)).setFire(false);
-                    effects.putOutFire(i,j);
-
+                    ((CityCell) buildingLayer.getCell(i,j)).burning();
                 }
 
 
             }
 
+        }
+
+
+        for(int i = 0; i < fireFighters; i++){
+            if(fireOrder.size() > 0){
+                CityCell cell = fireOrder.getFirst();
+                fireOrder.removeFirst();
+                int x = cell.getX();
+                int y = cell.getY();
+                effects.putOutFire(x,y);
+            }
         }
 
 

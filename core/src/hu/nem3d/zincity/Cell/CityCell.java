@@ -165,30 +165,31 @@ public abstract class CityCell extends TiledMapTileLayer.Cell {
     }
 
     public void burning(){
+        if(onFire) {
+            ArrayList<Class> nonoZones = new ArrayList<>();
 
-        ArrayList<Class> nonoZones = new ArrayList<>();
+            nonoZones.add(EmptyCell.class);
+            nonoZones.add(BlockedCell.class);
+            nonoZones.add(RoadCell.class);
+            nonoZones.add(PowerLineCell.class);
+            nonoZones.add(FireStationCell.class);
 
-        nonoZones.add(EmptyCell.class);
-        nonoZones.add(BlockedCell.class);
-        nonoZones.add(RoadCell.class);
-        nonoZones.add(PowerLineCell.class);
-        nonoZones.add(FireStationCell.class);
-
-        if(onFireFor > 5){  //if it was burning for more than 5 turns, spread the fire
-            if( getNeighbor(Direction.NORTH)!= null && !nonoZones.contains(getNeighbor(Direction.NORTH).getClass())){
-                getNeighbor(Direction.NORTH).setFire(true);
+            if (onFireFor > 5) {  //if it was burning for more than 5 turns, spread the fire
+                if (getNeighbor(Direction.NORTH) != null && !nonoZones.contains(getNeighbor(Direction.NORTH).getClass())) {
+                    getNeighbor(Direction.NORTH).setFire(true);
+                }
+                if (getNeighbor(Direction.WEST) != null && !nonoZones.contains(getNeighbor(Direction.WEST).getClass())) {
+                    getNeighbor(Direction.WEST).setFire(true);
+                }
+                if (getNeighbor(Direction.SOUTH) != null && !nonoZones.contains(getNeighbor(Direction.SOUTH).getClass())) {
+                    getNeighbor(Direction.SOUTH).setFire(true);
+                }
+                if (getNeighbor(Direction.EAST) != null && !nonoZones.contains(getNeighbor(Direction.EAST).getClass())) {
+                    getNeighbor(Direction.EAST).setFire(true);
+                }
             }
-            if(getNeighbor(Direction.WEST)!= null && !nonoZones.contains(getNeighbor(Direction.WEST).getClass())){
-                getNeighbor(Direction.WEST).setFire(true);
-            }
-            if(getNeighbor(Direction.SOUTH)!= null && !nonoZones.contains(getNeighbor(Direction.SOUTH).getClass())){
-                getNeighbor(Direction.SOUTH).setFire(true);
-            }
-            if(getNeighbor(Direction.EAST)!= null && !nonoZones.contains(getNeighbor(Direction.EAST).getClass())){
-                getNeighbor(Direction.EAST).setFire(true);
-            }
+            onFireFor++;
         }
-        onFireFor++;
     }
 
     public int getOnFireFor(){
