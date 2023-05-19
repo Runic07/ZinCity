@@ -49,8 +49,22 @@ public class MenuBar {
         stage = stage_;
         city = city_;
         screen = screen_;
-        speedText = ">";
         speedChange = false;
+        int curSpeed = screen.getSpeed();
+        switch (curSpeed){
+            case(600):
+                speedText= ">";
+                break;
+            case(300):
+                speedText= ">>";
+                break;
+            case(60):
+                speedText= ">>>";
+                break;
+            default:
+                speedText = "||";
+                break;
+        }
     }
 
     /**
