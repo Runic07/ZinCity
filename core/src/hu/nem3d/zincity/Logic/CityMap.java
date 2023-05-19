@@ -139,20 +139,20 @@ public class CityMap {
             //generate starter city
             //rendering is still bugged here
             boolean starterCityGenerated = false;
-            while(!starterCityGenerated){
-                i = r.nextInt(5,25);
+            while(!starterCityGenerated) {
+                i = r.nextInt(5, 25);
                 j = r.nextInt(5, 15);
                 if ( //
 
-                        buildingLayer.getCell(i+1,j-1) instanceof EmptyCell &&
-                                buildingLayer.getCell(i+1,j) instanceof EmptyCell &&
-                                buildingLayer.getCell(i+1,j+1) instanceof EmptyCell &&
-                                buildingLayer.getCell(i,j-1) instanceof EmptyCell &&
-                                buildingLayer.getCell(i,j) instanceof EmptyCell &&
-                                buildingLayer.getCell(i,j+1) instanceof EmptyCell &&
-                                buildingLayer.getCell(i-1,j-1) instanceof EmptyCell &&
-                                buildingLayer.getCell(i-1,j) instanceof EmptyCell &&
-                                buildingLayer.getCell(i-1,j+1) instanceof EmptyCell
+                        buildingLayer.getCell(i + 1, j - 1) instanceof EmptyCell &&
+                                buildingLayer.getCell(i + 1, j) instanceof EmptyCell &&
+                                buildingLayer.getCell(i + 1, j + 1) instanceof EmptyCell &&
+                                buildingLayer.getCell(i, j - 1) instanceof EmptyCell &&
+                                buildingLayer.getCell(i, j) instanceof EmptyCell &&
+                                buildingLayer.getCell(i, j + 1) instanceof EmptyCell &&
+                                buildingLayer.getCell(i - 1, j - 1) instanceof EmptyCell &&
+                                buildingLayer.getCell(i - 1, j) instanceof EmptyCell &&
+                                buildingLayer.getCell(i - 1, j + 1) instanceof EmptyCell
                 ) {
                     starterCityGenerated = true;
                     System.out.println("Found suitable place");
@@ -189,6 +189,7 @@ public class CityMap {
                         System.err.println("failed building starter city");
                     }
                 }
+            }
 
 
 
