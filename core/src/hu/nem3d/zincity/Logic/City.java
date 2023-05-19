@@ -5,6 +5,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileSet;
 import hu.nem3d.zincity.Cell.*;
+import hu.nem3d.zincity.Misc.Builder;
 import hu.nem3d.zincity.Misc.DistanceCalculator;
 import hu.nem3d.zincity.Screen.Effects;
 
@@ -22,8 +23,6 @@ public class City {
 
     public CopyOnWriteArrayList<Citizen> citizens; //using this because ArrayList iterator is a clown
     //ain't it fun kids, fixing concurrency bugs?
-
-
     public double budget;
     public double taxCoefficient; //double between 0.8-1.2, can be changed by player
     public final double baseTaxAmount; //tax per citizen
@@ -33,6 +32,8 @@ public class City {
     public final double satisfactionLowerThreshold = -0.8; //below this, a citizen may flee.
 
     private Effects effects;
+
+    public int fireFighters;  //how many fires can you put out in one step (it should be based on the fireDep count and how near it is but whatever for now)
 
     private LinkedList<CityCell> fireOrder;  //in which order to put out the fire
 
@@ -56,6 +57,7 @@ public class City {
         citizens = new CopyOnWriteArrayList<>();
         effects = new Effects(cityMap);
         fireOrder = new LinkedList<>();
+        fireFighters = 0;
         for (int i = 0; i < 4; i++) {
             if (addCitizen()) {
                 System.out.println("Added starter citizen");
@@ -134,7 +136,7 @@ public class City {
         System.out.println("Current citizen satisfactions: ");
         System.out.println(citizens.toString());
         satisfaction = 0;
-        int fireFighters = 3;  //how many fires can you put out in one step (it should be based on the fireDep count and how near it is but whatever for now)
+
 
         for (Citizen citizen : citizens) {
             budget += baseTaxAmount * taxCoefficient;
@@ -197,7 +199,6 @@ public class City {
                 }
                 if(cell.getOnFire()){ //this is for the neighbours that are not rendered when its neighbour sets them on fire
                     effects.setOnFire(i,j);
-                    fireOrder.add(((CityCell) buildingLayer.getCell(i,j)));
                 }
 
                 if(buildingLayer.getCell(i,j).getClass() != EmptyCell.class
@@ -205,9 +206,19 @@ public class City {
                    && buildingLayer.getCell(i,j).getClass() != RoadCell.class
                    && buildingLayer.getCell(i,j).getClass() != PowerLineCell.class
                    && buildingLayer.getCell(i,j).getClass() != FireStationCell.class){
-                    if(r.nextInt(100) <= 2){
+                    if(r.nextInt(100) < 2){
                         effects.setOnFire(i,j);
-                        fireOrder.add(((CityCell) buildingLayer.getCell(i,j)));
+                    }
+                    if(cell.getOnFireFor() >=1){
+                        if(!fireOrder.contains(cell)){
+                            fireOrder.add(((CityCell) buildingLayer.getCell(i,j)));
+                        }
+                    }
+                    if(cell.getOnFireFor() >=10){
+                        Builder builder = new Builder(0,0,this);
+                        builder.buildWhat("delete");
+                        builder.build(i,j,buildingLayer);
+                        effects.putOutFire(i,j);
                     }
                     ((CityCell) buildingLayer.getCell(i,j)).burning();
                 }

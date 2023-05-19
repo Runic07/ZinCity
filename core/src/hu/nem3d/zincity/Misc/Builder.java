@@ -192,6 +192,7 @@ public class Builder {
                         try {
                             cell = new FireStationCell(x, y, buildLayer);
                             cell.setTile((tileSet.getTile(15)));
+                            city.fireFighters += 5;
                         } catch (CellException e) {
                             System.err.println("Can't build that there");
                         }
@@ -375,6 +376,11 @@ public class Builder {
                 }
 
             }
+
+            if (cell.getClass() == FireStationCell.class){
+                city.fireFighters -=5;
+            }
+
             //System.out.println(returnCells);
             cell = new EmptyCell(x, y, buildLayer);
             cell.setTile((tileSet.getTile(0)));
