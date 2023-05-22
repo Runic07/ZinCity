@@ -90,7 +90,7 @@ public class CitySerializer implements Json.Serializer<City> {
             int x = json.readValue("x", int.class, cellData);
             int y = json.readValue("y", int.class, cellData);
             String className = json.readValue("class", String.class, cellData);
-
+            System.out.println(className);
             Class<?> objectClass = null;
             Object cell = null;
             try {
@@ -110,13 +110,9 @@ public class CitySerializer implements Json.Serializer<City> {
                     cell = objectClass.getDeclaredConstructor(new Class[]{int.class, int.class, TiledMapTileLayer.class, boolean.class}).newInstance(x, y, city.getCityMap().getBuildingLayer(), true);
                 }
                 catch (NoSuchMethodException e){
+                    //use the fallback ctor
                     cell = objectClass.getDeclaredConstructor(new Class[]{int.class, int.class, TiledMapTileLayer.class}).newInstance(x, y, city.getCityMap().getBuildingLayer());
                 }
-
-
-
-
-
             } catch (NoSuchMethodException | InvocationTargetException e) {
                 System.err.println(e.getMessage());
                 e.printStackTrace();
@@ -127,24 +123,21 @@ public class CitySerializer implements Json.Serializer<City> {
                 System.err.println(e.getMessage());
                 e.printStackTrace();
             }
-
-
             // Create and add the appropriate CityCell subclass based on the class name
-
             switch (className) {
-                case "ForestCell":
+                case "hu.nem3d.zincity.Cell.ForestCell":
 
                     ((ForestCell) cell).setAge(json.readValue("age", int.class, cellData));
                     break;
-                case "RoadCell":
+                case "hu.nem3d.zincity.Cell.RoadCell":
 
                     ((RoadCell) cell).setRotation(json.readValue("rotation", int.class, cellData));
                     break;
-                case "ArenaCell":
+                case "hu.nem3d.zincity.Cell.ArenaCell":
 
                     ((ArenaCell) cell).setPart(json.readValue("part", BuildingCell.BuildingPart.class, cellData));
                     break;
-                case "GeneratorCell":
+                case "hu.nem3d.zincity.Cell.GeneratorCell":
 
                     ((GeneratorCell) cell).setPart(json.readValue("part", BuildingCell.BuildingPart.class, cellData));
                     break;

@@ -14,4 +14,12 @@ public class ArenaCell extends BuildingCell {
         this.price = 50;
         this.upkeepCost = 20;
     }
+    public ArenaCell(int x, int y, TiledMapTileLayer tileLayer, boolean forced) throws CellException {
+        super(x, y, tileLayer, BuildingPart.NorthWest, forced);
+
+        this.range = 10;
+        this.name = "Arena";
+        this.price = 50;
+        this.upkeepCost = 20;
+    }
 }
