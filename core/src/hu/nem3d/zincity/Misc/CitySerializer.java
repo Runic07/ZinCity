@@ -162,9 +162,23 @@ public class CitySerializer implements Json.Serializer<City> {
             Citizen citizen = new Citizen();
 
             citizen.setHome((LivingZoneCell) city.getCityMap().getBuildingLayer().getCell(json.readValue("homeX", int.class, citizenData), json.readValue("homeY", int.class, citizenData)));
+            if(((LivingZoneCell) city.getCityMap().getBuildingLayer().getCell(json.readValue("homeX", int.class, citizenData), json.readValue("homeY", int.class, citizenData))).isFull()){
+                ((LivingZoneCell) city.getCityMap().getBuildingLayer().getCell(json.readValue("homeX", int.class, citizenData), json.readValue("homeY", int.class, citizenData))).levelUp(
+                        ((LivingZoneCell) city.getCityMap().getBuildingLayer().getCell(json.readValue("homeX", int.class, citizenData), json.readValue("homeY", int.class, citizenData))).getCapacity() * 2
+                );
+                city.getCityMap().getBuildingLayer().getCell(json.readValue("homeX", int.class, citizenData), json.readValue("homeY", int.class, citizenData)).setTile(city.cityMap.tileType(((LivingZoneCell) city.getCityMap().getBuildingLayer().getCell(json.readValue("homeX", int.class, citizenData), json.readValue("homeY", int.class, citizenData)))));  //well this is a line of code yes i am ashamed
+            }
             ((LivingZoneCell) city.getCityMap().getBuildingLayer().getCell(json.readValue("homeX", int.class, citizenData), json.readValue("homeY", int.class, citizenData))).addOccupant();
 
+
+            if(((ZoneCell) city.getCityMap().getBuildingLayer().getCell(json.readValue("workplaceX", int.class, citizenData), json.readValue("workplaceY", int.class, citizenData))).isFull()){
+                ((ZoneCell) city.getCityMap().getBuildingLayer().getCell(json.readValue("workplaceX", int.class, citizenData), json.readValue("workplaceY", int.class, citizenData))).levelUp(
+                        ((ZoneCell) city.getCityMap().getBuildingLayer().getCell(json.readValue("workplaceX", int.class, citizenData), json.readValue("workplaceY", int.class, citizenData))).getCapacity() * 2
+                );
+                ((ZoneCell) city.getCityMap().getBuildingLayer().getCell(json.readValue("workplaceX", int.class, citizenData), json.readValue("workplaceY", int.class, citizenData))).setTile(city.cityMap.tileType(((ZoneCell) city.getCityMap().getBuildingLayer().getCell(json.readValue("workplaceX", int.class, citizenData), json.readValue("workplaceY", int.class, citizenData)))));
+            }
             ((ZoneCell) city.getCityMap().getBuildingLayer().getCell(json.readValue("workplaceX", int.class, citizenData), json.readValue("workplaceY", int.class, citizenData))).addOccupant();
+
             citizen.setWorkplace((ZoneCell) city.getCityMap().getBuildingLayer().getCell(json.readValue("workplaceX", int.class, citizenData), json.readValue("workplaceY", int.class, citizenData)));
 
             citizen.setSatisfaction(json.readValue("satisfaction", double.class, citizenData));
