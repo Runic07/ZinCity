@@ -13,6 +13,10 @@ import java.util.ArrayList;
  */
 public abstract class BuildingCell extends CityCell {
 
+    public void setPart(BuildingPart part) {
+        this.part = part;
+    }
+
     /**
      * Represents the specific parts of a multi-cell building
      */
