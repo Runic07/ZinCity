@@ -102,7 +102,6 @@ public class City {
                 }
                 //find workplace
                 if (((cell.getClass() == IndustrialZoneCell.class) || (cell.getClass() == ServiceZoneCell.class)) && !(((ZoneCell) cell).isFull()) && !foundWorkplace){
-
                     workCell = cell;
                     foundWorkplace = true;
 

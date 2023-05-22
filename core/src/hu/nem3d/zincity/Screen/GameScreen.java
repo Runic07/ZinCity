@@ -151,7 +151,7 @@ public class GameScreen implements Screen { //draft
 
         if(stat.getShown() && uiId == 0 && screenWidth != 0 && screenHeight != 0){
             cellStatTable = stat.cellStatTable(screenWidth, screenHeight);
-            cellStatTable.setBounds(0, (float) (screenHeight * 0.77 *1.5), (float) (screenWidth *0.3 * 1.5), (float) (screenHeight * 0.2));
+            cellStatTable.setBounds(0, (float) (screenHeight * 0.74 *1.5), (float) (screenWidth *0.3 * 1.5), (float) (screenHeight * 0.25));
             statStage.addActor(cellStatTable);
 
         }

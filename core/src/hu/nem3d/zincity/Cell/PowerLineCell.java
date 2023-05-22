@@ -21,6 +21,7 @@ public class PowerLineCell extends CityCell{
 
         this.upkeepCost = 1;
         this.price = 5;
+        this.isWired = true;
 
         if (this.getNeighbor(Direction.WEST) instanceof PowerLineCell || this.getNeighbor(Direction.EAST) instanceof PowerLineCell){
             this.setRotation(1);
