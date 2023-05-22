@@ -1,6 +1,7 @@
 package hu.nem3d.zincity.Screen;
 
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -12,11 +13,16 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.*;
+import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import hu.nem3d.zincity.Logic.City;
+import hu.nem3d.zincity.Misc.CitySerializer;
 
 import javax.swing.*;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 
 
 public class MainMenu implements Screen {
@@ -91,7 +97,26 @@ public class MainMenu implements Screen {
                     if(loadFile != null && loadFile.isFile() && loadFileName.endsWith(".json")){  //Checking if loadFile is correct
                             //Call load function when it is implemented for now it is just a dialog as a signal fo succes
 
-                        Dialog dialog = new Dialog("Succes", skin, "dialog") {
+                        StringBuilder stringBuilder = new StringBuilder();
+                        Scanner scanner = null;
+                        try {
+                            scanner = new Scanner(loadFile);
+                        } catch (FileNotFoundException e) {
+                            throw new RuntimeException(e);
+                        }
+
+                        while (scanner.hasNextLine()) {
+                            stringBuilder.append(scanner.nextLine());
+                        }
+
+                        scanner.close();
+
+
+                        Json json = new Json();
+
+                        json.setSerializer(City.class, new CitySerializer());
+                        City city = json.fromJson(City.class, stringBuilder.toString());
+                        Dialog dialog = new Dialog("Success", skin, "dialog") {
                             public void result(Object obj) {
                             }
                         };
@@ -99,7 +124,12 @@ public class MainMenu implements Screen {
                         dialog.button("Back",true);
                         dialog.getBackground().setMinWidth(200);
                         dialog.getBackground().setMinHeight(200);
+
+
                         dialog.show(stage);
+                        GameScreen loadedGameScreen = new GameScreen();
+                        loadedGameScreen.city = city;
+                        ((Game)Gdx.app.getApplicationListener()).setScreen(loadedGameScreen);
                     }
                     else{
                         Dialog dialog = new Dialog("Warning", skin, "dialog") {

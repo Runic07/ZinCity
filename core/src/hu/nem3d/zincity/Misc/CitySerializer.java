@@ -54,7 +54,7 @@ public class CitySerializer implements Json.Serializer<City> {
                 json.writeValue("x", cell.getX());
                 json.writeValue("y", cell.getY());
 
-                json.writeObjectEnd();  // End the object for each cell
+
 
                 if (cell instanceof ForestCell){
                     json.writeValue("age", ((ForestCell) cell).getAge());
@@ -65,6 +65,7 @@ public class CitySerializer implements Json.Serializer<City> {
                 if (cell instanceof ArenaCell || cell instanceof GeneratorCell){
                     json.writeValue("part", ((BuildingCell) cell).getPart());
                 }
+                json.writeObjectEnd();  // End the object for each cell
 
             }
         }
@@ -88,15 +89,15 @@ public class CitySerializer implements Json.Serializer<City> {
 
             String className = json.readValue("class", String.class, jsonData);
 
-            Class<CityCell> objectClass = null;
+            Class<?> objectClass = null;
             CityCell cell = null;
             try {
-                objectClass = (Class<CityCell>) Class.forName(className);
+                objectClass = Class.forName(className);
             } catch (ClassNotFoundException e) {
                 System.err.println("Could not initialize a class with classname " + className);
             }
             try {
-                cell = objectClass.newInstance();
+                cell = (CityCell) objectClass.newInstance();
             } catch (InstantiationException e) {
                 throw new RuntimeException(e);
             } catch (IllegalAccessException e) {

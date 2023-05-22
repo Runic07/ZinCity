@@ -13,6 +13,11 @@ import hu.nem3d.zincity.Cell.*;
 import hu.nem3d.zincity.Logic.City;
 import hu.nem3d.zincity.Misc.CitySerializer;
 
+import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.text.DecimalFormat;
 
 
@@ -138,8 +143,36 @@ public class SettingsScreen {
 
                 try{
 
+                    String jsonString = json.toJson(city);
+                    System.out.println(json.prettyPrint(jsonString));
 
-                    System.out.println(json.toJson(city));
+                    JFileChooser fileChooser = new JFileChooser();
+                    fileChooser.setDialogTitle("Save JSON File");
+                    FileNameExtensionFilter filter = new FileNameExtensionFilter("JSON files", "json");
+                    fileChooser.setFileFilter(filter);
+
+                    int userSelection = fileChooser.showSaveDialog(null);
+                    if (userSelection == JFileChooser.APPROVE_OPTION) {
+                        // Get the selected file
+                        File file = fileChooser.getSelectedFile();
+
+                        // Add .json extension if not present
+                        String filePath = file.getAbsolutePath();
+                        if (!filePath.toLowerCase().endsWith(".json")) {
+                            file = new File(filePath + ".json");
+                        }
+
+                        // Write the JSON string to the file
+                        try (FileWriter fileWriter = new FileWriter(file)) {
+                            fileWriter.write(jsonString);
+                            fileWriter.flush();
+                            System.out.println("JSON file saved successfully.");
+                        } catch (IOException e) {
+                            System.out.println("Error while saving JSON file: " + e.getMessage());
+                        }
+                    } else {
+                        System.out.println("File save operation canceled by the user.");
+                    }
                 } catch (Exception e){
                     e.printStackTrace();
                 }
