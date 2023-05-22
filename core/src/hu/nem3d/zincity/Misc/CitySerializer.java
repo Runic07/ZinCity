@@ -98,8 +98,24 @@ public class CitySerializer implements Json.Serializer<City> {
             } catch (ClassNotFoundException e) {
                 System.err.println("Could not initialize a class with classname " + className);
             }
+
+
+
             try {
-                cell = objectClass.getDeclaredConstructor(new Class[]{int.class, int.class, TiledMapTileLayer.class}).newInstance(x, y, city.getCityMap().getBuildingLayer());
+                try {
+                    //checks if there is a constructor where there is forced parameter. tiles that need to be built next to
+                    //roads have this ctor defined.
+                    // if not, then proceeds with simpler constructor, like in CityCell
+                    //if that doesnt exist either, read is wrong somewhere.
+                    cell = objectClass.getDeclaredConstructor(new Class[]{int.class, int.class, TiledMapTileLayer.class, boolean.class}).newInstance(x, y, city.getCityMap().getBuildingLayer(), true);
+                }
+                catch (NoSuchMethodException e){
+                    cell = objectClass.getDeclaredConstructor(new Class[]{int.class, int.class, TiledMapTileLayer.class}).newInstance(x, y, city.getCityMap().getBuildingLayer());
+                }
+
+
+
+
 
             } catch (NoSuchMethodException | InvocationTargetException e) {
                 System.err.println(e.getMessage());

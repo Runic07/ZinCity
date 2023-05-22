@@ -37,7 +37,7 @@ public abstract class BuildingCell extends CityCell {
         super(x, y, tileLayer);
 
         this.isWired = true;
-        if (!hasRoadNeighbor() && forced){
+        if (!hasRoadNeighbor() && !forced){
             throw new CellException("Can't build that there");
         }
     }
@@ -55,7 +55,7 @@ public abstract class BuildingCell extends CityCell {
 
         this.isWired = true;
         this.part = part;
-        if (!hasRoadNeighbor2x2(x,y,tileLayer) && forced){
+        if (!hasRoadNeighbor2x2(x,y,tileLayer) && !forced){
             throw new CellException("Can't build that there");
         }
 

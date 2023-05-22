@@ -33,7 +33,7 @@ public abstract class ZoneCell extends CityCell{
         super(x, y, tileLayer);
         this.upkeepCost = 0;
 
-        if ((!hasRoadNeighbor() || (tileLayer.getCell(x,y).getClass() != EmptyCell.class)) && forced)
+        if ((!hasRoadNeighbor() || (tileLayer.getCell(x,y).getClass() != EmptyCell.class)) && !forced)
         {
 
             throw new CellException("Building failed - no road neighbors, or non-empty cell");
