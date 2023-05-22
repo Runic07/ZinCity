@@ -132,10 +132,8 @@ public class MainMenu implements Screen {
 
 
                         dialog.show(stage);
-
-
-                        GameScreen loadedGameScreen = new GameScreen();
-                        loadedGameScreen.city = city;
+                        GameScreen loadedGameScreen = new GameScreen(city);
+                        //loadedGameScreen.city = city;
                         //does not override the textures but logically the cells are fine
                         ((Game)Gdx.app.getApplicationListener()).setScreen(loadedGameScreen);
                     }

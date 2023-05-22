@@ -30,8 +30,8 @@ public class CitySerializer implements Json.Serializer<City> {
 
             json.writeValue("homeX", citizen.getHome().getX());
             json.writeValue("homeY", citizen.getHome().getY());
-            json.writeValue("workplaceX", citizen.getHome().getX());
-            json.writeValue("workplaceY", citizen.getHome().getY());
+            json.writeValue("workplaceX", citizen.getWorkplace().getX());
+            json.writeValue("workplaceY", citizen.getWorkplace().getY());
             json.writeValue("satisfaction", citizen.getSatisfaction());
 
 
@@ -155,8 +155,8 @@ public class CitySerializer implements Json.Serializer<City> {
 
 
 
-
             city.cityMap.getBuildingLayer().setCell(x, y, (CityCell) cell);
+            city.cityMap.getBuildingLayer().getCell(x,y).setTile(city.cityMap.tileType((CityCell)cell));
             System.out.println(cell.getClass() + "\tx=" + ((CityCell) cell).getX() + " y=" + ((CityCell) cell).getY());
         }
 
@@ -168,9 +168,10 @@ public class CitySerializer implements Json.Serializer<City> {
         for (JsonValue citizenData : citizensArray) {
             Citizen citizen = new Citizen();
 
+            citizen.setHome((LivingZoneCell) city.getCityMap().getBuildingLayer().getCell(json.readValue("homeX", int.class, citizenData), json.readValue("homeY", int.class, citizenData)));
+            ((LivingZoneCell) city.getCityMap().getBuildingLayer().getCell(json.readValue("homeX", int.class, citizenData), json.readValue("homeY", int.class, citizenData))).addOccupant();
 
-            citizen.setHome((LivingZoneCell) city.getCityMap().getBuildingLayer().getCell(json.readValue("homeX", int.class, citizenData), json.readValue("homeX", int.class, citizenData)));
-
+            ((ZoneCell) city.getCityMap().getBuildingLayer().getCell(json.readValue("workplaceX", int.class, citizenData), json.readValue("workplaceY", int.class, citizenData))).addOccupant();
             citizen.setWorkplace((ZoneCell) city.getCityMap().getBuildingLayer().getCell(json.readValue("workplaceX", int.class, citizenData), json.readValue("workplaceY", int.class, citizenData)));
 
             citizen.setSatisfaction(json.readValue("satisfaction", double.class, citizenData));
