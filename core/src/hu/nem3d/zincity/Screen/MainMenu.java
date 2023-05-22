@@ -115,7 +115,11 @@ public class MainMenu implements Screen {
                         Json json = new Json();
 
                         json.setSerializer(City.class, new CitySerializer());
-                        City city = json.fromJson(City.class, stringBuilder.toString());
+
+                        City city = json.fromJson(City.class, stringBuilder.toString()); //city object here gets properly read (when no exception is thrown)
+
+
+                        //the values are
                         Dialog dialog = new Dialog("Success", skin, "dialog") {
                             public void result(Object obj) {
                             }
@@ -129,6 +133,7 @@ public class MainMenu implements Screen {
                         dialog.show(stage);
                         GameScreen loadedGameScreen = new GameScreen();
                         loadedGameScreen.city = city;
+                        //does not override the textures but logically the cells are fine
                         ((Game)Gdx.app.getApplicationListener()).setScreen(loadedGameScreen);
                     }
                     else{

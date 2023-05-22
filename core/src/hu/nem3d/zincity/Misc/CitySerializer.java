@@ -137,7 +137,8 @@ public class CitySerializer implements Json.Serializer<City> {
                     break;
             }
 
-            // Set the common properties of the CityCell
+
+
 
             city.cityMap.getBuildingLayer().setCell(x, y, (CityCell) cell);
             System.out.println(cell.getClass() + "\tx=" + ((CityCell) cell).getX() + " y=" + ((CityCell) cell).getY());
