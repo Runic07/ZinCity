@@ -1,7 +1,6 @@
 package hu.nem3d.zincity.Cell;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import hu.nem3d.zincity.Logic.Citizen;
 import hu.nem3d.zincity.Misc.CellException;
 import hu.nem3d.zincity.Misc.Direction;
 
@@ -25,14 +24,16 @@ public abstract class ZoneCell extends CityCell{
 
     /**
      * Constructs an ZoneCell with coordinates and capacity set from parameters
-     * @param x The distance of this from the origin on the horizontal axis
-     * @param y The distance of this from the origin on the vertical axis
+     *
+     * @param x      The distance of this from the origin on the horizontal axis
+     * @param y      The distance of this from the origin on the vertical axis
+     * @param forced
      */
-    protected ZoneCell(int x, int y, TiledMapTileLayer tileLayer) throws CellException {
+    protected ZoneCell(int x, int y, TiledMapTileLayer tileLayer, boolean forced) throws CellException {
         super(x, y, tileLayer);
         this.upkeepCost = 0;
 
-        if (!hasRoadNeighbor() || (tileLayer.getCell(x,y).getClass() != EmptyCell.class))
+        if ((!hasRoadNeighbor() || (tileLayer.getCell(x,y).getClass() != EmptyCell.class)) && forced)
         {
 
             throw new CellException("Building failed - no road neighbors, or non-empty cell");

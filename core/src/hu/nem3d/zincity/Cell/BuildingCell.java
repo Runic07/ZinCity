@@ -4,8 +4,6 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import hu.nem3d.zincity.Misc.CellException;
 import hu.nem3d.zincity.Misc.Direction;
 
-import java.util.ArrayList;
-
 /**
  * Provides base class for building cell tiles with various effects.
  * @see com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell
@@ -35,29 +33,29 @@ public abstract class BuildingCell extends CityCell {
      * Constructs a standard instance of a BuildingCell, with values set to the values of the parameters
      * **/
 
-    protected BuildingCell(int x, int y, TiledMapTileLayer tileLayer) throws CellException {
+    protected BuildingCell(int x, int y, TiledMapTileLayer tileLayer, boolean forced) throws CellException {
         super(x, y, tileLayer);
 
         this.isWired = true;
-        if (!hasRoadNeighbor()){
+        if (!hasRoadNeighbor() && forced){
             throw new CellException("Can't build that there");
         }
     }
 
     /**
      * Constructs a specific part of a building, with values set to the values of the parameters
-     * @param x The distance of this from the origin on the horizontal axis
-     * @param y The distance of this from the origin on the vertical axis
-
      *
-     * @param part The specific part of the multi-cell building
+     * @param x      The distance of this from the origin on the horizontal axis
+     * @param y      The distance of this from the origin on the vertical axis
+     * @param part   The specific part of the multi-cell building
+     * @param forced
      */
-    protected BuildingCell(int x, int y, TiledMapTileLayer tileLayer, BuildingPart part) throws CellException {
+    protected BuildingCell(int x, int y, TiledMapTileLayer tileLayer, BuildingPart part, boolean forced) throws CellException {
         super(x, y, tileLayer);
 
         this.isWired = true;
         this.part = part;
-        if (!hasRoadNeighbor2x2(x,y,tileLayer)){
+        if (!hasRoadNeighbor2x2(x,y,tileLayer) && forced){
             throw new CellException("Can't build that there");
         }
 

@@ -73,7 +73,7 @@ public class MainMenu implements Screen {
         TextButton playButton = new TextButton("Play", skin);
         TextButton loadButton = new TextButton("Load", skin);
         TextButton exitButton = new TextButton("Exit", skin);
-        Label title = new Label("ZimCity", skin);
+        Label title = new Label("ZinCity", skin);
         //Add listeners to buttons
         playButton.addListener(new ClickListener(){
             @Override
@@ -119,18 +119,21 @@ public class MainMenu implements Screen {
                         City city = json.fromJson(City.class, stringBuilder.toString()); //city object here gets properly read (when no exception is thrown)
 
 
-                        //the values are
+
                         Dialog dialog = new Dialog("Success", skin, "dialog") {
                             public void result(Object obj) {
                             }
                         };
                         dialog.text("Correct file format");
                         dialog.button("Back",true);
+
                         dialog.getBackground().setMinWidth(200);
                         dialog.getBackground().setMinHeight(200);
 
 
                         dialog.show(stage);
+
+
                         GameScreen loadedGameScreen = new GameScreen();
                         loadedGameScreen.city = city;
                         //does not override the textures but logically the cells are fine

@@ -10,12 +10,13 @@ public class ServiceZoneCell extends ZoneCell {
 
     /**
      * Constructs an ServiceZoneCell with coordinates and capacity set from parameters
-     * @param x The distance of this from the origin on the horizontal axis
-     * @param y The distance of this from the origin on the vertical axis
-
+     *
+     * @param x      The distance of this from the origin on the horizontal axis
+     * @param y      The distance of this from the origin on the vertical axis
+     * @param forced
      */
-    public ServiceZoneCell(int x, int y, TiledMapTileLayer tileLayer) throws CellException {
-        super(x, y, tileLayer);
+    public ServiceZoneCell(int x, int y, TiledMapTileLayer tileLayer, boolean forced) throws CellException {
+        super(x, y, tileLayer, forced);
         this.price = 30;
         this.capacity = 4;
 

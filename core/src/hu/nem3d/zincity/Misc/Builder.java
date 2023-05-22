@@ -114,7 +114,7 @@ public class Builder {
         switch (buildCode) {
             case (1): //Industrial zone
                 try {
-                    cell = new IndustrialZoneCell(x, y, buildLayer);
+                    cell = new IndustrialZoneCell(x, y, buildLayer, false);
                     cell.setTile(tileSet.getTile(25));
                     buildLayer.setCell(x, y, cell);
                 } catch (CellException e) {
@@ -123,7 +123,7 @@ public class Builder {
                 break;
             case (2):
                 try {
-                    cell = new ServiceZoneCell(x, y, buildLayer);
+                    cell = new ServiceZoneCell(x, y, buildLayer, false);
                     cell.setTile(tileSet.getTile(26));
                     buildLayer.setCell(x, y, cell);
                 } catch (CellException e) {
@@ -132,7 +132,7 @@ public class Builder {
                 break;
             case (3):
                 try {
-                    cell = new LivingZoneCell(x, y, buildLayer);
+                    cell = new LivingZoneCell(x, y, buildLayer, false);
                     cell.setTile(tileSet.getTile(24));
                     buildLayer.setCell(x, y, cell);
                 } catch (CellException e) {
@@ -180,7 +180,7 @@ public class Builder {
                 switch (buildCode) {
                     case (1):
                         try {
-                            cell = new PoliceCell(x, y, buildLayer);
+                            cell = new PoliceCell(x, y, buildLayer, false);
                             cell.setTile((tileSet.getTile(14)));
                         } catch (CellException e) {
                             System.err.println("Can't build that there");
@@ -189,7 +189,7 @@ public class Builder {
                         break;
                     case (2):
                         try {
-                            cell = new FireStationCell(x, y, buildLayer);
+                            cell = new FireStationCell(x, y, buildLayer, false);
                             cell.setTile((tileSet.getTile(15)));
                         } catch (CellException e) {
                             System.err.println("Can't build that there");
@@ -215,7 +215,7 @@ public class Builder {
                                     partArena++;
                                     ArenaCell tmpCell = null;
                                     try {
-                                        tmpCell = new ArenaCell(x + j, y + i, buildLayer, tmpPart);
+                                        tmpCell = new ArenaCell(x + j, y + i, buildLayer, tmpPart, false);
                                         tmpCell.setTile((tileSet.getTile(16 + tmpCell.getPart().ordinal())));
                                         buildLayer.setCell(x + j, y + i, tmpCell);
                                         returnCells.add(tmpCell);
@@ -246,7 +246,7 @@ public class Builder {
 
                                     GeneratorCell tmpCell = null;
                                     try {
-                                        tmpCell = new GeneratorCell(x + j, y + i, buildLayer, tmpPart);
+                                        tmpCell = new GeneratorCell(x + j, y + i, buildLayer, tmpPart, false);
                                         tmpCell.setTile((tileSet.getTile(20 + tmpCell.getPart().ordinal())));
                                         buildLayer.setCell(x + j, y + i, tmpCell);
                                         returnCells.add(tmpCell);

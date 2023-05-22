@@ -7,8 +7,8 @@ public class ArenaCell extends BuildingCell {
 
 
 
-    public ArenaCell(int x, int y, TiledMapTileLayer tileLayer, BuildingPart part) throws CellException {
-        super(x, y, tileLayer, part);
+    public ArenaCell(int x, int y, TiledMapTileLayer tileLayer, BuildingPart part, boolean forced) throws CellException {
+        super(x, y, tileLayer, part, forced);
         this.range = 10;
         this.name = "Arena";
         this.price = 50;
