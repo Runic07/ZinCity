@@ -431,11 +431,11 @@ public class Builder {
                         roadDelete = 0;
                         return returnCells;
                     }
-                    else{
+                    else{/*
                         cell = new RoadCell(x, y, buildLayer);
                         cell.setTile((tileSet.getTile(4)));
                         buildLayer.setCell(x, y, cell);
-                        returnCells.add(cell);
+                        returnCells.add(cell);*/
                         roadDelete = 0;
                         return returnCells;
                     }
