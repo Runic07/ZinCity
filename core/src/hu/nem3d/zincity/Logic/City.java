@@ -207,7 +207,7 @@ public class City {
                    && buildingLayer.getCell(i,j).getClass() != RoadCell.class
                    && buildingLayer.getCell(i,j).getClass() != PowerLineCell.class
                    && buildingLayer.getCell(i,j).getClass() != FireStationCell.class){
-                    if(r.nextInt(100) < 2){
+                    if(r.nextInt(1000) < 5){
                         effects.setOnFire(i,j);
                     }
                     if(cell.getOnFireFor() >=1){
