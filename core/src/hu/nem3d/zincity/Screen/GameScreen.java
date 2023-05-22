@@ -14,7 +14,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import hu.nem3d.zincity.Logic.City;
-import hu.nem3d.zincity.Logic.CityMap;
 import hu.nem3d.zincity.Misc.Builder;
 
 /**
@@ -52,6 +51,8 @@ public class GameScreen implements Screen { //draft
 
 
     int frameCounter = 0; //not permanent, find a better solution to pass the time!
+
+
 
     /**
      * Constructor sets the default camera for the Map and CityStage (which is responsible for clicking cells), and calls the initial UIs.
@@ -167,10 +168,11 @@ public class GameScreen implements Screen { //draft
         stage.act();
         stage.draw();
 
-        if(stat.getShown() && uiId == 0){
+        if(stat.getShown() && uiId == 0 && screenWidth != 0 && screenHeight != 0){
             cellStatTable = stat.cellStatTable(screenWidth, screenHeight);
             cellStatTable.setBounds(0, (float) (screenHeight * 0.77 *1.5), (float) (screenWidth *0.3 * 1.5), (float) (screenHeight * 0.2));
             statStage.addActor(cellStatTable);
+
         }
         if(!stat.getShown() || uiId != 0){
             statStage.clear();
@@ -196,9 +198,13 @@ public class GameScreen implements Screen { //draft
         UICamera.setToOrtho(false, (float) (screenWidth * 1.5), (float) (screenHeight*1.5));
         viewport = new FillViewport((float) (screenWidth *1.5), (float) (screenHeight * 1.5), UICamera);
         viewport.apply();
+
+
         stage = new Stage(viewport, batch);
         statStage = new Stage(viewport, batch);
+
         menuBar = new MenuBar(stage, city, this);
+
         this.show();
     }
 
