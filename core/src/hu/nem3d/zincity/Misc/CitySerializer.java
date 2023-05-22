@@ -9,6 +9,7 @@ import hu.nem3d.zincity.Logic.Citizen;
 import hu.nem3d.zincity.Logic.City;
 import hu.nem3d.zincity.Logic.CityMap;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class CitySerializer implements Json.Serializer<City> {
@@ -86,27 +87,32 @@ public class CitySerializer implements Json.Serializer<City> {
         // Deserialize cityMap
         JsonValue cityMapArray = jsonData.get("cityMap");
         for (JsonValue cellData : cityMapArray) {
-
-            String className = json.readValue("class", String.class, jsonData);
+            int x = json.readValue("x", int.class, cellData);
+            int y = json.readValue("y", int.class, cellData);
+            String className = json.readValue("class", String.class, cellData);
 
             Class<?> objectClass = null;
-            CityCell cell = null;
+            Object cell = null;
             try {
                 objectClass = Class.forName(className);
             } catch (ClassNotFoundException e) {
                 System.err.println("Could not initialize a class with classname " + className);
             }
             try {
-                cell = (CityCell) objectClass.newInstance();
+                cell = objectClass.getDeclaredConstructor(new Class[]{int.class, int.class, TiledMapTileLayer.class}).newInstance(x, y, city.getCityMap().getBuildingLayer());
+
+            } catch (NoSuchMethodException | InvocationTargetException e) {
+                System.err.println(e.getMessage());
+                e.printStackTrace();
             } catch (InstantiationException e) {
-                throw new RuntimeException(e);
+                System.err.println(e.getMessage());
+                e.printStackTrace();
             } catch (IllegalAccessException e) {
-                throw new RuntimeException(e);
+                System.err.println(e.getMessage());
+                e.printStackTrace();
             }
-            int x = json.readValue("x", int.class, cellData);
-            int y = json.readValue("y", int.class, cellData);
-            cell.setX(x);
-            cell.setY(y);
+
+
             // Create and add the appropriate CityCell subclass based on the class name
 
             switch (className) {
@@ -133,7 +139,10 @@ public class CitySerializer implements Json.Serializer<City> {
 
             // Set the common properties of the CityCell
 
-            city.cityMap.getBuildingLayer().setCell( x, y, cell);
+            city.cityMap.getBuildingLayer().setCell(x, y, (CityCell) cell);
+            System.out.println(cell.getClass() + "\tx=" + ((CityCell) cell).getX() + " y=" + ((CityCell) cell).getY());
+        }
+
 
 
         // Deserialize citizens
@@ -141,10 +150,12 @@ public class CitySerializer implements Json.Serializer<City> {
         JsonValue citizensArray = jsonData.get("citizens");
         for (JsonValue citizenData : citizensArray) {
             Citizen citizen = new Citizen();
-            citizen.getHome().setX(json.readValue("homeX", int.class, citizenData));
-            citizen.getHome().setY(json.readValue("homeY", int.class, citizenData));
-            citizen.getWorkplace().setX(json.readValue("workplaceX", int.class, citizenData));
-            citizen.getWorkplace().setY(json.readValue("workplaceY", int.class, citizenData));
+
+
+            citizen.setHome((LivingZoneCell) city.getCityMap().getBuildingLayer().getCell(json.readValue("homeX", int.class, citizenData), json.readValue("homeX", int.class, citizenData)));
+
+            citizen.setWorkplace((ZoneCell) city.getCityMap().getBuildingLayer().getCell(json.readValue("workplaceX", int.class, citizenData), json.readValue("workplaceY", int.class, citizenData)));
+
             citizen.setSatisfaction(json.readValue("satisfaction", double.class, citizenData));
             city.citizens.add(citizen);
         }
@@ -153,7 +164,7 @@ public class CitySerializer implements Json.Serializer<City> {
         city.satisfactionLowerThreshold = json.readValue("satisfactionLowerThreshold", double.class, jsonData);
 
 
-        }
+
 
 
         return city;
