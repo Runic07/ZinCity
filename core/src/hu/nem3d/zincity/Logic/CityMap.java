@@ -115,25 +115,30 @@ public class CityMap {
                 }
             }
 
-            //generate starter city
-            //rendering is still bugged here
+
+
+
+
+
+        //generate starter city
+        //rendering is still bugged here
             boolean starterCityGenerated = false;
-            while(!starterCityGenerated){
-                i = r.nextInt(5,25);
+            while(!starterCityGenerated) {
+                i = r.nextInt(5, 25);
                 j = r.nextInt(5, 15);
                 if ( //
 
-                        buildingLayer.getCell(i+1,j-1) instanceof EmptyCell &&
-                                buildingLayer.getCell(i+1,j) instanceof EmptyCell &&
-                                buildingLayer.getCell(i+1,j+1) instanceof EmptyCell &&
-                                buildingLayer.getCell(i,j-1) instanceof EmptyCell &&
-                                buildingLayer.getCell(i,j) instanceof EmptyCell &&
-                                buildingLayer.getCell(i,j+1) instanceof EmptyCell &&
-                                buildingLayer.getCell(i-1,j-1) instanceof EmptyCell &&
-                                buildingLayer.getCell(i-1,j) instanceof EmptyCell &&
-                                buildingLayer.getCell(i-1,j+1) instanceof EmptyCell
+                        buildingLayer.getCell(i + 1, j - 1) instanceof EmptyCell &&
+                                buildingLayer.getCell(i + 1, j) instanceof EmptyCell &&
+                                buildingLayer.getCell(i + 1, j + 1) instanceof EmptyCell &&
+                                buildingLayer.getCell(i, j - 1) instanceof EmptyCell &&
+                                buildingLayer.getCell(i, j) instanceof EmptyCell &&
+                                buildingLayer.getCell(i, j + 1) instanceof EmptyCell &&
+                                buildingLayer.getCell(i - 1, j - 1) instanceof EmptyCell &&
+                                buildingLayer.getCell(i - 1, j) instanceof EmptyCell &&
+                                buildingLayer.getCell(i - 1, j + 1) instanceof EmptyCell
                 ) {
-                    starterCityGenerated = true;
+
                     System.out.println("Found suitable place");
                     try {
 
@@ -152,78 +157,22 @@ public class CityMap {
                         buildingLayer.setCell(i - 1, j, new RoadCell(i - 1, j, buildingLayer));
                         buildingLayer.getCell(i - 1, j).setTile((tileSet.getTile(4)));
 
-                        buildingLayer.setCell(i + 1, j - 1, new LivingZoneCell(i + 1, j - 1, buildingLayer));
+                        buildingLayer.setCell(i + 1, j - 1, new LivingZoneCell(i + 1, j - 1, buildingLayer, false));
                         buildingLayer.getCell(i + 1, j - 1).setTile((tileSet.getTile(24)));
 
-                        buildingLayer.setCell(i + 1, j + 1, new LivingZoneCell(i + 1, j + 1, buildingLayer));
+                        buildingLayer.setCell(i + 1, j + 1, new LivingZoneCell(i + 1, j + 1, buildingLayer, false));
                         buildingLayer.getCell(i + 1, j + 1).setTile((tileSet.getTile(24)));
 
-                        buildingLayer.setCell(i - 1, j - 1, new ServiceZoneCell(i - 1, j - 1, buildingLayer));
+                        buildingLayer.setCell(i - 1, j - 1, new ServiceZoneCell(i - 1, j - 1, buildingLayer, false));
                         buildingLayer.getCell(i - 1, j - 1).setTile((tileSet.getTile(26)));
 
-                        buildingLayer.setCell(i - 1, j + 1, new IndustrialZoneCell(i - 1, j + 1, buildingLayer));
+                        buildingLayer.setCell(i - 1, j + 1, new IndustrialZoneCell(i - 1, j + 1, buildingLayer, false));
                         buildingLayer.getCell(i - 1, j + 1).setTile((tileSet.getTile(25)));
 
+                        starterCityGenerated = true;
                     } catch (CellException e) {
                         System.err.println("failed building starter city");
                     }
-                }
-
-
-
-            }
-
-        //generate starter city
-        //rendering is still bugged here
-        boolean starterCityGenerated = false;
-        while(!starterCityGenerated){
-            i = r.nextInt(5,25);
-            j = r.nextInt(5, 15);
-            if ( //
-
-                    buildingLayer.getCell(i+1,j-1) instanceof EmptyCell &&
-                    buildingLayer.getCell(i+1,j) instanceof EmptyCell &&
-                    buildingLayer.getCell(i+1,j+1) instanceof EmptyCell &&
-                    buildingLayer.getCell(i,j-1) instanceof EmptyCell &&
-                    buildingLayer.getCell(i,j) instanceof EmptyCell &&
-                    buildingLayer.getCell(i,j+1) instanceof EmptyCell &&
-                    buildingLayer.getCell(i-1,j-1) instanceof EmptyCell &&
-                    buildingLayer.getCell(i-1,j) instanceof EmptyCell &&
-                    buildingLayer.getCell(i-1,j+1) instanceof EmptyCell
-            ) {
-                starterCityGenerated = true;
-                System.out.println("Found suitable place");
-                try {
-
-                    buildingLayer.setCell(i + 1, j, new RoadCell(i + 1, j, buildingLayer));
-                    buildingLayer.getCell(i + 1, j).setTile((tileSet.getTile(4)));
-
-                    buildingLayer.setCell(i, j - 1, new RoadCell(i, j - 1, buildingLayer));
-                    buildingLayer.getCell(i, j - 1).setTile((tileSet.getTile(4)));
-
-                    buildingLayer.setCell(i, j, new RoadCell(i, j, buildingLayer));
-                    buildingLayer.getCell(i, j).setTile((tileSet.getTile(4)));
-
-                    buildingLayer.setCell(i, j + 1, new RoadCell(i, j + 1, buildingLayer));
-                    buildingLayer.getCell(i, j + 1).setTile((tileSet.getTile(4)));
-
-                    buildingLayer.setCell(i - 1, j, new RoadCell(i - 1, j, buildingLayer));
-                    buildingLayer.getCell(i - 1, j).setTile((tileSet.getTile(4)));
-
-                    buildingLayer.setCell(i + 1, j - 1, new LivingZoneCell(i + 1, j - 1, buildingLayer, false));
-                    buildingLayer.getCell(i + 1, j - 1).setTile((tileSet.getTile(24)));
-
-                    buildingLayer.setCell(i + 1, j + 1, new LivingZoneCell(i + 1, j + 1, buildingLayer, false));
-                    buildingLayer.getCell(i + 1, j + 1).setTile((tileSet.getTile(24)));
-
-                    buildingLayer.setCell(i - 1, j - 1, new ServiceZoneCell(i - 1, j - 1, buildingLayer, false));
-                    buildingLayer.getCell(i - 1, j - 1).setTile((tileSet.getTile(26)));
-
-                    buildingLayer.setCell(i - 1, j + 1, new IndustrialZoneCell(i - 1, j + 1, buildingLayer, false));
-                    buildingLayer.getCell(i - 1, j + 1).setTile((tileSet.getTile(25)));
-
-                } catch (CellException e) {
-                    System.err.println("failed building starter city");
                 }
             }
 

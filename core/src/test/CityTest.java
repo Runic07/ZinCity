@@ -90,7 +90,7 @@ public class CityTest {
 
             TiledMapTileLayer map = city.getCityMap().getBuildingLayer();
             map.setCell(0, 0, new RoadCell(0, 0, map));
-            map.setCell(0, 1, new PoliceCell(0, 1, map));
+            map.setCell(0, 1, new PoliceCell(0, 1, map, false));
 
             city.step();
 
@@ -108,8 +108,8 @@ public class CityTest {
 
             TiledMapTileLayer map = city.getCityMap().getBuildingLayer();
             map.setCell(0, 0, new RoadCell(0, 0, map));
-            map.setCell(1, 0, new LivingZoneCell(1, 0, map));
-            map.setCell(0, 1, new IndustrialZoneCell(0, 1, map));
+            map.setCell(1, 0, new LivingZoneCell(1, 0, map, false));
+            map.setCell(0, 1, new IndustrialZoneCell(0, 1, map, false));
             city.addCitizen();
 
             city.taxCoefficient = 2.0;
@@ -131,12 +131,12 @@ public class CityTest {
             TiledMapTileLayer layer = cm.getBuildingLayer();
 
             layer.setCell(0, 0, new RoadCell(0, 0, layer));
-            layer.setCell(1, 0, new ServiceZoneCell(1, 0, layer));
-            layer.setCell(0, 1, new IndustrialZoneCell(0, 1, layer));
+            layer.setCell(1, 0, new ServiceZoneCell(1, 0, layer, false));
+            layer.setCell(0, 1, new IndustrialZoneCell(0, 1, layer, false));
 
             layer.setCell(2, 2, new RoadCell(2, 2, layer));
-            layer.setCell(3, 2, new ServiceZoneCell(3, 2, layer));
-            layer.setCell(2, 3, new IndustrialZoneCell(2, 3, layer));
+            layer.setCell(3, 2, new ServiceZoneCell(3, 2, layer, false));
+            layer.setCell(2, 3, new IndustrialZoneCell(2, 3, layer, false));
 
             assertEquals(0, cm.ServiceZoneCount() - cm.IndustrialZoneCount());
         } catch(Exception e) {
