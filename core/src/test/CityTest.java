@@ -16,6 +16,7 @@ public class CityTest {
 
             map.setCell(0, 1, new RoadCell(0, 1, map));
             map.setCell(0, 0, new LivingZoneCell(0, 0, map));
+            ((CityCell)map.getCell(0,0)).electrify(true);
             map.setCell(0, 2, new IndustrialZoneCell(0, 2, map));
 
             assertTrue(city.addCitizen());
@@ -25,7 +26,7 @@ public class CityTest {
     }
 
     @Test
-    public void testAddingCitizenFail(){
+    public void testAddingCitizenFail() {
         City city = new City();
         assertFalse(city.addCitizen());
     }
@@ -38,6 +39,7 @@ public class CityTest {
 
             map.setCell(0, 1, new RoadCell(0, 1, map));
             map.setCell(0, 0, new LivingZoneCell(0, 0, map));
+            ((CityCell)map.getCell(0,0)).electrify(true);
             map.setCell(0, 2, new IndustrialZoneCell(0, 2, map));
 
             if(city.addCitizen()){
@@ -63,6 +65,7 @@ public class CityTest {
 
             map.setCell(0, 1, new RoadCell(0, 1, map));
             map.setCell(0, 0, new LivingZoneCell(0, 0, map));
+            ((CityCell)map.getCell(0,0)).electrify(true);
             map.setCell(0, 2, new IndustrialZoneCell(0, 2, map));
             map.setCell(1, 1, new ServiceZoneCell(1, 1, map));
 
@@ -109,7 +112,9 @@ public class CityTest {
             TiledMapTileLayer map = city.getCityMap().getBuildingLayer();
             map.setCell(0, 0, new RoadCell(0, 0, map));
             map.setCell(1, 0, new LivingZoneCell(1, 0, map));
+            ((CityCell)map.getCell(1,0)).electrify(true);
             map.setCell(0, 1, new IndustrialZoneCell(0, 1, map));
+            ((CityCell)map.getCell(0,1)).electrify(true);
             city.addCitizen();
 
             city.taxCoefficient = 2.0;

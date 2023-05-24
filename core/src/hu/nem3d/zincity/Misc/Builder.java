@@ -9,6 +9,7 @@ import hu.nem3d.zincity.Logic.CityMap;
 import hu.nem3d.zincity.Screen.CityStage;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * This handles the changes in a cell due to user input. Later in the code you can see which UiId and buildCode combinations refer to which action.
@@ -316,60 +317,69 @@ public class Builder {
          * @return
          */
         public ArrayList<CityCell> deleteCell (CityCell cell){
-            ArrayList<CityCell> returnCells = new ArrayList<>();
+            ArrayList <CityCell> returnCells = new ArrayList<>();
             //This is currently the best way to solve this since the Zones do not know who is in them and I have to check what kind of zone it is
             //So when I get the type of cell I have to iterate through all the citizens and check for everyone's  home and workplace, cant do much else if I
             //Understand the structure correctly
-            if (cell.getClass() == LivingZoneCell.class) {         //TODO implement conflicting delete here in if --> example: cell.ConflictDelete in if statement
+            if(cell.getClass() == LivingZoneCell.class){         //TODO implement conflicting delete here in if --> example: cell.ConflictDelete in if statement
                 for (Citizen citizen : city.citizens) {
-                    if (citizen.getHome().getX() == x && citizen.getHome().getY() == y) {
+                    if(citizen.getHome().getX() == x && citizen.getHome().getY() == y){
                         citizen.getWorkplace().removeOccupant();
                         citizen.setWorkplace(null);
                         citizen.setHome(null);
                         city.citizens.remove(citizen);
                     }
                 }
-            } else if (cell.getClass() == ServiceZoneCell.class || cell.getClass() == IndustrialZoneCell.class) {
+            }
+            else if(cell.getClass() == ServiceZoneCell.class || cell.getClass() == IndustrialZoneCell.class){
                 for (Citizen citizen : city.citizens) {
-                    if (citizen.getWorkplace().getX() == x && citizen.getWorkplace().getY() == y) {
+                    if(citizen.getWorkplace().getX() == x && citizen.getWorkplace().getY() == y){
                         citizen.getWorkplace().removeOccupant();
                         citizen.setWorkplace(null);
                     }
                 }
             }
 
-
-            if (cell.getClass() == ArenaCell.class || cell.getClass() == GeneratorCell.class) {
-                int partValue = ((BuildingCell) cell).getPart().ordinal();
-                switch (partValue) {
-                    case (1):
-                        x = x - 1;
-                        break;
-                    case (2):
-                        y = y + 1;
-                        break;
-                    case (3):
-                        x = x - 1;
-                        y = y + 1;
-                        break;
-                }
-
-                for (int i = 0; i > -2; i--) {
-                    for (int j = 0; j < 2; j++) {
-                        EmptyCell tmpCell = new EmptyCell(x + j, y + i, buildLayer);
-                        tmpCell.setTile((tileSet.getTile(0)));
-                        buildLayer.setCell(x + j, y + i, tmpCell);
-                        returnCells.add(tmpCell);
+            if(cell instanceof  BuildingCell){
+                if(cell.getClass() == ArenaCell.class || cell.getClass() == GeneratorCell.class){
+                    int partValue = ((BuildingCell) cell).getPart().ordinal();
+                    switch (partValue){
+                        case(1):
+                            x = x - 1;
+                            break;
+                        case(2):
+                            y = y + 1;
+                            break;
+                        case(3):
+                            x = x - 1;
+                            y = y + 1;
+                            break;
                     }
-                }
 
+                    for(int i = 0; i > -2; i-- ){
+                        for(int j = 0; j < 2; j++){
+                            ((BuildingCell)buildLayer.getCell(x+j, y+i)).removeSpreadEffect();
+                            EmptyCell tmpCell = new EmptyCell(x+j,y+i, buildLayer);
+                            tmpCell.setTile((tileSet.getTile(0)));
+                            tmpCell.setWired(((CityCell)buildLayer.getCell(x + j,y + i)).isWired());
+                            buildLayer.setCell(x + j,y + i, tmpCell);
+                            returnCells.add(tmpCell);
+                        }
+                    }
+                }else{
+                    ((BuildingCell)cell).removeSpreadEffect();
+                }
+                ((BuildingCell)cell).spreadSiblingsEffects();
             }
+
             //System.out.println(returnCells);
-            cell = new EmptyCell(x, y, buildLayer);
+            cell = new EmptyCell(x,y, buildLayer);
             cell.setTile((tileSet.getTile(0)));
+            cell.setWired(((CityCell)buildLayer.getCell(x, y)).isWired());
             buildLayer.setCell(x, y, cell);
             returnCells.add(cell);// <-------------------- I do not like this. -Jaksy
-            return returnCells;
+            return  returnCells;
+
         }
 
         public ArrayList<CityCell> getCells () {

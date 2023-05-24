@@ -1,10 +1,13 @@
 package hu.nem3d.zincity.Cell;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import hu.nem3d.zincity.Misc.BuildingEffect;
 import hu.nem3d.zincity.Misc.Direction;
 import hu.nem3d.zincity.Screen.StatUI;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Objects;
 
 /**
@@ -29,6 +32,8 @@ public abstract class CityCell extends TiledMapTileLayer.Cell {
 
     TiledMapTileLayer tileLayer; //in case the cell knows the tile layer it's located on.
 
+    HashSet<BuildingEffect> effects = new HashSet<>();
+
 
 
     /**
@@ -43,6 +48,9 @@ public abstract class CityCell extends TiledMapTileLayer.Cell {
         this.x = x;
         this.y = y;
         this.tileLayer = tileLayer; //this way, the cell can locate tiles adjacent to itself.
+
+        checkElectricity();
+        collectEffects();
     }
 
     /**
@@ -69,18 +77,34 @@ public abstract class CityCell extends TiledMapTileLayer.Cell {
      */
     public void setY(int y) {this.y = y;}
 
+    /**
+     * Gets the annual upkeep cost of this
+     * @return The annual cost of this
+     */
     public double getUpkeepCost() {
         return upkeepCost;
     }
 
+    /**
+     * Sets the annual upkeep cost of this
+     * @param upkeepCost The annual cost of this to be set
+     */
     public void setUpkeepCost(double upkeepCost) {
         this.upkeepCost = upkeepCost;
     }
 
+    /**
+     * Gets the one-time build cost of this
+     * @return The one-time build cost of this
+     */
     public double getPrice() {
         return price;
     }
 
+    /**
+     * Sets the one-time build cost of this
+     * @param price The one-time build cost of this to be set
+     */
     public void setPrice(double price) {
         this.price = price;
     }
@@ -104,27 +128,62 @@ public abstract class CityCell extends TiledMapTileLayer.Cell {
     public boolean isElectrified() {return isElectrified;}
 
     /**
-     * Changes the value of isElectrified to the value of the parameter (if this has wires)
+     * Changes the value of isElectrified to the value of the parameter (if this has wires),
+     * and calls this method on each of its neighbors (in some sort of recursive way),
+     * on which is present, wired, and not has the same value as the parameter
      * @param elect The value, which isElectrified will be set to (if it has wires)
-     * @return True, if this action is successful
+     * @return True, if this action is successful on this cell
      */
-    public boolean setElectrified(boolean elect) {
-        if(elect){
-            if (isWired){  //Electricity requires wires to flow through
-                isElectrified = true;
-                return true;
-            }else{
-                return false;
-            }
-        }else{
-            isElectrified = false;
-            return true;
-        }
+    public boolean electrify(boolean elect) {
+        if(isWired){ //Electricity requires wires to flow through (electrified can't be true, without isWired)
+            isElectrified = elect;
+            System.out.println("Electricity is " + elect + " at " + getClass().getSimpleName() + " on " + x + " " + y);
 
+            //Electrifying neighbors
+            for(Direction dir : Direction.values()){
+                CityCell neighbor = getNeighbor(dir);
+                if(neighbor != null && neighbor.isWired() && neighbor.isElectrified() != elect){
+                    neighbor.electrify(elect);
+                }
+            }
+            return true;
+        }else{
+            return false;
+        }
     }
 
+    /**
+     * Gets the tileLayer of this
+     * @return the tileLayer of this
+     */
     public TiledMapTileLayer getTileLayer() {
         return tileLayer;
+    }
+
+    /**
+     * Adding an effect to the effects set
+     * @param effect The BuildingEffect that is to be added
+     * @return True, if this action is successful, otherwise false
+     */
+    public boolean addEffect(BuildingEffect effect){
+        return effects.add(effect);
+    }
+
+    /**
+     * Removes an effect from an effects set
+     * @param effect The BuildingEffect that is to be removed
+     * @return True, if this action is successful, otherwise false
+     */
+    public boolean removeEffect(BuildingEffect effect){
+        return effects.remove(effect);
+    }
+
+    /**
+     * Gets the set of the effects of this
+     * @return the HashSet of effects of this
+     */
+    public HashSet<BuildingEffect> getEffects(){
+        return effects;
     }
 
     /**
@@ -158,8 +217,6 @@ public abstract class CityCell extends TiledMapTileLayer.Cell {
             default: return null;
 
         }
-
-
     }
 
     /**
@@ -187,6 +244,29 @@ public abstract class CityCell extends TiledMapTileLayer.Cell {
         return l;
     }
 
+    /**
+     * Helper method, that searches for and adds all the effects that nearby buildings has on this
+     */
+    private void collectEffects(){
+        for (int i = 0; i < tileLayer.getWidth(); i++) {
+            for (int j = 0; j < tileLayer.getHeight(); j++) {
+                if(tileLayer.getCell(i, j) instanceof BuildingCell){
+                    BuildingCell building = (BuildingCell) tileLayer.getCell(i, j);
+                    if(building.isInRange(this)){
+                        addEffect(building.getMyEffect());
+                    }
+                }
+            }
+        }
+    }
 
-
+    /**
+     * Checks if any of the 4 neighbouring cells provide electricity, then this electrifies itself
+     */
+    private void checkElectricity() {
+        if(Arrays.stream(Direction.values()).map(this::getNeighbor)
+                .filter(Objects::nonNull).anyMatch(CityCell::isElectrified)) {
+            electrify(true);
+        }
+    }
 }

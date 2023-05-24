@@ -46,6 +46,6 @@ public class CityCellTest {
         map.setCell(0, 1, cell1);
         CityCell cell2 = new RoadCell(0, 0, map);
         map.setCell(0, 0, cell2);
-        assertEquals(1.0, cell1.auraRadiusSize(cell2), 1);
+        assertEquals(1.0, cell1.auraRadiusSize(cell2), 0);
     }
 }
