@@ -3,8 +3,6 @@ import hu.nem3d.zincity.Cell.*;
 import hu.nem3d.zincity.Logic.Citizen;
 import hu.nem3d.zincity.Logic.City;
 import hu.nem3d.zincity.Logic.CityMap;
-import hu.nem3d.zincity.Misc.CellException;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -27,18 +25,11 @@ public class CityTest {
     }
 
     @Test
-    public void testAddingCitizenFail(){
+    public void testAddingCitizenFail() {
         City city = new City();
         assertFalse(city.addCitizen());
     }
 
-    @Test
-    public void testAddingCitizenFail(){
-        City city = new City();
-        assertFalse(city.addCitizen());
-    }
-
-    @Ignore
     @Test
     public void testSatisfactionDecrease(){
         try {
