@@ -5,8 +5,7 @@ import hu.nem3d.zincity.Misc.BuildingEffect;
 import hu.nem3d.zincity.Misc.Direction;
 import hu.nem3d.zincity.Screen.StatUI;
 
-import java.util.Arrays;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.Objects;
 
 /**
@@ -219,20 +218,30 @@ public abstract class CityCell extends TiledMapTileLayer.Cell {
     }
 
     /**
-     * Helper method, that searches for and adds all the effects that nearby buildings has on this
+     * Returns neighbors 1 cell away.
+     * @return ArrayList containing the cells
      */
-    private void collectEffects(){
-        for (int i = 0; i < tileLayer.getWidth(); i++) {
-            for (int j = 0; j < tileLayer.getHeight(); j++) {
-                if(tileLayer.getCell(i, j) instanceof BuildingCell){
-                    BuildingCell building = (BuildingCell) tileLayer.getCell(i, j);
-                    if(building.isInRange(this)){
-                        addEffect(building.getMyEffect());
-                    }
-                }
-            }
+    public ArrayList<CityCell> getImmediateNeighbors(){
+        ArrayList<CityCell> l = new ArrayList<CityCell>();
+
+        l.add(this.getNeighbor(Direction.NORTH));
+        l.add(this.getNeighbor(Direction.EAST));
+        l.add(this.getNeighbor(Direction.WEST));
+        l.add(this.getNeighbor(Direction.SOUTH));
+
+        if(this.getNeighbor(Direction.NORTH) != null){
+            l.add(this.getNeighbor(Direction.NORTH).getNeighbor(Direction.EAST));
+            l.add(this.getNeighbor(Direction.NORTH).getNeighbor(Direction.WEST));
         }
+
+        if(this.getNeighbor(Direction.SOUTH) != null){
+            l.add(this.getNeighbor(Direction.SOUTH).getNeighbor(Direction.EAST));
+            l.add(this.getNeighbor(Direction.SOUTH).getNeighbor(Direction.WEST));
+        }
+        l.removeIf(Objects::isNull);
+        return l;
     }
+
 
     /**
      * Checks if any of the 4 neighbouring cells provide electricity, then this electrifies itself

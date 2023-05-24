@@ -143,6 +143,23 @@ public final class DistanceCalculator {
         return result;
     }
 
+    /**
+     * Gets the actual distance (not distance on road), rounded down.
+     * @param c1
+     * @param c2
+     * @return
+     */
+    public static int EuclideanDistance(CityCell c1, CityCell c2){
+        if(c1 == null || c2 == null){return -1;}
+        if(c1 == c2){return 0;}
+        else{
+            int deltaX = Math.abs(c1.getX() - c2.getX());
+            int deltaY = Math.abs(c1.getY() - c2.getY());
+            return (int) Math.floor(Math.sqrt(deltaX * deltaX + deltaY * deltaY));
+        }//idk why i implemented this i actually dont need it but ill leave it here in case its used
+
+    }
+
     //Stashed method
     /*
      * Searches for the closest workplace location from a LivingCellZone (based on certain conditions), meanwhile this

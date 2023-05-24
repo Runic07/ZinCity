@@ -2,15 +2,15 @@ package hu.nem3d.zincity.Cell;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
+import java.util.Random;
+
 /**
  * Represents a cell of a forest
  */
 public class ForestCell extends CityCell{
     private int age;
 
-    /**
-     * Constructs a ForestCell with the coordinates of origin and 0 as an age
-     */
+
 
 
     /**
@@ -37,9 +37,18 @@ public class ForestCell extends CityCell{
     public void setAge(int age) {this.age = age;}
 
     /**
-     * Ages this by one unit (unless it reached the max value (10))
+     * Grows a tree according to a random chance.
+     * @return wether the tree has grown or not.
      */
-    public void increaseAge(){age = (age == 10) ? 10 : age+1;}
+    public boolean randomGrow(){
+        Random r = new Random();
+        if (r.nextInt(0,5) == 0 && this.age < 10){
+            this.age++;
+            return true;
+        }
+        return false;
+
+    }
 
     /*
     //Suggestion for aging trees
