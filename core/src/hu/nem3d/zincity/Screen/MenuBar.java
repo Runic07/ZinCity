@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import hu.nem3d.zincity.Logic.City;
 
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 
 /**

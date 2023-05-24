@@ -93,7 +93,7 @@ public class City{
 
                 //find home
                 //TODO extra feature: choose randomly from available homes
-                if (cell.getClass() == LivingZoneCell.class && !(((ZoneCell) cell).isFull()) && !foundHome && ((CityCell) cell).isElectrified()){
+                if (cell.getClass() == LivingZoneCell.class && !(((ZoneCell) cell).isFull()) && !foundHome /*&& ((CityCell) cell).isElectrified()*/){
 
                     //cast is only needed in theory, to get the associated methods. should not actually change the class.
 
@@ -237,7 +237,7 @@ public class City{
                    && buildingLayer.getCell(i,j).getClass() != RoadCell.class
                    && buildingLayer.getCell(i,j).getClass() != PowerLineCell.class
                    && buildingLayer.getCell(i,j).getClass() != FireStationCell.class){
-                    if(r.nextInt(1000) < 5){
+                    if(r.nextInt(10000) == 0){
                         effects.setOnFire(i,j);
                     }
                     if(cell.getOnFireFor() >=1){
@@ -281,6 +281,8 @@ public class City{
         //spew info
         System.out.println("\nCurrent city satisfaction: " + satisfaction + "\nCurrent budget: " + budget + "\nCurrent tax coeff: " + taxCoefficient);
         System.out.println("---------------------------------");
+
+        budget = Math.round(budget);
     }
 
 }

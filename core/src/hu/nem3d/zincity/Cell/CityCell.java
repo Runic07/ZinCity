@@ -39,8 +39,6 @@ public abstract class CityCell extends TiledMapTileLayer.Cell {
     protected boolean onFire = false;
     protected int onFireFor;
 
-    TiledMapTileLayer tileLayer; //in case the cell knows the tile layer it's located on.
-
 
 
     /**
