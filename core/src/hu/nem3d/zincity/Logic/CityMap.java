@@ -32,7 +32,6 @@ public class CityMap {
      * Generates a 30x20 map with random Simplex-noise, adds water, trees and grass.
      * Generates map layers for buildings and base tiles.
      *
-     *
      */
     public CityMap() {
 
@@ -62,75 +61,92 @@ public class CityMap {
             long seedWater = r.nextLong();
             long seedTrees = r.nextLong();
             for ( i = 0; i < 30; i++) {
-                for ( j = 0; j < 20; j++) {
+                for (j = 0; j < 20; j++) {
                     boolean isEmpty = false;
-                    if (OpenSimplex2S.noise2(seedWater, i*0.05, j*0.05) > -0.3){ //change these threshold values to modify world gen
-                        CityCell cell = new EmptyCell(i,j, baseLayer);
+                    if (OpenSimplex2S.noise2(seedWater, i * 0.05, j * 0.05) > -0.3) { //change these threshold values to modify world gen
+                        CityCell cell = new EmptyCell(i, j, baseLayer);
                         cell.setTile(tileSet.getTile(0));
                         cell.setX(i);
                         cell.setY(j);
                         baseLayer.setCell(i, j, cell);
                         isEmpty = true;
-                    }
-                    else{
-                        CityCell cell = new BlockedCell(i,j,baseLayer, "");
+                    } else {
+                        CityCell cell = new BlockedCell(i, j, baseLayer, "");
                         cell.setTile(tileSet.getTile(1));
                         cell.setX(i);
                         cell.setY(j);
                         baseLayer.setCell(i, j, cell);
                     }
 
-                    if (OpenSimplex2S.noise2(seedTrees, i*0.05, j*0.05) > 0.7  ){
+                    if (OpenSimplex2S.noise2(seedTrees, i * 0.05, j * 0.05) > 0.7) {
                         //add dense forest
-                        CityCell cell = new ForestCell(i,j, buildingLayer);
+                        CityCell cell = new ForestCell(i, j, buildingLayer);
                         cell.setTile((tileSet.getTile(3)));
                         cell.setX(i);
                         cell.setY(j);
-                        buildingLayer.setCell(i,j,cell);
-                    }
-                    else if (OpenSimplex2S.noise2(seedTrees, i*0.05, j*0.05) > 0.6){
+                        buildingLayer.setCell(i, j, cell);
+                    } else if (OpenSimplex2S.noise2(seedTrees, i * 0.05, j * 0.05) > 0.6) {
                         //add sparse forest
-                        CityCell cell = new ForestCell(i,j, buildingLayer);
+                        CityCell cell = new ForestCell(i, j, buildingLayer);
                         cell.setTile((tileSet.getTile(2)));
                         cell.setX(i);
                         cell.setY(j);
-                        buildingLayer.setCell(i,j,cell);
-                    }
-                    else if(isEmpty){
-                        CityCell cell = new EmptyCell(i,j,buildingLayer);
+                        buildingLayer.setCell(i, j, cell);
+                    } else if (isEmpty) {
+                        CityCell cell = new EmptyCell(i, j, buildingLayer);
+                        cell.setX(i);
+                        cell.setY(j);
+                        buildingLayer.setCell(i, j, cell);
+                    } else {
+                        CityCell cell = new BlockedCell(i, j, buildingLayer, "");
                         cell.setX(i);
                         cell.setY(j);
                         buildingLayer.setCell(i, j, cell);
                     }
-                    else{
-                        CityCell cell = new BlockedCell(i,j,buildingLayer, "");
+
+
+                    if (OpenSimplex2S.noise2(seedTrees, i * 0.05, j * 0.05) > 0.7) {
+                        //add dense forest
+                        ForestCell cell = new ForestCell(i, j, buildingLayer);
+                        cell.setTile((tileSet.getTile(3)));
+                        cell.setX(i);
+                        cell.setY(j);
+                        cell.setAge(10);
+                        buildingLayer.setCell(i, j, cell);
+                    } else if (OpenSimplex2S.noise2(seedTrees, i * 0.05, j * 0.05) > 0.6) {
+                        //add sparse forest
+                        ForestCell cell = new ForestCell(i, j, buildingLayer);
+                        cell.setTile((tileSet.getTile(2)));
+                        cell.setX(i);
+                        cell.setY(j);
+                        cell.setAge(r.nextInt(0, 5));
+                        buildingLayer.setCell(i, j, cell);
+                    } else if (isEmpty) {
+                        CityCell cell = new EmptyCell(i, j, buildingLayer);
                         cell.setX(i);
                         cell.setY(j);
                         buildingLayer.setCell(i, j, cell);
                     }
-
-
-
                 }
             }
 
             //generate starter city
             //rendering is still bugged here
             boolean starterCityGenerated = false;
-            while(!starterCityGenerated){
-                i = r.nextInt(5,25);
+            while(!starterCityGenerated) {
+                i = r.nextInt(5, 25);
                 j = r.nextInt(5, 15);
                 if ( //
 
-                        buildingLayer.getCell(i+1,j-1) instanceof EmptyCell &&
-                                buildingLayer.getCell(i+1,j) instanceof EmptyCell &&
-                                buildingLayer.getCell(i+1,j+1) instanceof EmptyCell &&
-                                buildingLayer.getCell(i,j-1) instanceof EmptyCell &&
-                                buildingLayer.getCell(i,j) instanceof EmptyCell &&
-                                buildingLayer.getCell(i,j+1) instanceof EmptyCell &&
-                                buildingLayer.getCell(i-1,j-1) instanceof EmptyCell &&
-                                buildingLayer.getCell(i-1,j) instanceof EmptyCell &&
-                                buildingLayer.getCell(i-1,j+1) instanceof EmptyCell
+                        buildingLayer.getCell(i + 1, j - 1) instanceof EmptyCell &&
+                                buildingLayer.getCell(i + 1, j) instanceof EmptyCell &&
+                                buildingLayer.getCell(i + 1, j + 1) instanceof EmptyCell &&
+                                buildingLayer.getCell(i, j - 1) instanceof EmptyCell &&
+                                buildingLayer.getCell(i, j) instanceof EmptyCell &&
+                                buildingLayer.getCell(i, j + 1) instanceof EmptyCell &&
+                                buildingLayer.getCell(i - 1, j - 1) instanceof EmptyCell &&
+                                buildingLayer.getCell(i - 1, j) instanceof EmptyCell &&
+                                buildingLayer.getCell(i - 1, j + 1) instanceof EmptyCell
                 ) {
                     starterCityGenerated = true;
                     System.out.println("Found suitable place");
@@ -167,9 +183,6 @@ public class CityMap {
                         System.err.println("failed building starter city");
                     }
                 }
-
-
-
             }
 
 
