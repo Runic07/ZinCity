@@ -33,6 +33,10 @@ public class MenuBar {
 
     private final GameScreen screen;
 
+    private String speedText;
+
+    private boolean speedChange;
+
     /**
      * Constructor sets the skin and TextureAtlas and skin that the UI uses, stage is a Stage where the UI is on as an actor and the city provides the data.
      * @param stage_
@@ -45,6 +49,22 @@ public class MenuBar {
         stage = stage_;
         city = city_;
         screen = screen_;
+        speedChange = false;
+        int curSpeed = screen.getSpeed();
+        switch (curSpeed){
+            case(600):
+                speedText= ">";
+                break;
+            case(300):
+                speedText= ">>";
+                break;
+            case(60):
+                speedText= ">>>";
+                break;
+            default:
+                speedText = "||";
+                break;
+        }
     }
 
     /**
@@ -67,7 +87,7 @@ public class MenuBar {
         currTable.background("dialog");
         //Set alignment of contents in the table.
         currTable.top();
-        skin.getFont("commodore-64").getData().setScale(width/720f, height/480f);
+        skin.getFont("commodore-64").getData().setScale(width/720f+Float.MIN_VALUE, height/480f+Float.MIN_VALUE);
 
         TextButton exitButton = new TextButton("Exit", skin);
         exitButton.setSize(width / 9, (float) ((height * 0.15) / 2));
@@ -122,7 +142,7 @@ public class MenuBar {
                 specialButton.setSize(width / 9, (float) ((height * 0.15) / 2));
 
 
-                TextButton speedButton = new TextButton("Speed", skin);
+                TextButton speedButton = new TextButton(speedText, skin);
                 speedButton.setSize(width / 9, (float) ((height * 0.15) / 2));
 
                 TextButton moreButton = new TextButton("More", skin);
@@ -152,27 +172,25 @@ public class MenuBar {
                         switch (curSpeed){
                             case(600):
                                 screen.setSpeed(300);
-                                speedmsg = "5 sec / day";
+                                speedText= ">>";
+                                speedChange = true;
                                 break;
                             case(300):
                                 screen.setSpeed(60);
-                                speedmsg = "1 sec / day";
+                                speedText= ">>>";
+                                speedChange = true;
                                 break;
                             case(60):
                                 screen.setSpeed(0);
-                                speedmsg = "Paused";
+                                speedText= "||";
+                                speedChange = true;
                                 break;
                             default:
                                 screen.setSpeed(600);
-                                speedmsg = "10 sec / day";
+                                speedText = ">";
+                                speedChange = true;
                                 break;
                         }
-                        Dialog dialog = new Dialog("Speed", skin, "dialog");
-                        dialog.text("Current speed: " + speedmsg);
-                        dialog.button("OK", false);
-                        dialog.getBackground().setMinWidth(200);
-                        dialog.getBackground().setMinHeight(200);
-                        dialog.show(stage);
                     }
                 });
 
@@ -419,7 +437,7 @@ public class MenuBar {
         //Set alignment of contents in the table.
         statTable.top();
 
-        skin.getFont("commodore-64").getData().setScale(width/720f, height/480f);
+        skin.getFont("commodore-64").getData().setScale(width/720f+Float.MIN_VALUE, height/480f+Float.MIN_VALUE);
 
         DecimalFormat df = new DecimalFormat("###.#");
 
@@ -438,6 +456,14 @@ public class MenuBar {
         statTable.add(money).expand().bottom().fill();
 
         return statTable;
+    }
+
+    public boolean reRenderSpeed(){
+        if(speedChange){
+            speedChange = false;
+            return true;
+        }
+        return false;
     }
 
 
