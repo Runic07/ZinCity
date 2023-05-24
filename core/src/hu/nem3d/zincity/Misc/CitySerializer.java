@@ -166,7 +166,11 @@ public class CitySerializer implements Json.Serializer<City> {
                 ((LivingZoneCell) city.getCityMap().getBuildingLayer().getCell(json.readValue("homeX", int.class, citizenData), json.readValue("homeY", int.class, citizenData))).levelUp(
                         ((LivingZoneCell) city.getCityMap().getBuildingLayer().getCell(json.readValue("homeX", int.class, citizenData), json.readValue("homeY", int.class, citizenData))).getCapacity() * 2
                 );
-                city.getCityMap().getBuildingLayer().getCell(json.readValue("homeX", int.class, citizenData), json.readValue("homeY", int.class, citizenData)).setTile(city.cityMap.tileType(((LivingZoneCell) city.getCityMap().getBuildingLayer().getCell(json.readValue("homeX", int.class, citizenData), json.readValue("homeY", int.class, citizenData)))));  //well this is a line of code yes i am ashamed
+                city.getCityMap().getBuildingLayer().getCell(
+                        json.readValue("homeX", int.class, citizenData), json.readValue("homeY", int.class, citizenData))
+                        .setTile(city.cityMap.tileType(
+                                ((LivingZoneCell) city.getCityMap().getBuildingLayer().getCell(
+                                        json.readValue("homeX", int.class, citizenData), json.readValue("homeY", int.class, citizenData)))));  //well this is a line of code yes i am ashamed
             }
             ((LivingZoneCell) city.getCityMap().getBuildingLayer().getCell(json.readValue("homeX", int.class, citizenData), json.readValue("homeY", int.class, citizenData))).addOccupant();
 

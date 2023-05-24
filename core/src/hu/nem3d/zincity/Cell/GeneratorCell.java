@@ -15,6 +15,7 @@ public class GeneratorCell extends BuildingCell {
         this.name = "Generator";
         this.price = 20;
         this.upkeepCost = 7.5;
+        spreadEffect();
     }
     public GeneratorCell(int x, int y, TiledMapTileLayer tileLayer, boolean forced) throws CellException {
         super(x, y, tileLayer, BuildingPart.NorthWest, forced);
