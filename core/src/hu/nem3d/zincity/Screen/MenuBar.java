@@ -444,18 +444,43 @@ public class MenuBar {
         Label happiness = new Label( " " + df.format(city.satisfaction * 100) + "% ", skin);
         happiness.setSize(width / 9, (float) ((height * 0.15) / 2));
 
-        Label date = new Label("Day: " + day, skin);
+        Label date = new Label(day + "D", skin);
         date.setSize(width / 9, (float) ((height * 0.15) / 2));
 
         Label money = new Label(city.budget + "$", skin);
         money.setSize(width / 9, (float) ((height * 0.15) / 2));
 
+        Label population = new Label("Pop:" + city.citizens.size(), skin);
+        population.setSize(width / 9, (float) ((height * 0.15) / 2));
+
         statTable.add(happiness).spaceRight(10).expand().bottom().fill();
         //currTable.add(date);
         statTable.add(date).spaceRight(10).expand().bottom().fill();
-        statTable.add(money).expand().bottom().fill();
+        statTable.add(money).spaceRight(10).expand().bottom().fill();
+        statTable.add(population).expand().bottom().fill();
 
         return statTable;
+    }
+
+    public void isGameOver(){
+        if(city.citizens.size() == 0) {
+            screen.setSpeed(0);
+            Dialog dialog = new Dialog("Warning", skin, "dialog") {
+                public void result(Object obj) {
+                    System.out.println("result " + obj);
+                    boolean quitMenu = (Boolean) obj;
+                    if (quitMenu) {
+                        Gdx.app.exit();
+                    }
+                }
+            };
+            dialog.text("GAME OVER");
+            dialog.button("oof", true);
+            dialog.getBackground().setMinWidth(200);
+            dialog.getBackground().setMinHeight(200);
+            dialog.show(stage);
+        }
+
     }
 
     public boolean reRenderSpeed(){

@@ -16,6 +16,7 @@ public class StatUI {
     private String name;
     private String dataString;
     private String tier;
+    private String wired;
     private final TextureAtlas atlas;
     private final Skin skin;
 
@@ -27,6 +28,7 @@ public class StatUI {
         atlas = new TextureAtlas(Gdx.files.internal("PlaceHolderMenu\\uiskin.atlas"));
         skin = new Skin(Gdx.files.internal("PlaceHolderMenu\\uiskin.json"), atlas);
         shown = false;
+        wired = "null";
     }
 
     /**
@@ -36,22 +38,32 @@ public class StatUI {
     public void statCall(CityCell cell){
         x = cell.getX();
         y = cell.getY();
+
         //System.out.println("Called: " + x + y);
         if(cell.getClass() == ForestCell.class ){
             name = "Forest";
             dataString = "Age: " + ((ForestCell) cell).getAge();
             tier = "null";
+            wired = "null";
         }
         else if(cell.getClass() == BlockedCell.class){
             name = "Blocked cell"; // can rewrite into blockedCell.info but this is better for now.
             dataString = "null";
             tier = "null";
+            wired = "null";
 
         }
         else if(cell.getClass() == RoadCell.class){
             name = "Road";
             dataString = "null";
             tier = "null";
+            setWired(cell.isWired());
+        }
+        else if(cell.getClass() == PowerLineCell.class){
+            name = "Power Line";
+            dataString = "null";
+            tier = "null";
+            setWired(cell.isWired());
         }
         else if(cell instanceof BuildingCell){
             name = ((BuildingCell)cell).getName();
@@ -60,31 +72,37 @@ public class StatUI {
             if(cell.getClass() == ArenaCell.class || cell.getClass() == GeneratorCell.class){
                 tier = "Part: " + ((BuildingCell) cell).getPart();
             }
+            setWired(cell.isWired());
         }
         else if(cell.getClass() == EmptyCell.class){
             name = "Empty";
             dataString = "null";
             tier = "null";
+            wired = "null";
         }
         else if(cell.getClass() == LivingZoneCell.class){
             name = "Living zone";
             dataString = "Capacity: "+ ((LivingZoneCell) cell).getOccupants() + " / " + ((LivingZoneCell) cell).getCapacity();
             tier = "Tier: " +  ((LivingZoneCell) cell).getLevel();
+            setWired(cell.isWired());
         }
         else if(cell.getClass() == IndustrialZoneCell.class){
             name = "Industrial zone";
             dataString = "Capacity: " + ((IndustrialZoneCell) cell).getOccupants()  +  " / " + ((IndustrialZoneCell) cell).getCapacity();
             tier = "Tier: " + ((IndustrialZoneCell) cell).getLevel();
+            setWired(cell.isWired());
         }
         else if(cell.getClass() == ServiceZoneCell.class){
             name = "Service zone";
             dataString = "Capacity: " + ((ServiceZoneCell) cell).getOccupants()  + " / " + ((ServiceZoneCell) cell).getCapacity();
             tier = "Tier: " + ((ServiceZoneCell) cell).getLevel();
+            setWired(cell.isWired());
         }
         else {
             name = "";
             dataString = "null";
             tier = "null";
+            wired = "null";
         }
 
     }
@@ -110,6 +128,10 @@ public class StatUI {
         Label tierLabel = new Label(tier, skin);
         tierLabel.setSize(width +Float.MIN_VALUE  / 9, (float) ((height +Float.MIN_VALUE * 0.15) / 2));
 
+        Label wireLabel = new Label(wired,skin);
+        wireLabel.setSize(width +Float.MIN_VALUE  / 9, (float) ((height +Float.MIN_VALUE * 0.15) / 2));
+
+
         table.add(nameLabel);
         if(!dataString.equals("null")){
             table.row();
@@ -118,6 +140,10 @@ public class StatUI {
         if(!tier.equals("null")){
             table.row();
             table.add(tierLabel);
+        }
+        if(!wired.equals("null")){
+            table.row();
+            table.add(wireLabel);
         }
         return table;
     }
@@ -136,6 +162,15 @@ public class StatUI {
     }
     public boolean getShown(){
         return shown;
+    }
+
+    public void setWired(boolean wire){
+        if(wire){
+            wired = "Wired: Yes";
+        }
+        else{
+            wired = "Wired: No";
+        }
     }
 
 

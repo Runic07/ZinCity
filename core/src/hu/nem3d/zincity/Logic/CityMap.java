@@ -27,11 +27,13 @@ public class CityMap {
     TiledMapTileLayer buildingLayer; //more layers can be added on demand
     transient TiledMapTileSet tileSet; //contains TiledMapTile objects.
     transient Texture texture;
+    TiledMapTileLayer effectsLayer;
 
     Builder builder;
     /**
      * Generates a 30x20 map with random Simplex-noise, adds water, trees and grass.
      * Generates map layers for buildings and base tiles.
+     *
      *
      */
     public CityMap() {
@@ -54,9 +56,10 @@ public class CityMap {
 
             }
 
-            //create the layer
-            baseLayer = new TiledMapTileLayer(30,20,24,24);
-            buildingLayer = new TiledMapTileLayer(30,20,24,24);
+        //create the layer
+        baseLayer = new TiledMapTileLayer(30,20,24,24);
+        buildingLayer = new TiledMapTileLayer(30,20,24,24);
+        effectsLayer = new TiledMapTileLayer(30,20,24,24);
 
             Random r = new Random();
             long seedWater = r.nextLong();
@@ -93,7 +96,7 @@ public class CityMap {
                         cell.setX(i);
                         cell.setY(j);
                         buildingLayer.setCell(i, j, cell);
-                    } else if (isEmpty) {
+                } else if (isEmpty) {
                         CityCell cell = new EmptyCell(i, j, buildingLayer);
                         cell.setX(i);
                         cell.setY(j);
@@ -114,7 +117,7 @@ public class CityMap {
                         cell.setY(j);
                         cell.setAge(10);
                         buildingLayer.setCell(i, j, cell);
-                    } else if (OpenSimplex2S.noise2(seedTrees, i * 0.05, j * 0.05) > 0.6) {
+                } else if (OpenSimplex2S.noise2(seedTrees, i * 0.05, j * 0.05) > 0.6) {
                         //add sparse forest
                         ForestCell cell = new ForestCell(i, j, buildingLayer);
                         cell.setTile((tileSet.getTile(2)));
@@ -135,14 +138,13 @@ public class CityMap {
 
 
 
-
         //generate starter city
         //rendering is still bugged here
-            boolean starterCityGenerated = false;
-            while(!starterCityGenerated) {
-                i = r.nextInt(5, 25);
-                j = r.nextInt(5, 15);
-                if ( //
+        boolean starterCityGenerated = false;
+        while(!starterCityGenerated) {
+            i = r.nextInt(5, 25);
+            j = r.nextInt(5, 15);
+            if ( //
 
                         buildingLayer.getCell(i + 1, j - 1) instanceof EmptyCell &&
                                 buildingLayer.getCell(i + 1, j) instanceof EmptyCell &&
@@ -155,35 +157,35 @@ public class CityMap {
                                 buildingLayer.getCell(i - 1, j + 1) instanceof EmptyCell
                 ) {
 
-                    System.out.println("Found suitable place");
-                    try {
+                System.out.println("Found suitable place");
+                try {
 
-                        buildingLayer.setCell(i + 1, j, new RoadCell(i + 1, j, buildingLayer));
-                        buildingLayer.getCell(i + 1, j).setTile((tileSet.getTile(4)));
+                    buildingLayer.setCell(i + 1, j, new RoadCell(i + 1, j, buildingLayer));
+                    buildingLayer.getCell(i + 1, j).setTile((tileSet.getTile(4)));
 
-                        buildingLayer.setCell(i, j - 1, new RoadCell(i, j - 1, buildingLayer));
-                        buildingLayer.getCell(i, j - 1).setTile((tileSet.getTile(4)));
+                    buildingLayer.setCell(i, j - 1, new RoadCell(i, j - 1, buildingLayer));
+                    buildingLayer.getCell(i, j - 1).setTile((tileSet.getTile(4)));
 
-                        buildingLayer.setCell(i, j, new RoadCell(i, j, buildingLayer));
-                        buildingLayer.getCell(i, j).setTile((tileSet.getTile(4)));
+                    buildingLayer.setCell(i, j, new RoadCell(i, j, buildingLayer));
+                    buildingLayer.getCell(i, j).setTile((tileSet.getTile(4)));
 
-                        buildingLayer.setCell(i, j + 1, new RoadCell(i, j + 1, buildingLayer));
-                        buildingLayer.getCell(i, j + 1).setTile((tileSet.getTile(4)));
+                    buildingLayer.setCell(i, j + 1, new RoadCell(i, j + 1, buildingLayer));
+                    buildingLayer.getCell(i, j + 1).setTile((tileSet.getTile(4)));
 
-                        buildingLayer.setCell(i - 1, j, new RoadCell(i - 1, j, buildingLayer));
-                        buildingLayer.getCell(i - 1, j).setTile((tileSet.getTile(4)));
+                    buildingLayer.setCell(i - 1, j, new RoadCell(i - 1, j, buildingLayer));
+                    buildingLayer.getCell(i - 1, j).setTile((tileSet.getTile(4)));
 
-                        buildingLayer.setCell(i + 1, j - 1, new LivingZoneCell(i + 1, j - 1, buildingLayer, false));
-                        buildingLayer.getCell(i + 1, j - 1).setTile((tileSet.getTile(24)));
+                    buildingLayer.setCell(i + 1, j - 1, new LivingZoneCell(i + 1, j - 1, buildingLayer, false));
+                    buildingLayer.getCell(i + 1, j - 1).setTile((tileSet.getTile(24)));
 
-                        buildingLayer.setCell(i + 1, j + 1, new LivingZoneCell(i + 1, j + 1, buildingLayer, false));
-                        buildingLayer.getCell(i + 1, j + 1).setTile((tileSet.getTile(24)));
+                    buildingLayer.setCell(i + 1, j + 1, new LivingZoneCell(i + 1, j + 1, buildingLayer, false));
+                    buildingLayer.getCell(i + 1, j + 1).setTile((tileSet.getTile(24)));
 
-                        buildingLayer.setCell(i - 1, j - 1, new ServiceZoneCell(i - 1, j - 1, buildingLayer, false));
-                        buildingLayer.getCell(i - 1, j - 1).setTile((tileSet.getTile(26)));
+                    buildingLayer.setCell(i - 1, j - 1, new ServiceZoneCell(i - 1, j - 1, buildingLayer, false));
+                    buildingLayer.getCell(i - 1, j - 1).setTile((tileSet.getTile(26)));
 
-                        buildingLayer.setCell(i - 1, j + 1, new IndustrialZoneCell(i - 1, j + 1, buildingLayer, false));
-                        buildingLayer.getCell(i - 1, j + 1).setTile((tileSet.getTile(25)));
+                    buildingLayer.setCell(i - 1, j + 1, new IndustrialZoneCell(i - 1, j + 1, buildingLayer, false));
+                    buildingLayer.getCell(i - 1, j + 1).setTile((tileSet.getTile(25)));
 
                         starterCityGenerated = true;
                     } catch (CellException e) {
@@ -192,9 +194,17 @@ public class CityMap {
                 }
             }
 
+            for ( i = 0; i < 30; i++) {
+                for ( j = 0; j < 20; j++) {
+                    effectsLayer.setCell(i,j, new TiledMapTileLayer.Cell());
+                    effectsLayer.getCell(i,j).setTile(tileSet.getTile(30));
+                }
+            }
+
             map = new TiledMap();
             map.getLayers().add(baseLayer);
             map.getLayers().add(buildingLayer);
+            map.getLayers().add(effectsLayer);
 
         } catch (NullPointerException e) {
 
@@ -214,12 +224,17 @@ public class CityMap {
             map.getLayers().add(buildingLayer);
         }
     }
+
     public TiledMap getMap() {
         return map;
     }
 
     public TiledMapTileLayer getBuildingLayer() {
         return buildingLayer;
+    }
+
+    public TiledMapTileLayer getEffectsLayer() {
+        return effectsLayer;
     }
 
     public void setBuildingLayer(TiledMapTileLayer buildingLayer) {

@@ -20,6 +20,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.DecimalFormat;
 
+/**
+ * Settings screen adn its utilities
+ */
 
 public class SettingsScreen {
     private final City city;

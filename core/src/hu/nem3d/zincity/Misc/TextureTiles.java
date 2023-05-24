@@ -32,7 +32,9 @@ public enum TextureTiles {
     HOUSE_BASIC,
     INDUSTRY_BASIC,
     SERVICE_BASIC,
-
-    INTERSECTION
+    INTERSECTION,
+    FIRE,
+    POWER_LINE,
+    EMPTY
 
 }
