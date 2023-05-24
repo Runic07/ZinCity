@@ -112,7 +112,9 @@ public class CityTest {
             TiledMapTileLayer map = city.getCityMap().getBuildingLayer();
             map.setCell(0, 0, new RoadCell(0, 0, map));
             map.setCell(1, 0, new LivingZoneCell(1, 0, map));
+            ((CityCell)map.getCell(1,0)).electrify(true);
             map.setCell(0, 1, new IndustrialZoneCell(0, 1, map));
+            ((CityCell)map.getCell(0,1)).electrify(true);
             city.addCitizen();
 
             city.taxCoefficient = 2.0;
@@ -120,7 +122,7 @@ public class CityTest {
             city.step();
             city.step();
 
-            assertTrue(lastBudget > city.budget);
+            assertTrue(lastBudget < city.budget);
         } catch(Exception e) {
             fail("Failed Initialization: " + e.getMessage());
         }
