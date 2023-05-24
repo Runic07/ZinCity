@@ -53,11 +53,8 @@ public class CityStage extends Stage {
             /*MapLayer layer = tiledMap.getLayers().get(id);
             TiledMapTileLayer tiledLayer = (TiledMapTileLayer)layer;
             createActorsForLayer(tiledLayer);*/
-
-            for (MapLayer layer : tiledMap.getLayers()) {
-                TiledMapTileLayer tiledLayer = (TiledMapTileLayer)layer;
+                TiledMapTileLayer tiledLayer = cityMap.getBuildingLayer();
                 createActorsForLayer(tiledLayer);
-            }
         }
 
     /**

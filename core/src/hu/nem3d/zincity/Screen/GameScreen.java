@@ -49,6 +49,8 @@ public class GameScreen implements Screen { //draft
     float screenWidth = Gdx.graphics.getWidth();
     float screenHeight = Gdx.graphics.getHeight();
 
+    boolean gameOver;
+
 
     int frameCounter = 0; //not permanent, find a better solution to pass the time!
 
@@ -60,6 +62,7 @@ public class GameScreen implements Screen { //draft
      */
     public GameScreen(){
         city = new City();
+        gameOver = false;
 
         builder = new Builder(0,0,city);
         //render map
@@ -137,6 +140,12 @@ public class GameScreen implements Screen { //draft
     }
     @Override
     public void render(float delta) {
+        if(city.citizens.size() == 0 && !gameOver) {
+            statStage.clear();
+            cityStage.clear();
+            menuBar.isGameOver();
+            gameOver = true;
+        }
         if(speed != 0){
             frameCounter++;
         }
@@ -170,7 +179,7 @@ public class GameScreen implements Screen { //draft
 
         if(stat.getShown() && uiId == 0 && screenWidth != 0 && screenHeight != 0){
             cellStatTable = stat.cellStatTable(screenWidth, screenHeight);
-            cellStatTable.setBounds(0, (float) (screenHeight * 0.77 *1.5), (float) (screenWidth *0.3 * 1.5), (float) (screenHeight * 0.2));
+            cellStatTable.setBounds(0, (float) (screenHeight * 0.74 *1.5), (float) (screenWidth *0.3 * 1.5), (float) (screenHeight * 0.25));
             statStage.addActor(cellStatTable);
 
         }

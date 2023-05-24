@@ -1,7 +1,11 @@
 package hu.nem3d.zincity.Misc;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileSet;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import hu.nem3d.zincity.Cell.*;
 import hu.nem3d.zincity.Logic.Citizen;
 import hu.nem3d.zincity.Logic.City;
@@ -32,6 +36,12 @@ public class Builder {
     ArrayList<CityCell> cells;
 
     TiledMapTileLayer buildLayer;
+
+    private final TextureAtlas atlas;
+    private final Skin skin;
+    int roadDelete;
+
+
     //TODO for all of the build...(cell) functions budget and fee calc and ifs but since city is here it is easy to do but no specs as of now.
 
     /*
@@ -70,6 +80,9 @@ public class Builder {
             this.buildLayer = cityMap.getBuildingLayer();
         }
         cells = new ArrayList<>();
+        atlas = new TextureAtlas(Gdx.files.internal("PlaceHolderMenu\\uiskin.atlas"));
+        skin = new Skin(Gdx.files.internal("PlaceHolderMenu\\uiskin.json"), atlas);
+        roadDelete = 0;
     }
 
     /**
@@ -191,6 +204,7 @@ public class Builder {
                         try {
                             cell = new FireStationCell(x, y, buildLayer, false);
                             cell.setTile((tileSet.getTile(15)));
+                            city.fireFighters += 5;
                         } catch (CellException e) {
                             System.err.println("Can't build that there");
                         }
@@ -284,12 +298,19 @@ public class Builder {
         }
 
         /**
-         * Builds a road or a poweLine !!!still needs more implementation!!!.
+         * Builds a road or a powerLine !!!still needs more implementation!!!.
          *
          * @param cell
          * @return
          */
         private CityCell buildNetwork (CityCell cell){
+            if (buildCode == 1) {
+                if (cell.getClass() == EmptyCell.class) {
+                    cell = new PowerLineCell(x, y, buildLayer);
+                    cell.setTile((tileSet.getTile(29)));
+                    buildLayer.setCell(x, y, cell);
+                }
+            }
             if (buildCode == 2) {
                 if (cell.getClass() == EmptyCell.class) {
                     cell = new RoadCell(x, y, buildLayer);
@@ -333,7 +354,7 @@ public class Builder {
             }
             else if(cell.getClass() == ServiceZoneCell.class || cell.getClass() == IndustrialZoneCell.class){
                 for (Citizen citizen : city.citizens) {
-                    if(citizen.getWorkplace().getX() == x && citizen.getWorkplace().getY() == y){
+                    if (citizen.getWorkplace() != null && citizen.getWorkplace().getX() == x && citizen.getWorkplace().getY() == y) {
                         citizen.getWorkplace().removeOccupant();
                         citizen.setWorkplace(null);
                     }
@@ -372,6 +393,61 @@ public class Builder {
                 ((BuildingCell)cell).spreadSiblingsEffects();
             }
 
+            if (cell.getClass() == FireStationCell.class){
+                city.fireFighters -=5;
+            }
+
+            if(cell.getClass() == RoadCell.class){
+                if((cell.getNeighbor(Direction.NORTH).getClass() != EmptyCell.class && cell.getNeighbor(Direction.NORTH).getClass() != BlockedCell.class &&
+                        cell.getNeighbor(Direction.NORTH).getClass() != PowerLineCell.class) ||
+
+                        (cell.getNeighbor(Direction.SOUTH).getClass() != EmptyCell.class && cell.getNeighbor(Direction.NORTH).getClass() != BlockedCell.class &&
+                        cell.getNeighbor(Direction.SOUTH).getClass() != PowerLineCell.class) ||
+
+                        (cell.getNeighbor(Direction.WEST).getClass() != EmptyCell.class && cell.getNeighbor(Direction.NORTH).getClass() != BlockedCell.class &&
+                         cell.getNeighbor(Direction.WEST).getClass() != PowerLineCell.class) ||
+
+                        (cell.getNeighbor(Direction.EAST).getClass() != EmptyCell.class && cell.getNeighbor(Direction.NORTH).getClass() != BlockedCell.class &&
+                         cell.getNeighbor(Direction.EAST).getClass() != PowerLineCell.class)){
+                    if(roadDelete == 0) {
+
+                        Dialog dialog = new Dialog("Warning", skin, "dialog") {
+                            public void result(Object obj) {
+                                System.out.println("result " + obj);
+                                if (!(Boolean) obj) {
+                                    setRoadDelete(1);
+                                } else {
+                                    setRoadDelete(2);
+                                }
+                            }
+                        };
+                        dialog.text("This could sever connections, so no");
+                        dialog.button("Huh didnt know", true);
+                        dialog.button("But i want to", false);
+                        dialog.getBackground().setMinWidth(200);
+                        dialog.getBackground().setMinHeight(200);
+
+                        dialog.show(stage);
+                    }
+                    if(roadDelete == 1){
+                        cell = new EmptyCell(x, y, buildLayer);
+                        cell.setTile((tileSet.getTile(0)));
+                        buildLayer.setCell(x, y, cell);
+                        returnCells.add(cell);
+                        roadDelete = 0;
+                        return returnCells;
+                    }
+                    else{/*
+                        cell = new RoadCell(x, y, buildLayer);
+                        cell.setTile((tileSet.getTile(4)));
+                        buildLayer.setCell(x, y, cell);
+                        returnCells.add(cell);*/
+                        roadDelete = 0;
+                        return returnCells;
+                    }
+                }
+            }
+
             //System.out.println(returnCells);
             cell = new EmptyCell(x,y, buildLayer);
             cell.setTile((tileSet.getTile(0)));
@@ -400,6 +476,10 @@ public class Builder {
 
         public void setSelectedMenuId ( int selectedMenuId){
             this.selectedMenuId = selectedMenuId;
+        }
+
+        public void setRoadDelete(int delete){
+            this.roadDelete = delete;
         }
 
         public void setCityMap (CityMap cityMap){

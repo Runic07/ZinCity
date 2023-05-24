@@ -81,20 +81,23 @@ public class TiledMapClickListener extends ClickListener {
 
         cells = builder.getCells();
 
-        if(cells.size() == 1) {
-            //System.out.println(cells.get(0).getClass());
-            actor.setCell(cells.get(0));
-            //System.out.println(actor.getCell().getClass());
-        }
+        if(cells != null) {
 
-        if(cells.size() > 2){
-            for(Actor actors : stage.getActors()){
-                TiledMapActor actorTmp = (TiledMapActor) actors;
-                for(CityCell cellTmp : cells){
-                    if(cellTmp.getX() == actorTmp.getPosX() && cellTmp.getY() == actorTmp.getPosY()){
-                        //System.out.println(cellTmp.getClass());
-                        actorTmp.setCell(cellTmp);
-                        //System.out.println(actorTmp.getCell().getClass());
+            if (cells.size() == 1) {
+                //System.out.println(cells.get(0).getClass());
+                actor.setCell(cells.get(0));
+                //System.out.println(actor.getCell().getClass());
+            }
+
+            if (cells.size() > 2) {
+                for (Actor actors : stage.getActors()) {
+                    TiledMapActor actorTmp = (TiledMapActor) actors;
+                    for (CityCell cellTmp : cells) {
+                        if (cellTmp.getX() == actorTmp.getPosX() && cellTmp.getY() == actorTmp.getPosY()) {
+                            //System.out.println(cellTmp.getClass());
+                            actorTmp.setCell(cellTmp);
+                            //System.out.println(actorTmp.getCell().getClass());
+                        }
                     }
                 }
             }
