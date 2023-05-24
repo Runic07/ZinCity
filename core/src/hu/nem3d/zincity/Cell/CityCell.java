@@ -6,6 +6,8 @@ import hu.nem3d.zincity.Misc.Direction;
 import hu.nem3d.zincity.Screen.StatUI;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Objects;
 
 /**
@@ -242,6 +244,21 @@ public abstract class CityCell extends TiledMapTileLayer.Cell {
         return l;
     }
 
+    /**
+     * Helper method, that searches for and adds all the effects that nearby buildings has on this
+     */
+    private void collectEffects(){
+        for (int i = 0; i < tileLayer.getWidth(); i++) {
+            for (int j = 0; j < tileLayer.getHeight(); j++) {
+                if(tileLayer.getCell(i, j) instanceof BuildingCell){
+                    BuildingCell building = (BuildingCell) tileLayer.getCell(i, j);
+                    if(building.isInRange(this)){
+                        addEffect(building.getMyEffect());
+                    }
+                }
+            }
+        }
+    }
 
     /**
      * Checks if any of the 4 neighbouring cells provide electricity, then this electrifies itself

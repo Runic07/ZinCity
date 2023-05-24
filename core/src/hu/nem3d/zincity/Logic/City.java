@@ -131,6 +131,19 @@ public class City {
 
         for (Citizen citizen : citizens) {
             budget += baseTaxAmount * taxCoefficient;
+            if(citizen.getWorkplace().isElectrified()){budget -= (baseTaxAmount/4);}
+
+            //TODO rework bonuses caused by effects
+            double effectBonus = (citizen.getHome().getEffects().contains(BuildingEffect.Arena) ? 0.05 : 0.0)
+                    + (citizen.getWorkplace().getEffects().contains(BuildingEffect.Arena) ? 0.05 : 0.0)
+                    - (citizen.getHome().isElectrified() ? 0.0 : 0.1)
+                    + (citizen.getHome().getEffects().contains(BuildingEffect.Police) ? 0.05 : 0.0);
+            for (Direction dir : Direction.values()){
+                CityCell neighbor = citizen.getHome().getNeighbor(dir);
+                if(neighbor != null && neighbor.getEffects().contains(BuildingEffect.Police)){
+                    effectBonus += 0.01;
+                }
+            }
 
             double forestSatisfactionBonus = 0.0;
             for (CityCell c: citizen.getHome().getImmediateNeighbors()
