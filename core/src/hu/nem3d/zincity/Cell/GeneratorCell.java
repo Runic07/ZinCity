@@ -50,4 +50,18 @@ public class GeneratorCell extends BuildingCell {
             }
         }
     }
+
+    @Override
+    public boolean electrify(boolean elect) {
+        isElectrified = elect;
+        System.out.println("Electricity is " + elect + " at " + getClass().getSimpleName() + " on " + x + " " + y);
+
+        for(Direction dir : Direction.values()){
+            CityCell neighbor = getNeighbor(dir);
+            if(neighbor != null && neighbor.isWired() && neighbor.isElectrified() != elect) {
+                neighbor.electrify(elect);
+            }
+        }
+        return true;
+    }
 }

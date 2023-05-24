@@ -99,6 +99,23 @@ public abstract class BuildingCell extends CityCell {
                 );
     }
 
+    @Override
+    public boolean electrify(boolean elect) {
+            isElectrified = elect;
+            if(elect){spreadEffect();}
+            else{removeSpreadEffect();}
+            System.out.println("Electricity is " + elect + " at " + getClass().getSimpleName() + " on " + x + " " + y);
+
+            for(Direction dir : Direction.values()){
+                CityCell neighbor = getNeighbor(dir);
+                if(neighbor != null && neighbor.isWired() && neighbor.isElectrified() != elect) {
+                    neighbor.electrify(elect);
+                }
+            }
+            if(part == BuildingPart.SouthEast){spreadSiblingsEffects();}
+            return true;
+    }
+
     /**
      * Abstract method that gets the BuildingEffect of this (mainly, the children of this)
      * @return The BuildingEffect of this
@@ -124,7 +141,7 @@ public abstract class BuildingCell extends CityCell {
                 CityCell cell = (CityCell)tileLayer.getCell(i, j);
                 if(isInRange(cell)){
                     cell.addEffect(getMyEffect());
-                    //System.out.println(this.getClass().getSimpleName() + " effects " + i + " " + j);
+                    System.out.println(this.getClass().getSimpleName() + " effects " + i + " " + j);
                 }
             }
         }

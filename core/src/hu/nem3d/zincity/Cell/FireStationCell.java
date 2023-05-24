@@ -12,7 +12,7 @@ public class FireStationCell extends BuildingCell{
         this.upkeepCost = 5;
         this.range = 15;
 
-        spreadEffect();
+        if(isElectrified()){spreadEffect();}
     }
 
     @Override

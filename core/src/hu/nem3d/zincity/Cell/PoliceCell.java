@@ -15,7 +15,7 @@ public class PoliceCell extends BuildingCell{
         this.upkeepCost = 10;
         this.range = 10;
 
-        spreadEffect();
+        if(isElectrified()){spreadEffect();}
     }
 
 

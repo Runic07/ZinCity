@@ -13,7 +13,7 @@ public class ArenaCell extends BuildingCell {
         this.price = 50;
         this.upkeepCost = 20;
 
-        spreadEffect();
+        if(isElectrified()){spreadEffect();}
     }
 
     @Override

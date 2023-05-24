@@ -5,7 +5,9 @@ import hu.nem3d.zincity.Misc.BuildingEffect;
 import hu.nem3d.zincity.Misc.Direction;
 import hu.nem3d.zincity.Screen.StatUI;
 
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Objects;
 
 /**
  * Provides base class for cell tiles.
@@ -46,6 +48,7 @@ public abstract class CityCell extends TiledMapTileLayer.Cell {
         this.y = y;
         this.tileLayer = tileLayer; //this way, the cell can locate tiles adjacent to itself.
 
+        checkElectricity();
         collectEffects();
     }
 
@@ -228,6 +231,16 @@ public abstract class CityCell extends TiledMapTileLayer.Cell {
                     }
                 }
             }
+        }
+    }
+
+    /**
+     * Checks if any of the 4 neighbouring cells provide electricity, then this electrifies itself
+     */
+    private void checkElectricity() {
+        if(Arrays.stream(Direction.values()).map(this::getNeighbor)
+                .filter(Objects::nonNull).anyMatch(CityCell::isElectrified)) {
+            electrify(true);
         }
     }
 }
