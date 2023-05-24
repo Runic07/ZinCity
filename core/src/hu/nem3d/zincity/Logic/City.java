@@ -4,6 +4,8 @@ package hu.nem3d.zincity.Logic;
 import com.badlogic.gdx.graphics.g3d.particles.ParticleSorter;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileSet;
+import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonValue;
 import hu.nem3d.zincity.Cell.*;
 import hu.nem3d.zincity.Misc.BuildingEffect;
 import hu.nem3d.zincity.Misc.Direction;
@@ -17,7 +19,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * related to managing budget, satisfaction and citizens
  *
  */
-public class City {
+public class City{
 
     public CopyOnWriteArrayList<Citizen> citizens; //using this because ArrayList iterator is a clown
     //ain't it fun kids, fixing concurrency bugs?
@@ -25,14 +27,14 @@ public class City {
 
     public double budget;
     public double taxCoefficient; //double between 0.8-1.2, can be changed by player
-    public final double baseTaxAmount; //tax per citizen
+    public double baseTaxAmount; //tax per citizen
 
     public double satisfaction; //sum of satisfactions
-    public final double satisfactionUpperThreshold = 0.2; //above this number, it's possible to receive new inhabitants
-    public final double satisfactionLowerThreshold = -0.8; //below this, a citizen may flee.
+    public double satisfactionUpperThreshold = 0.2; //above this number, it's possible to receive new inhabitants
+    public double satisfactionLowerThreshold = -0.8; //below this, a citizen may flee.
 
     Random r = new Random();
-    CityMap cityMap; //generates and stores the map
+    public CityMap cityMap; //generates and stores the map
 
     public CityMap getCityMap() {
         return cityMap;
@@ -231,5 +233,6 @@ public class City {
         System.out.println("\nCurrent city satisfaction: " + satisfaction + "\nCurrent budget: " + budget + "\nCurrent tax coeff: " + taxCoefficient);
         System.out.println("---------------------------------");
     }
+
 
 }

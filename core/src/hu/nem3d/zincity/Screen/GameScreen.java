@@ -86,6 +86,34 @@ public class GameScreen implements Screen { //draft
         speed = 600;
     }
 
+    public GameScreen(City city){
+        this.city = city;
+        builder = new Builder(0,0,city);
+        //render map
+        float unitScale = 1 / 24f;
+        mapRenderer = new OrthogonalTiledMapRenderer(city.getCityMap().getMap(), unitScale);
+        camera = new OrthographicCamera();
+        camera.setToOrtho(false, 30, 20);
+        mapRenderer.setView(camera);
+        cityStage = new CityStage(city, 0, stat, builder);
+
+        //MenuBar rendering
+        UICamera = new OrthographicCamera();
+        UICamera.setToOrtho(false, (float) (screenWidth * 1.5), (float) (screenHeight*1.5));
+
+        batch = new SpriteBatch();
+        //viewport = new FitViewport(screenWidth, screenHeight, UICamera);
+        //Creating a virtual viewport with 1.5 times the size of the window as to scale the UI properly
+        viewport = new FillViewport((float) (screenWidth *1.5), (float) (screenHeight * 1.5), UICamera);
+        viewport.apply();
+        stage = new Stage(viewport, batch);
+        statStage = new Stage(viewport, batch);
+        menuBar = new MenuBar(stage, city, this);
+        stat = new StatUI();
+        speed = 600;
+
+    }
+
     /**
      * Initial UI showing this is the basis for all of render. Multiplexing is required since we use 2 stages 1 for the UI clicking and the other (CityStage) is for
      * clicking on the map.Setting the bounds of the UI to start at 0 at 90% of the virtual ScreenHeight and with 60% of the virtual screen width

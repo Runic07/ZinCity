@@ -15,9 +15,9 @@ public class CityTest {
             TiledMapTileLayer map = city.getCityMap().getBuildingLayer();
 
             map.setCell(0, 1, new RoadCell(0, 1, map));
-            map.setCell(0, 0, new LivingZoneCell(0, 0, map));
+            map.setCell(0, 0, new LivingZoneCell(0, 0, map, false));
             ((CityCell)map.getCell(0,0)).electrify(true);
-            map.setCell(0, 2, new IndustrialZoneCell(0, 2, map));
+            map.setCell(0, 2, new IndustrialZoneCell(0, 2, map, false));
 
             assertTrue(city.addCitizen());
         } catch(Exception e) {
@@ -38,9 +38,9 @@ public class CityTest {
             TiledMapTileLayer map = city.getCityMap().getBuildingLayer();
 
             map.setCell(0, 1, new RoadCell(0, 1, map));
-            map.setCell(0, 0, new LivingZoneCell(0, 0, map));
+            map.setCell(0, 0, new LivingZoneCell(0, 0, map, false));
             ((CityCell)map.getCell(0,0)).electrify(true);
-            map.setCell(0, 2, new IndustrialZoneCell(0, 2, map));
+            map.setCell(0, 2, new IndustrialZoneCell(0, 2, map, false));
 
             if(city.addCitizen()){
                 Citizen firstCitizen = city.citizens.get(0);
@@ -64,10 +64,10 @@ public class CityTest {
             TiledMapTileLayer map = city.getCityMap().getBuildingLayer();
 
             map.setCell(0, 1, new RoadCell(0, 1, map));
-            map.setCell(0, 0, new LivingZoneCell(0, 0, map));
+            map.setCell(0, 0, new LivingZoneCell(0, 0, map, false));
             ((CityCell)map.getCell(0,0)).electrify(true);
-            map.setCell(0, 2, new IndustrialZoneCell(0, 2, map));
-            map.setCell(1, 1, new ServiceZoneCell(1, 1, map));
+            map.setCell(0, 2, new IndustrialZoneCell(0, 2, map, false));
+            map.setCell(1, 1, new ServiceZoneCell(1, 1, map, false));
 
             if(city.addCitizen()){
                 Citizen firstCitizen = city.citizens.get(0);
@@ -93,7 +93,7 @@ public class CityTest {
 
             TiledMapTileLayer map = city.getCityMap().getBuildingLayer();
             map.setCell(0, 0, new RoadCell(0, 0, map));
-            map.setCell(0, 1, new PoliceCell(0, 1, map));
+            map.setCell(0, 1, new PoliceCell(0, 1, map, false));
 
             city.step();
 
@@ -111,9 +111,9 @@ public class CityTest {
 
             TiledMapTileLayer map = city.getCityMap().getBuildingLayer();
             map.setCell(0, 0, new RoadCell(0, 0, map));
-            map.setCell(1, 0, new LivingZoneCell(1, 0, map));
+            map.setCell(1, 0, new LivingZoneCell(1, 0, map, false));
             ((CityCell)map.getCell(1,0)).electrify(true);
-            map.setCell(0, 1, new IndustrialZoneCell(0, 1, map));
+            map.setCell(0, 1, new IndustrialZoneCell(0, 1, map, false));
             ((CityCell)map.getCell(0,1)).electrify(true);
             city.addCitizen();
 
@@ -136,12 +136,12 @@ public class CityTest {
             TiledMapTileLayer layer = cm.getBuildingLayer();
 
             layer.setCell(0, 0, new RoadCell(0, 0, layer));
-            layer.setCell(1, 0, new ServiceZoneCell(1, 0, layer));
-            layer.setCell(0, 1, new IndustrialZoneCell(0, 1, layer));
+            layer.setCell(1, 0, new ServiceZoneCell(1, 0, layer, false));
+            layer.setCell(0, 1, new IndustrialZoneCell(0, 1, layer, false));
 
             layer.setCell(2, 2, new RoadCell(2, 2, layer));
-            layer.setCell(3, 2, new ServiceZoneCell(3, 2, layer));
-            layer.setCell(2, 3, new IndustrialZoneCell(2, 3, layer));
+            layer.setCell(3, 2, new ServiceZoneCell(3, 2, layer, false));
+            layer.setCell(2, 3, new IndustrialZoneCell(2, 3, layer, false));
 
             assertEquals(0, cm.ServiceZoneCount() - cm.IndustrialZoneCount());
         } catch(Exception e) {

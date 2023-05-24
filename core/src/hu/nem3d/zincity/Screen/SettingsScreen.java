@@ -1,17 +1,23 @@
 package hu.nem3d.zincity.Screen;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Json;
 import hu.nem3d.zincity.Cell.*;
 import hu.nem3d.zincity.Logic.City;
+import hu.nem3d.zincity.Misc.CitySerializer;
 
+import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.text.DecimalFormat;
 
 
@@ -129,7 +135,50 @@ public class SettingsScreen {
         saveButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                    //TODO save file
+
+                Json json = new Json();
+
+
+                json.setSerializer(City.class, new CitySerializer());
+
+                try{
+
+                    String jsonString = json.toJson(city);
+                    System.out.println(json.prettyPrint(jsonString));
+
+                    JFileChooser fileChooser = new JFileChooser();
+                    fileChooser.setDialogTitle("Save JSON File");
+                    FileNameExtensionFilter filter = new FileNameExtensionFilter("JSON files", "json");
+                    fileChooser.setFileFilter(filter);
+
+                    int userSelection = fileChooser.showSaveDialog(null);
+                    if (userSelection == JFileChooser.APPROVE_OPTION) {
+                        // Get the selected file
+                        File file = fileChooser.getSelectedFile();
+
+                        // Add .json extension if not present
+                        String filePath = file.getAbsolutePath();
+                        if (!filePath.toLowerCase().endsWith(".json")) {
+                            file = new File(filePath + ".json");
+                        }
+
+                        // Write the JSON string to the file
+                        try (FileWriter fileWriter = new FileWriter(file)) {
+                            fileWriter.write(jsonString);
+                            fileWriter.flush();
+                            System.out.println("JSON file saved successfully.");
+                        } catch (IOException e) {
+                            System.out.println("Error while saving JSON file: " + e.getMessage());
+                        }
+                    } else {
+                        System.out.println("File save operation canceled by the user.");
+                    }
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+
+
+
             }
         });
         Label empty = new Label("", skin);

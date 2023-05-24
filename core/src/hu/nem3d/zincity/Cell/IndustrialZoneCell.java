@@ -11,13 +11,14 @@ public class IndustrialZoneCell extends ZoneCell {
 
     /**
      * Constructs an IndustrialZoneCell with coordinates and capacity set from parameters
-     * @param x The distance of this from the origin on the horizontal axis
-     * @param y The distance of this from the origin on the vertical axis
-
+     *
+     * @param x      The distance of this from the origin on the horizontal axis
+     * @param y      The distance of this from the origin on the vertical axis
+     * @param forced
      */
-    public IndustrialZoneCell(int x, int y, TiledMapTileLayer tileLayer) throws CellException {
+    public IndustrialZoneCell(int x, int y, TiledMapTileLayer tileLayer, boolean forced) throws CellException {
 
-        super(x, y, tileLayer);
+        super(x, y, tileLayer, forced);
         this.price = 40;
         this.capacity = 5;
     }

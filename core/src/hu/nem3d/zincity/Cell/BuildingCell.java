@@ -12,6 +12,10 @@ import hu.nem3d.zincity.Misc.Direction;
  */
 public abstract class BuildingCell extends CityCell {
 
+    public void setPart(BuildingPart part) {
+        this.part = part;
+    }
+
     /**
      * Represents the specific parts of a multi-cell building
      */
@@ -24,13 +28,16 @@ public abstract class BuildingCell extends CityCell {
     protected int range = 0;
     //protected int maintenanceFee; removed in favour of universal "upkeepCost" variable.
 
+
+
     /**
      * Constructs a standard instance of a BuildingCell, with values set to the values of the parameters
     **/
-    protected BuildingCell(int x, int y, TiledMapTileLayer tileLayer) throws CellException {
+    protected BuildingCell(int x, int y, TiledMapTileLayer tileLayer, boolean forced) throws CellException {
         super(x, y, tileLayer);
+
         this.isWired = true;
-        if (!hasRoadNeighbor()){
+        if (!hasRoadNeighbor() && !forced){
             throw new CellException("Can't build that there");
         }
     }
@@ -42,17 +49,21 @@ public abstract class BuildingCell extends CityCell {
      * @param tileLayer The TiledMapTileLayer that this is on
      * @param part The specific part of the multi-cell building
      * @throws CellException If this is constructed without a neighboring Road
+     *
+     * @param forced lmao
      */
-    protected BuildingCell(int x, int y, TiledMapTileLayer tileLayer, BuildingPart part) throws CellException {
+    protected BuildingCell(int x, int y, TiledMapTileLayer tileLayer, BuildingPart part, boolean forced) throws CellException {
         super(x, y, tileLayer);
 
         this.isWired = true;
         this.part = part;
-        if (!hasRoadNeighbor2x2(x,y,tileLayer)){
+        if (!hasRoadNeighbor2x2(x,y,tileLayer) && !forced){
             throw new CellException("Can't build that there");
         }
 
     }
+
+
 
     /**
      * Gets the name of this

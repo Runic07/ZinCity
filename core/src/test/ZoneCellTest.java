@@ -15,7 +15,7 @@ public class ZoneCellTest {
             TiledMapTileLayer map = new TiledMapTileLayer(2,2,1,1);
             map.setCell(0, 1, new EmptyCell(0, 1, map));
             map.setCell(0, 0, new RoadCell(0, 0, map));
-            map.setCell(0, 1, new LivingZoneCell(0, 1, map));
+            map.setCell(0, 1, new LivingZoneCell(0, 1, map, false));
             assertEquals(LivingZoneCell.class, map.getCell(0, 1).getClass());
         } catch (CellException ce) {
             fail("Failed Initialization: " + ce.getMessage());
@@ -28,7 +28,7 @@ public class ZoneCellTest {
             TiledMapTileLayer map = new TiledMapTileLayer(2,2,1,1);
             map.setCell(0, 1, new EmptyCell(0, 1, map));
             map.setCell(0, 0, new RoadCell(0, 0, map));
-            LivingZoneCell home = new LivingZoneCell(0, 1, map);
+            LivingZoneCell home = new LivingZoneCell(0, 1, map, false);
             map.setCell(0, 1, home);
 
             home.addOccupant();
@@ -44,7 +44,7 @@ public class ZoneCellTest {
     }
 
     private void constructingZone() throws CellException{
-        new LivingZoneCell(0, 0, new TiledMapTileLayer(2, 2, 2, 2));
+        new LivingZoneCell(0, 0, new TiledMapTileLayer(2, 2, 2, 2), false);
     }
 
     @Test
@@ -53,7 +53,7 @@ public class ZoneCellTest {
             TiledMapTileLayer map = new TiledMapTileLayer(2,2,1,1);
             map.setCell(0, 1, new EmptyCell(0, 1, map));
             map.setCell(0, 0, new RoadCell(0, 0, map));
-            LivingZoneCell home = new LivingZoneCell(0, 1, map);
+            LivingZoneCell home = new LivingZoneCell(0, 1, map, false);
             map.setCell(0, 1, home);
 
             home.levelUp(8);

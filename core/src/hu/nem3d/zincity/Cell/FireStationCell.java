@@ -5,8 +5,8 @@ import hu.nem3d.zincity.Misc.BuildingEffect;
 import hu.nem3d.zincity.Misc.CellException;
 
 public class FireStationCell extends BuildingCell{
-    public FireStationCell(int x, int y, TiledMapTileLayer tileLayer) throws CellException {
-        super(x, y, tileLayer);
+    public FireStationCell(int x, int y, TiledMapTileLayer tileLayer, boolean forced) throws CellException {
+        super(x, y, tileLayer, forced);
         this.name = "Fire station";
         this.price = 20;
         this.upkeepCost = 5;

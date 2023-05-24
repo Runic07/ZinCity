@@ -30,7 +30,7 @@ public abstract class CityCell extends TiledMapTileLayer.Cell {
     protected double upkeepCost;
     protected double price;
 
-    TiledMapTileLayer tileLayer; //in case the cell knows the tile layer it's located on.
+    transient TiledMapTileLayer tileLayer; //in case the cell knows the tile layer it's located on.
 
     HashSet<BuildingEffect> effects = new HashSet<>();
 

@@ -22,7 +22,7 @@ public class CityCellTest {
             TiledMapTileLayer map = new TiledMapTileLayer(2,2,1,1);
             map.setCell(0, 1, new EmptyCell(0, 1, map));
             map.setCell(0, 0, new RoadCell(0, 0, map));
-            FireStationCell cell = new FireStationCell(0, 1, map);
+            FireStationCell cell = new FireStationCell(0, 1, map, false);
             map.setCell(0, 1, cell);
             assertTrue(cell.isWired());
         } catch (CellException ce) {

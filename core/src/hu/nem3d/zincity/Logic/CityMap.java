@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 
+import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileSet;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
@@ -24,8 +25,8 @@ public class CityMap {
     TiledMapTileLayer baseLayer; //contains Cell objects that point to TiledMapTile objects
 
     TiledMapTileLayer buildingLayer; //more layers can be added on demand
-    TiledMapTileSet tileSet; //contains TiledMapTile objects.
-    Texture texture;
+    transient TiledMapTileSet tileSet; //contains TiledMapTile objects.
+    transient Texture texture;
 
     Builder builder;
     /**
@@ -130,8 +131,13 @@ public class CityMap {
                 }
             }
 
-            //generate starter city
-            //rendering is still bugged here
+
+
+
+
+
+        //generate starter city
+        //rendering is still bugged here
             boolean starterCityGenerated = false;
             while(!starterCityGenerated) {
                 i = r.nextInt(5, 25);
@@ -148,7 +154,7 @@ public class CityMap {
                                 buildingLayer.getCell(i - 1, j) instanceof EmptyCell &&
                                 buildingLayer.getCell(i - 1, j + 1) instanceof EmptyCell
                 ) {
-                    starterCityGenerated = true;
+
                     System.out.println("Found suitable place");
                     try {
 
@@ -167,24 +173,24 @@ public class CityMap {
                         buildingLayer.setCell(i - 1, j, new RoadCell(i - 1, j, buildingLayer));
                         buildingLayer.getCell(i - 1, j).setTile((tileSet.getTile(4)));
 
-                        buildingLayer.setCell(i + 1, j - 1, new LivingZoneCell(i + 1, j - 1, buildingLayer));
+                        buildingLayer.setCell(i + 1, j - 1, new LivingZoneCell(i + 1, j - 1, buildingLayer, false));
                         buildingLayer.getCell(i + 1, j - 1).setTile((tileSet.getTile(24)));
 
-                        buildingLayer.setCell(i + 1, j + 1, new LivingZoneCell(i + 1, j + 1, buildingLayer));
+                        buildingLayer.setCell(i + 1, j + 1, new LivingZoneCell(i + 1, j + 1, buildingLayer, false));
                         buildingLayer.getCell(i + 1, j + 1).setTile((tileSet.getTile(24)));
 
-                        buildingLayer.setCell(i - 1, j - 1, new ServiceZoneCell(i - 1, j - 1, buildingLayer));
+                        buildingLayer.setCell(i - 1, j - 1, new ServiceZoneCell(i - 1, j - 1, buildingLayer, false));
                         buildingLayer.getCell(i - 1, j - 1).setTile((tileSet.getTile(26)));
 
-                        buildingLayer.setCell(i - 1, j + 1, new IndustrialZoneCell(i - 1, j + 1, buildingLayer));
+                        buildingLayer.setCell(i - 1, j + 1, new IndustrialZoneCell(i - 1, j + 1, buildingLayer, false));
                         buildingLayer.getCell(i - 1, j + 1).setTile((tileSet.getTile(25)));
 
+                        starterCityGenerated = true;
                     } catch (CellException e) {
                         System.err.println("failed building starter city");
                     }
                 }
             }
-
 
             map = new TiledMap();
             map.getLayers().add(baseLayer);
@@ -208,7 +214,6 @@ public class CityMap {
             map.getLayers().add(buildingLayer);
         }
     }
-
     public TiledMap getMap() {
         return map;
     }
@@ -249,6 +254,108 @@ public class CityMap {
 
         }
         return count;
+    }
+
+    public TiledMapTile tileType(CityCell cell){
+        if (cell.getClass() == EmptyCell.class ){
+            return tileSet.getTile(0);
+        }
+        else if(cell.getClass() == BlockedCell.class){
+            return tileSet.getTile(1);
+        }
+        else if(cell.getClass() == ForestCell.class){
+            if(((ForestCell) cell).getAge() >= 10){
+                System.out.println("forrest");
+                return tileSet.getTile(3);
+            }
+            else{
+                return tileSet.getTile(2);
+            }
+        }
+        else if(cell.getClass() == RoadCell.class){
+            return tileSet.getTile(4);
+        }
+        else if(cell.getClass() == LivingZoneCell.class){
+            if(((LivingZoneCell) cell).getLevel() == 1 && ((LivingZoneCell) cell).getOccupants() < ((LivingZoneCell) cell).getCapacity() / 2){
+                return tileSet.getTile(24);
+            }
+            else if(((LivingZoneCell) cell).getLevel() == 1){
+                return tileSet.getTile(5);
+            }
+            else if(((LivingZoneCell) cell).getLevel() == 2){
+                return tileSet.getTile(6);
+            }
+            else if(((LivingZoneCell) cell).getLevel() == 3){
+                return tileSet.getTile(7);
+            }
+        }
+        else if(cell.getClass() == IndustrialZoneCell.class){
+            if(((IndustrialZoneCell) cell).getLevel() == 1 && ((IndustrialZoneCell) cell).getOccupants() < ((IndustrialZoneCell) cell).getCapacity() / 2){
+                return tileSet.getTile(25);
+            }
+            else if(((IndustrialZoneCell) cell).getLevel() == 1){
+                return tileSet.getTile(8);
+            }
+            else if(((IndustrialZoneCell) cell).getLevel() == 2){
+                return tileSet.getTile(9);
+            }
+            else if(((IndustrialZoneCell) cell).getLevel() == 3){
+                return tileSet.getTile(10);
+            }
+        }
+        else if(cell.getClass() == ServiceZoneCell.class){
+            if(((ServiceZoneCell) cell).getLevel() == 1 && ((ServiceZoneCell) cell).getOccupants() < ((ServiceZoneCell) cell).getCapacity() / 2){
+                return tileSet.getTile(26);
+            }
+            else if(((ServiceZoneCell) cell).getLevel() == 1){
+                return tileSet.getTile(11);
+            }
+            else if(((ServiceZoneCell) cell).getLevel() == 2){
+                return tileSet.getTile(12);
+            }
+            else if(((ServiceZoneCell) cell).getLevel() == 3){
+                return tileSet.getTile(13);
+            }
+        }
+        else if(cell.getClass() == PoliceCell.class){
+            return tileSet.getTile(14);
+        }
+        else if(cell.getClass() == FireStationCell.class){
+            return tileSet.getTile(15);
+        }
+        else if(cell.getClass() == ArenaCell.class){
+            if(((ArenaCell) cell).getPart() == BuildingCell.BuildingPart.NorthWest){
+                return tileSet.getTile(16);
+            }
+            else if(((ArenaCell) cell).getPart() == BuildingCell.BuildingPart.NorthEast){
+                return tileSet.getTile(17);
+            }
+            else if(((ArenaCell) cell).getPart() == BuildingCell.BuildingPart.SouthWest){
+                return tileSet.getTile(18);
+            }
+            else if(((ArenaCell) cell).getPart() == BuildingCell.BuildingPart.SouthEast){
+                return tileSet.getTile(19);
+            }
+        }
+        else if(cell.getClass() == GeneratorCell.class){
+            if(((GeneratorCell) cell).getPart() == BuildingCell.BuildingPart.NorthWest){
+                return tileSet.getTile(20);
+            }
+            else if(((GeneratorCell) cell).getPart() == BuildingCell.BuildingPart.NorthEast){
+                return tileSet.getTile(21);
+            }
+            else if(((GeneratorCell) cell).getPart() == BuildingCell.BuildingPart.SouthWest){
+                return tileSet.getTile(22);
+            }
+            else if(((GeneratorCell) cell).getPart() == BuildingCell.BuildingPart.SouthEast){
+                return tileSet.getTile(23);
+            }
+
+        }
+
+
+
+        return null;
     }
 
 }
