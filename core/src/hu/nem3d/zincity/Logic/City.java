@@ -81,7 +81,7 @@ public class City {
 
                 //find home
                 //TODO extra feature: choose randomly from available homes
-                if (cell.getClass() == LivingZoneCell.class && !(((ZoneCell) cell).isFull()) && !foundHome){
+                if (cell.getClass() == LivingZoneCell.class && !(((ZoneCell) cell).isFull()) && !foundHome && ((CityCell) cell).isElectrified()){
 
                     //cast is only needed in theory, to get the associated methods. should not actually change the class.
 
@@ -132,10 +132,12 @@ public class City {
 
         for (Citizen citizen : citizens) {
             budget += baseTaxAmount * taxCoefficient;
+            if(citizen.getWorkplace().isElectrified()){budget -= (baseTaxAmount/4);}
 
             //TODO rework bonuses caused by effects
             double effectBonus = (citizen.getHome().getEffects().contains(BuildingEffect.Arena) ? 0.05 : 0.0)
                     + (citizen.getWorkplace().getEffects().contains(BuildingEffect.Arena) ? 0.05 : 0.0)
+                    - (citizen.getHome().isElectrified() ? 0.0 : 0.1)
                     + (citizen.getHome().getEffects().contains(BuildingEffect.Police) ? 0.05 : 0.0);
             for (Direction dir : Direction.values()){
                 CityCell neighbor = citizen.getHome().getNeighbor(dir);
