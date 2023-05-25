@@ -57,13 +57,13 @@ A játékos, alapesetben, egy véletlenszerűen generált pályán indul egy kez
 
 ## Hogyan is néz ki a ZinCity?
 
-![main menu]()
-![game state 1]()
-![game state 2]()
-![stat screen]()
-![end game]()
-![exit game]()
-![save file]()
+![main menu](https://szofttech.inf.elte.hu/szofttech-c-2023/group-14/nem3d/-/blob/master/assets/UserGuide/mainmenu.png)
+![game state 1](https://szofttech.inf.elte.hu/szofttech-c-2023/group-14/nem3d/-/blob/master/assets/UserGuide/gamestate1.png)
+![game state 2](https://szofttech.inf.elte.hu/szofttech-c-2023/group-14/nem3d/-/blob/master/assets/UserGuide/gamestate2.png)
+![stat screen](https://szofttech.inf.elte.hu/szofttech-c-2023/group-14/nem3d/-/blob/master/assets/UserGuide/statscreen.png)
+![end game](https://szofttech.inf.elte.hu/szofttech-c-2023/group-14/nem3d/-/blob/master/assets/UserGuide/endgame.png)
+![exit game](https://szofttech.inf.elte.hu/szofttech-c-2023/group-14/nem3d/-/blob/master/assets/UserGuide/exitgame.png)
+![save file](https://szofttech.inf.elte.hu/szofttech-c-2023/group-14/nem3d/-/blob/master/assets/UserGuide/savefile.png)
 
 
 ## Technikai információk
