@@ -5,6 +5,10 @@ By: Nem3D csapat
 
 A ZinCity egy városépítő játék, ahol a játékosok valós időben alakíthatnak ki minél jobban működő, minél boldogabb városokat. Sokféleképpen alakíthatják a játékosok a városukat, különböző funckiókkal rendelkező zónákat, épületeket húzhatnak fel, amelyeket természetesen utakkal is össze kell kapcsolni. A városlakók boldogságát a város felépítése határozza meg - minél átgondoltabb, az igényeket minél jobban kielégítő várost tervezünk, annál jobban fogják magukat érezni a lakói!
 
+### Letöltés
+A futtatható állomány [ide kattintva](https://szofttech.inf.elte.hu/szofttech-c-2023/group-14/nem3d/-/raw/master/desktop-1.0.jar) érhető el! <br>
+Megjegyzés: Java JRE szükséges, amely [itt](https://www.java.com/en/download/manual.jsp) elérhető.
+
 ### Kezdés
 
 A játékos, alapesetben, egy véletlenszerűen generált pályán indul egy kezdővárossal, mely rendelkezik lakóhelyekkel, munkahelyekkel, lakosokkal és kezdőtőkével. Ezt felül lehet írni saját mentés betöltésével.
@@ -57,10 +61,7 @@ A játékos, alapesetben, egy véletlenszerűen generált pályán indul egy kez
 
 ## Hogyan is néz ki a ZinCity?
 
-<span align="center">
-  <img src="assets/UserGuide/mainmenu.png" />
-</span>
-
+![main menu](assets/UserGuide/mainmenu.png)
 ![game state 1](assets/UserGuide/gamestate1.png)
 ![game state 2](assets/UserGuide/gamestate2.png)
 ![stat screen](assets/UserGuide/statscreen.png)
@@ -72,7 +73,6 @@ A játékos, alapesetben, egy véletlenszerűen generált pályán indul egy kez
 ### Környezet
 A játék Java programozási nyelven (Java 17), a [libGDX](https://libgdx.com/) motor használatával készül.
 A fejlesztés során a Gradle build eszközt, és a GitLab különböző szolgáltatásait használjuk.
-Az app webes verzióban, és asztali appként is elérhető, a motor multiplatform szerkezete segítségével.
 
 Ha szeretnéd a fejlesztést támogatni, klónozd le ezt a repo-t, majd a fejlesztői környezet felállításához kövesd az utasításokat [itt](https://libgdx.com/wiki/start/setup).
 
@@ -84,12 +84,6 @@ Ha szeretnéd a fejlesztést támogatni, klónozd le ezt a repo-t, majd a fejles
 
 [Use-case diagram](https://www.figma.com/file/13BSPQLJSfDT80iGUyzOdE/ZinCity-use-cases?t=QNw82ZFgkOh9Pjjh-0) (By: Jaksy/Marci)
 
-### Tervezett extrák
+### Development log
 
-* Tűzoltóság
-* Erdők
-* Perzisztencia
-* Áramellátás
-* Konfliktusos bontás
-* Katasztrófa
-* Metropolis
+![epic dev thingy](Szofttech.png)
