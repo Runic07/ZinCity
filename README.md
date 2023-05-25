@@ -63,7 +63,7 @@ A játékos, alapesetben, egy véletlenszerűen generált pályán indul egy kez
 ![stat screen](assets/UserGuide/statscreen.png)
 ![end game](assets/UserGuide/endgame.png)
 ![exit game](assets/UserGuide/exitgame.png)
-![save file](UserGuide/savefile.png)
+![save file](assets/UserGuide/savefile.png)
 
 
 ## Technikai információk
