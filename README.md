@@ -33,8 +33,8 @@ A játékos, alapesetben, egy véletlenszerűen generált pályán indul egy kez
 ### Milyen fajta pályaelemeket lehet építeni/elhelyezni a játéktéren?
 - Zónák
   - _Lakózóna_: ez szolgál a város polgárainak otthonául
-  - _Ipari zóna_: olyan zónatípus, mely a lakosok munkahelyéül szolgálhatnak
-  - _Szolgáltatás zóna_: olyan zónatípus, mely a lakosok munkahelyéül szolgálhatnak
+  - _Ipari zóna_: olyan zónatípus, mely a lakosok munkahelyéül szolgálhat
+  - _Szolgáltatás zóna_: olyan zónatípus, mely a lakosok munkahelyéül szolgálhat
 - Kiszolgáló épületek
   - _Rendőrség_: jelenléte növeli a közbiztonságot
   - _Tűzoltóság_: jelenléte csökkenti a területek kigyulládásának esélyét a környéken, illetve a már kigyulladt területeken levő tüzek eloltását teszi lehetővé
@@ -61,7 +61,6 @@ A játékos, alapesetben, egy véletlenszerűen generált pályán indul egy kez
   <img src="assets/UserGuide/mainmenu.png" />
 </span>
 
-![main menu](assets/UserGuide/mainmenu.png)
 ![game state 1](assets/UserGuide/gamestate1.png)
 ![game state 2](assets/UserGuide/gamestate2.png)
 ![stat screen](assets/UserGuide/statscreen.png)
