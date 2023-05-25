@@ -57,13 +57,16 @@ A játékos, alapesetben, egy véletlenszerűen generált pályán indul egy kez
 
 ## Hogyan is néz ki a ZinCity?
 
+<span align="center">
+  <img src="assets/UserGuide/mainmenu.png" />
+</span>
+
 ![main menu](assets/UserGuide/mainmenu.png)
 ![game state 1](assets/UserGuide/gamestate1.png)
 ![game state 2](assets/UserGuide/gamestate2.png)
 ![stat screen](assets/UserGuide/statscreen.png)
 ![end game](assets/UserGuide/endgame.png)
 ![exit game](assets/UserGuide/exitgame.png)
-![save file](assets/UserGuide/savefile.png)
 
 
 ## Technikai információk
