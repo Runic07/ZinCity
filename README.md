@@ -57,13 +57,13 @@ A játékos, alapesetben, egy véletlenszerűen generált pályán indul egy kez
 
 ## Hogyan is néz ki a ZinCity?
 
-![main menu](https://szofttech.inf.elte.hu/szofttech-c-2023/group-14/nem3d/-/tree/master/assets/UserGuide/mainmenu.png)
-![game state 1](https://szofttech.inf.elte.hu/szofttech-c-2023/group-14/nem3d/-/blob/master/assets/UserGuide/gamestate1.png)
-![game state 2](https://szofttech.inf.elte.hu/szofttech-c-2023/group-14/nem3d/-/blob/master/assets/UserGuide/gamestate2.png)
-![stat screen](https://szofttech.inf.elte.hu/szofttech-c-2023/group-14/nem3d/-/blob/master/assets/UserGuide/statscreen.png)
-![end game](https://szofttech.inf.elte.hu/szofttech-c-2023/group-14/nem3d/-/blob/master/assets/UserGuide/endgame.png)
-![exit game](https://szofttech.inf.elte.hu/szofttech-c-2023/group-14/nem3d/-/blob/master/assets/UserGuide/exitgame.png)
-![save file](https://szofttech.inf.elte.hu/szofttech-c-2023/group-14/nem3d/-/blob/master/assets/UserGuide/savefile.png)
+![main menu](assets/UserGuide/mainmenu.png)
+![game state 1](assets/UserGuide/gamestate1.png)
+![game state 2](assets/UserGuide/gamestate2.png)
+![stat screen](assets/UserGuide/statscreen.png)
+![end game](assets/UserGuide/endgame.png)
+![exit game](assets/UserGuide/exitgame.png)
+![save file](UserGuide/savefile.png)
 
 
 ## Technikai információk
