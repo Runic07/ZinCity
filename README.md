@@ -86,4 +86,4 @@ Ha szeretnéd a fejlesztést támogatni, klónozd le ezt a repo-t, majd a fejles
 
 ### Development log
 
-![epic dev thingy](Szofttech.png)
+![epic dev thingy](assets/UserGuide/Szofttech_tp.png)
