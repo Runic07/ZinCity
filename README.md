@@ -1,7 +1,7 @@
 # ZinCity
 By: Nem3D csapat
 
-## Rövid összefoglaló, útmutató
+## Rövid összefoglaló, útmutató (tutorial)
 
 A ZinCity egy városépítő játék, ahol a játékosok valós időben alakíthatnak ki minél jobban működő, minél boldogabb városokat. Sokféleképpen alakíthatják a játékosok a városukat, különböző funckiókkal rendelkező zónákat, épületeket húzhatnak fel, amelyeket természetesen utakkal is össze kell kapcsolni. A városlakók boldogságát a város felépítése határozza meg - minél átgondoltabb, az igényeket minél jobban kielégítő várost tervezünk, annál jobban fogják magukat érezni a lakói!
 
